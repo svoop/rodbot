@@ -1,0 +1,16 @@
+# Ruby
+gems.locked
+pkg/*
+*.gem
+.bundle
+.yardoc
+
+# Temporary
+/tmp/*
+*.pid
+
+# Mac
+.DS_Store
+
+# Empty dirs
+!.keep
