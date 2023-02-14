@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "rodbot"
+
+Dry::CLI.new(Rodbot::CLI::Commands).call
+
