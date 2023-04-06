@@ -3,9 +3,13 @@
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/svoop/rodbot.svg?style=flat)](https://codeclimate.com/github/svoop/rodbot/)
 [![Donorbox](https://img.shields.io/badge/donate-on_donorbox-yellow.svg)](https://donorbox.org/bitcetera)
 
+<img src="https://github.com/svoop/rodbot/raw/main/doc/rodbot.avif" alt="Rodbot" height="125" align="left">
+
 # Rodbot
 
-Minimalistic framework to build bots on top of a Roda backend.
+Minimalistic yet polyglot framework to build bots on top of a Roda backend.
+
+<br clear="all">
 
 * [Homepage](https://github.com/svoop/rodbot)
 * [API](https://www.rubydoc.info/gems/rodbot)
