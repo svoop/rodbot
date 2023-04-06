@@ -7,7 +7,7 @@
 
 # Rodbot
 
-Minimalistic yet polyglot framework to build bots on top of a Roda backend.
+Minimalistic yet polyglot framework to build chat bots on top of a Roda backend for chatops and fun.
 
 <br clear="all">
 

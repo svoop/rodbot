@@ -5,11 +5,10 @@ require_relative 'lib/rodbot/version'
 Gem::Specification.new do |spec|
   spec.name        = 'rodbot'
   spec.version     = Rodbot::VERSION
-  spec.summary     = 'Minimalistic framework to build bots on top of a Roda backend'
+  spec.summary     = 'Minimalistic framework to build chat bots on top of a Roda backend'
   spec.description = <<~END
     Just the bare minimum of what's needed to create bi-directional chat bots
-    using Roda as backend, sucker_punch and Clockwork for unpersisted async
-    and timed jobs.
+    using Roda as backend, sucker_punch and Clockwork for async and timed jobs.
   END
   spec.authors     = ['Sven Schwyn']
   spec.email       = ['ruby@bitcetera.com']
