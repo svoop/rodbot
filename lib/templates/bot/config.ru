@@ -1,14 +1,11 @@
-require_relative 'config/environment'
-
 require 'roda'
 
-loader = Environment.loader
-loader.push_dir(Environment.root.join('config', 'roda'))
+loader = Rodbot.env.loader
 loader.on_load('Application') do
   Dir[Environment.root.join('routes', '*.rb')].each { load _1 }
 end
 
-if Environment.development?
+if Rodbot.env.development? || Rodbot.env.test?
   loader.enable_reloading
   loader.setup
   run ->(env) do

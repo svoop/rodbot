@@ -17,3 +17,7 @@ class MiniTest::Spec
     alias_method :context, :describe
   end
 end
+
+ENV['RODBOT_ENV'] = 'test'
+Rodbot::Env.root = Pathname(__dir__).join('..', 'lib', 'templates', 'bot').realpath
+Rodbot.boot

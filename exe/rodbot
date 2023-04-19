@@ -2,5 +2,6 @@
 
 require "rodbot"
 
+Rodbot.boot
 Dry::CLI.new(Rodbot::CLI::Commands).call
 
