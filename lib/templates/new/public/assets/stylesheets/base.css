@@ -1,0 +1,18 @@
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+a img {
+  max-width: 100%;
+  height: auto;
+}

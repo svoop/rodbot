@@ -42,13 +42,23 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.0.0'
 
+  spec.add_runtime_dependency 'zeitwerk', '~> 2'
   spec.add_runtime_dependency 'dry-cli', '~> 1'
   spec.add_runtime_dependency 'dry-credentials', '~> 0'
-  spec.add_runtime_dependency 'zeitwerk', '~> 2'
+  spec.add_runtime_dependency 'tty-markdown', '~> 0'
+  spec.add_runtime_dependency 'pastel', '~> 0'
+  spec.add_runtime_dependency 'httparty', '~> 0'
   spec.add_runtime_dependency 'puma', '~> 6', '>= 6.2'
   spec.add_runtime_dependency 'roda', '~> 3'
+  spec.add_runtime_dependency 'tilt', '~> 2'
+  spec.add_runtime_dependency 'kramdown', '~> 2'
+  spec.add_runtime_dependency 'kramdown-parser-gfm', '~> 1'
+  spec.add_runtime_dependency 'clockwork', '~> 3'
+  spec.add_runtime_dependency 'sucker_punch', '~> 3'
+  spec.add_runtime_dependency 'debug'
 
-  spec.add_development_dependency 'debug'
+  spec.add_runtime_dependency 'matrix_sdk', '~> 2'   # matrix plugin
+
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'minitest-sound'

@@ -1,0 +1,36 @@
+version: "3.9"
+
+x-defaults: &defaults
+  build:
+    context: .
+    dockerfile_inline: |
+      FROM ruby:3.2-alpine
+      RUN apk update && apk --no-cache add build-base
+      ENV RODBOT_ENV="production"
+      ENV RACK_ENV="production"
+      ENV RACK_ROOT="/var/www"
+      ENV TZ="[%= timezone %]"
+      RUN mkdir -p /var/www
+      WORKDIR /var/www
+      COPY . .
+      RUN bundle config set without "development test" && \
+        bundle install --jobs 20 --retry 5
+  environment:
+    RODBOT_SPLIT: "true"
+    PRODUCTION_CREDENTIALS_KEY:
+  restart: "unless-stopped"
+
+services:
+  rodbot:
+    <<: *defaults
+    command: "bundle exec rodbot start"
+    ports:
+      - "80"
+
+networks:
+  default:
+    driver: "bridge"
+    ipam:
+      driver: "default"
+      config:
+        - subnet: "172.16.72.0/24"

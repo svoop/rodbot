@@ -1,13 +1,17 @@
+# frozen-string-literal: true
+
 module Rodbot
-  module CLI
+  class CLI
     module Commands
       extend Dry::CLI::Registry
 
       register 'credentials', Credentials, aliases: %w(cred)
+      register 'deploy', Deploy
       register 'new', New
       register 'simulator', Simulator, aliases: %w(sim)
-      register 'start', Start, aliases: %w(s)
-      register 'version', Version, aliases: %w(v -v --version)
+      register 'start', Start, aliases: %w(up)
+      register 'stop', Stop, aliases: %w(down)
+      register 'version', Version, aliases: %w(-v --version)
     end
   end
 end

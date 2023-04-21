@@ -1,15 +1,17 @@
+# frozen-string-literal: true
+
 module Rodbot
-  module CLI
+  class CLI
     module Commands
-      class Credentials < Dry::CLI::Command
+      class Credentials < Rodbot::CLI::Command
         desc 'Edit the credentials for ENVIRONMENT'
-        argument :environment, required: true
+        argument :environment, values: Rodbot::Env::ENVS, desc: 'Which environment to edit', required: true
         example [
           'development'
         ]
 
-        def call(environment:, **)
-          # TODO:
+        def rescued_call(environment:, **)
+          Rodbot.credentials.edit! environment
         end
       end
     end

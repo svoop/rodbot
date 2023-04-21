@@ -14,8 +14,21 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 <b>⚠️ RODBOT IS UNDER CONSTRUCTION AND NOT FIT FOR ANY USE YET.<br>🚧 Active development is underway, the first release should be ready soonish.</b>
 
 * [Homepage](https://github.com/svoop/rodbot)
-* [API](https://www.rubydoc.info/gems/rodbot)
+* [API](https://rubydoc.info/gems/rodbot)
 * Author: [Sven Schwyn - Bitcetera](https://bitcetera.com)
+
+## Table of Contents
+
+[Install](#label-Install) <br>
+[Anatomy](#label-Anatomy) <br>
+&emsp;&emsp;&emsp;[App Service](#label-App-Service) <br>
+&emsp;&emsp;&emsp;[Relay Services](#label-Relay-Services) <br>
+&emsp;&emsp;&emsp;[Schedule Service](#label-Schedule-Service) <br>
+[CLI](#label-CLI) <br>
+[Routes and Commands](#label-Routes-and-Commands) <br>
+[Plugins](#label-Plugins) <br>
+[Environment Variables](#label-Environment-Variables) <br>
+[Development](#label-Development) <br>
 
 ## Install
 
@@ -47,7 +60,7 @@ The bot consists of three kinds of services interacting with one another:
 RODBOT                                                            EXTERNAL
 ╭╴ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ╶╮
 ╷ ╭──────────────────╮  <─────>  ╭──────────────────╮       ╷
-╷ │ WEB              │  <───╮    │ ADAPTER - Matrix ├╮  <──────>  [1] Matrix
+╷ │ APP              │  <───╮    │ RELAY - Matrix   ├╮  <──────>  [1] Matrix
 ╷ ╰──────────────────╯  <─╮ │    ╰┬─────────────────╯├╮  <──┼──>  [1] simulator
 ╷                         │ │     ╰┬─────────────────╯│   <────>  [1] ...
 ╷                         │ │      ╰──────────────────╯     ╵
@@ -60,67 +73,317 @@ RODBOT                                                            EXTERNAL
 ╰╴ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ╶╯
 ```
 
-### Web Service
+### App Service
 
-The **web service** is a [Roda app](https://roda.jeremyevans.net) where the real action happens. It acts on and responds to HTTP requests from:
+The **app service** is a [Roda app](https://roda.jeremyevans.net) where the real action happens. It acts on and responds to HTTP requests from:
 
-* commands forwarded by **adapter services**
+* commands forwarded by **relay services**
 * timed events triggered by the **schedule service**
 * third party webhook calls e.g. from GitLab, GitHub etc
 
-### Adapter Services
+#### Commands
 
-The `bin/` directory contains several **adapter services**. These daemons act as glue between the **web service** and external communication networks such as Matrix. Currently, the following are adapters are available:
+All top level GET requests such as `GET /foobar` are commands and therefore are accessible by relays, for instance using `!foobar` on Matrix.
 
-* `simulator`<br>CLI simulator for testing only. It presents a prompt which simulates a chat network.
-* `matrix`<br>Connects to the given room on the [Matrix network](https://matrix.org) and waits for the bot user to be invited to the room. After the invitation has been accepted automatically, the bot begins to read all messages posted to the room and respond those which contain a command beginning with `!`.
+Responses have to be either of the following content types:
 
-Each adapter does two things:
+* `text/plain; charset=utf-8`
+* `text/markdown; charset=utf-8`
 
-* It detects commands, forwards them to the **web service** and forwards the HTTP response as a message to the communication network.
-* It creates and listens to a local TCP socket. Plain text or Markdown/GFM sent to this socket is forwarded as a message to the corresponding communication network. This text may have multiple lines, use the EOT character (`\x04` alias Ctrl-D) to mark the end.
+Please note that the Markdown might get stripped on communication networks which feature only limited or no support for Markdown.
+
+The response may contain special tags which have to be replace appropriately by the corresponding **relay service**:
+
+Tag | Replaced with
+----|--------------
+`[[SENDER]]` | Mention the sender of the command.
+
+#### Other Routes
+
+All higher level requests such as `GET /foo/bar` are not accessible by relays. Use them to implement other aspects of your bot such as webhooks or schedule tasks.
+
+### Relay Services
+
+The **relay service** act as glue between the **app service** and external communication networks such as Matrix.
+
+Each relay service does three things:
+
+* **Proactive:** It creates and listens to a local TCP socket. Plain text or Markdown sent to this socket is forwarded as a message to the corresponding communication network. This text may have multiple lines, use the EOT character (`\x04` alias Ctrl-D) to mark the end.
+* **Reactive:** It reads messages, detects commands usually beginning with a `!`, forwards them to the **app service** and writes the HTTP response back as a message to the communication network.
+* **Test:** It detects the `!ping` command and replies with "pong" *without* hitting the **app service**.
+
+You can simulate such a communication network locally:
+
+```
+rodbot simulator
+```
+
+Enter the command `!pay EUR 123` and you see the request `GET /pay?argument=EUR+123` hitting the **app service**.
 
 ### Schedule Service
 
-The **schedule service** is a [Clockwork process](https://github.com/Rykian/clockwork) which triggers HTTP requests to the **web service** based on timed events.
+The **schedule service** is a [Clockwork process](https://github.com/Rykian/clockwork) which triggers HTTP requests to the **app service** based on timed events.
 
-## External
+## CLI
 
-### Matrix
+The `rodbot` CLI is the main tool to manage your bot. For a full list of functions:
 
-Matrix does not feature special bot users, just create a regular one instead:
+```
+rodbot --help
+```
 
-1. Got to https://app.element.io
-2. Create a regular user account and log in
-3. In "All settings", set the display name, upload a user picture and disable all notifications. If the bot is supposed to join encrypted rooms as well, you should download the backup keys.
-4. You find the access token in "All settings -> Help & About".
+### Starting and Stopping Services
 
-#### Usage
+While working on the app service, you certainly want to try routes:
 
-Room messages beginning with `!` are considered a bot command.
+```
+rodbot start app
+```
 
-* The only built-in command is `!ping` which will trigger a simple "pong" response to check whether the **adapter service** is actually listening.
-* All other commands such as `!pay EUR 123` trigger a `GET /bot/pay?argument=EUR+123` request to the **web service**.
+This starts the server in the current terminal. You can set breakpoints with `binding.irb`, however, if you prefer a real debugger:
 
-The response has to be plain text or Markdown/GFM understood by Matrix. Furthermore, the following special tags are recognized and replaced:
+```
+rodbot start app --debugger
+```
 
-* `<SENDER>` – Mention the sender of the command.
+This requires the [debug gem](https://rubygems.org/gems/debug) and adds the ability to set breakpoints with `debugger`.
 
-### GitLab
+You can also start single services in the background:
 
-For the bot to announce GitLab CI events in the room, you have to [define a webhook](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html) on the corresponding GitLab repository as follows:
+```
+rodbot start app --daemonize
+```
 
-* URL: https://halluzinelle.bitcetera.com/gitlab/webhook
-* Secret token: One of the secret tokens listed in `BOT_GITLAB_SECRET_TOKENS` (see configuration section above)
-* Trigger: Pipeline events
-* Enable SSL verification
+However, it's not particularly useful unless you start all services at once. In fact, it's even mandatory in this case, so you don't have to mentioe `--daemonize` explicitly:
 
-### GitHub
+```
+rodbot start
+```
 
-For the bot to announce GitHub CI events in the room, you have to [define a webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) on the corresponding GitHub repository as follows:
+Finally, to start all running Rodbot services:
 
-* URL: https://halluzinelle.bitcetera.com/github/webhook
-* Content type: application/json
-* Secret: One of the secret tokens listed in `BOT_GITHUB_SECRET_TOKENS` (see configuration section above)
-* SSL verification: Enable SSL verification
-* Let me select individual events: Workflow runs
+```
+rodbot stop
+```
+
+### Deployment
+
+There are many ways to deploy Rodbot on different hosting services. For the most common scenarios, you can generate the deployment configuration:
+
+```
+rodbot deploy docker
+```
+
+In case you prefer to split each service into its own container:
+
+```
+rodbot deploy docker --split
+```
+
+## Routes and Commands
+
+Adding new tricks to your bot boils down to adding routes to the app service which is powered by Roda, a simple yet very powerful framework for web applications: Easy to learn (like Sinatra) but really fast and efficient. Take a minute and [get familiar with the basics of Roda](http://roda.jeremyevans.net/).
+
+Rodbot relies on [MultiRun](https://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/MultiRun.html) to spread routes over more than one routing file. This is necessary for Rodbot plugins but is entirely optional for your own routes.
+
+⚠️ At this point, keep in mind that any routes at the root level like `/pay` or `/calculate` can be accessed via chat commands such as `!pay` and `!calculate`. Routes which are nested further down, say, `/myapi/users` are off limits and should be used to trigger schedule events and such. Make sure you don't accidentally add routes to the root level you don't want people to access via chat commands, not even by accident.
+
+To add a simple "Hello, World!" command, all you have to do is add a route `/hello`. A good place to do so is `app/routes/hello.rb`:
+
+```ruby
+module Routes
+  class Hello < App
+
+    route do |r|
+
+      # GET /hello
+      r.root do
+        response['Content-Type'] = 'text/plain; charset=utf-8'
+        'Hello, World!'
+      end
+
+    end
+
+  end
+end
+```
+
+To try, start the app service with `rodbot start app` and fire up the simulator with `rodbot simulator`:
+
+```
+rodbot> !hello
+Hello, World!
+```
+
+Try to keep these route files thin and extract the heavy lifting into service classes. Put those into the `lib` directory where they will be autoloaded by Zeitwerk.
+
+## Plugins
+
+Rodbot aims to keep its core small and add features via plugins, either built-in or provided by gems.
+
+### Built-In Plugins
+
+Name | Description
+-----|------------
+[:matrix](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) | relay with the [Matrix communication network](https://matrix.org)
+[:say](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/say/README.say.md) | write proactive messages to communication networks
+[:gitlab_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | event announcements from [GitLab](https://gitlab.com)
+[:github_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | event announcements from [GitHub](https://github.com)
+[:hal](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/hal/README.hal.md) | feel like Dave (demo)
+[:word_of_the_day](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/word_of_the_day/README.word_of_the_day.md) | word of the day announcements (demo)
+
+### How Plugins Work
+
+Given the following `config/rodbot.rb`:
+
+```ruby
+plugin :my_plugin do
+  color 'red'
+end
+```
+
+Plugins provide one or more extensions each of which extends one of the services. In order only to spin things up when needed, the plugin may contain the following files:
+
+* `rodbot/plugins/my_plugin/app.rb` – add routes and/or extend Roda
+* `rodbot/plugins/my_plugin/relay.rb`  – add a relay
+* `rodbot/plugins/my_plugin/schedule.rb` – add schedules to Clockwork
+
+Whenever a service boots, the corresponding file is required.
+
+In order to keep these plugin files slim, you should extract functionality into service classes. Just put them into `rodbot/plugins/my_plugin/lib/` and use `require_relative` where you need them.
+
+### Create Plugins
+
+You can create plugins in any of the following places:
+
+* inside your Rodbot instance:<br>`/lib/rodbot/plugins/my_plugin`
+* in a vendored gem "rodbot-my_plugin":<br>`/lib/rodbot/vendor/gems/rodbot-my_plugin/lib/rodbot/my_plugin`
+* in a published gem "rodbot-my_plugin":<br>`/lib/rodbot/plugins/my_plugin`
+
+Please adhere to common naming conventions and use the dashed prefix `rodbot-` (and Module `Rodbot`), however, underscores in case the remaining gem name consists of several words.
+
+#### App Extension
+
+An app extension `rodbot/plugins/my_plugin/app.rb` looks something like this:
+
+```ruby
+module Rodbot
+  class Plugins
+    module MyPlugin
+      module App
+
+        module Routes < Roda
+          route do |r|
+            # GET /my_plugin
+            r.root do
+              # called by command !my_plugin
+            end
+
+            # GET /my_plugin/whatever
+            r.get('whatever') do
+              # not reachable by any command
+            end
+          end
+        end
+
+        module ResponseMethods
+          # (...)
+        end
+
+      end
+    end
+  end
+end
+```
+
+The `Routes` module contains all the routes you would like to inject. The above corresponds to `GET /my_plugin/hello`.
+
+The `App` module can be used to [extend all aspects of Roda](https://github.com/jeremyevans/roda#plugins-).
+
+For an example, take a look at the [:hal plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/hal).
+
+#### Relay Extension
+
+A relay extension `rodbot/plugins/my_plugin/relay.rb` looks something like this:
+
+```ruby
+module Rodbot
+  class Plugins
+    module MyPlugin
+      class Relay < Rodbot::Relay
+
+        def loops
+          SomeAwesomeCommunicationNetwork.connect
+          [method(:read_loop), method(:write_loop)]
+        end
+
+        private
+
+        def read_loop
+          loop do
+            # Listen in on the communication network
+          end
+        end
+
+        def write_loop
+          loop do
+            # Post something to the communication network
+          end
+        end
+
+      end
+    end
+  end
+end
+```
+
+The `loops` method must returns an array of callables (e.g. a Proc or Method) which will be called when this relay service is started. The loops must trap the `INT` signal.
+
+Proactive messsages require other parts of Rodbot to forward a message directly. To do so, the relay has to implement a TCP socket. This socket must bind to the IP and port you get from the `bind` method which returns an array like `["localhost", 16881]`.
+
+For an example, take a look at the [:matrix plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/matrix).
+
+#### Schedule Extension
+
+A schedule extension `rodbot/plugins/my_plugin/schedule.rb` looks something like this:
+
+```ruby
+module Rodbot
+  class Plugins
+    module MyPlugin
+      module Schedule
+
+        # (...)
+
+      end
+    end
+  end
+end
+```
+
+Please note: Schedules should just call app service routes and let the app do the heavy lifting.
+
+# TODO: needs further description and examples
+
+For an example, take a look at the [:word_of_the_day plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/word_of_the_day).
+
+## Environment Variables
+
+Variable | Description
+---------|------------
+RODBOT_ENV | Environment (default: development)
+RODBOT_CREDENTIALS_DIR | Override the directory containing encrypted credentials files
+RODBOT_SPLIT | Split deploy into individual services when set to "true" (default: false)
+
+## Development
+
+To install the development dependencies and then run the test suite:
+
+```
+bundle install
+bundle exec rake    # run tests once
+bundle exec guard   # run tests whenever files are modified
+```
+
+You're welcome to join the [discussion forum](https://github.com/svoop/rodbot/discussions) to ask questions or drop feature ideas, [submit issues](https://github.com/svoop/rodbot/issues) you may encounter or contribute code by [forking this project and submitting pull requests](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+

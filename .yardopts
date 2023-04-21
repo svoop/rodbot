@@ -1,0 +1,9 @@
+--exclude /lib/templates/
+-
+CHANGELOG.md
+LICENSE.txt
+lib/rodbot/plugins/github_webhook/README.github_webhook.md
+lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md
+lib/rodbot/plugins/hal/README.hal.md
+lib/rodbot/plugins/matrix/README.matrix.md
+lib/rodbot/plugins/word_of_the_day/README.word_of_the_day.md

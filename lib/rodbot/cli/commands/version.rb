@@ -1,10 +1,12 @@
+# frozen-string-literal: true
+
 module Rodbot
-  module CLI
+  class CLI
     module Commands
-      class Version < Dry::CLI::Command
+      class Version < Rodbot::CLI::Command
         desc "Print version"
 
-        def call(*)
+        def rescued_call(**)
           puts Rodbot::VERSION
         end
       end
