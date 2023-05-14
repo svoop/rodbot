@@ -8,6 +8,8 @@ class App < Roda
   plugin :unescape_path
   plugin :render, layout: './layout', views: 'app/views'
 
+  plugin :rodbot_arguments   # provides r.arguments shortcut for r.params["arguments"]
+
   run :help, Routes::Help
 
   route do |r|
