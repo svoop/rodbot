@@ -19,7 +19,7 @@ module Rodbot
         Dir.chdir(Rodbot.env.root)
         Puma::Server.new(app, nil, options).tap do |server|
           server.add_tcp_listener(*bind)
-          server.app = Rack::CommonLogger.new(app, logger)
+          server.app = ::Rack::CommonLogger.new(app, logger)
         end.run.join
       end
 
@@ -28,7 +28,7 @@ module Rodbot
       end
 
       def app
-        @app ||= Rack::Builder.parse_file(Rodbot.env.root.join('config.ru').to_s)
+        @app ||= ::Rack::Builder.parse_file(Rodbot.env.root.join('config.ru').to_s)
       end
 
       def options
