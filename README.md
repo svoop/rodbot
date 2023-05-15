@@ -26,6 +26,7 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 &emsp;&emsp;&emsp;[Schedule Service](#label-Schedule-Service) <br>
 [CLI](#label-CLI) <br>
 [Routes and Commands](#label-Routes-and-Commands) <br>
+[Database](#label-Database) <br>
 [Plugins](#label-Plugins) <br>
 [Environment Variables](#label-Environment-Variables) <br>
 [Development](#label-Development) <br>
@@ -217,6 +218,40 @@ Hello, World!
 
 Try to keep these route files thin and extract the heavy lifting into service classes. Put those into the `lib` directory where they will be autoloaded by Zeitwerk.
 
+## Database
+
+Your bot might be happy dealing with every command as an isolated event. However, some implementations require data to be persisted between requests. A good example is the [OTP plugin](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) which needs a database to assure each one-time password is accepted once only.
+
+Rodbot implements a very simple key/value database. Currently, the following backends are supported:
+
+* Redis
+* Hash (not thread-safe, don't use it in production)
+
+To enable a database, uncomment the Redis gem in `gems.rb`, then add the following configuration to `config/rodbot.rb`:
+
+```ruby
+db 'redis://localhost:6379/10'
+```
+
+With this in place, you can access the database with `Rodbot.db`:
+
+```ruby
+Rodbot.db.flush                                        # => Rodbot::Db
+
+Rodbot.db.set('foo') { 'bar' }                         # => 'bar'
+Rodbot.db.get('foo')                                   # => 'bar'
+Rodbot.db.scan('*')                                    # => ['foo']
+Rodbot.db.delete('foo')                                # => 'bar'
+Rodbot.db.get('foo')                                   # => nil
+
+Rodbot.db.set('lifetime', expires_in: 1) { 'short' }   # => 'short'
+Rodbot.db.get('lifetime')                              # => 'short'
+sleep 1
+Rodbot.db.get('lifetime')                              # => nil
+```
+
+For a few more tricks, see the [Rodbot::Db docs](https://www.rubydoc.info/gems/rodbot/Rodbot/Db.html).
+
 ## Plugins
 
 Rodbot aims to keep its core small and add features via plugins, either built-in or provided by gems.
@@ -227,6 +262,7 @@ Name | Description
 -----|------------
 [:matrix](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) | relay with the [Matrix communication network](https://matrix.org)
 [:say](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/say/README.say.md) | write proactive messages to communication networks
+[:otp](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) | guard commands with one-time passwords
 [:gitlab_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | event announcements from [GitLab](https://gitlab.com)
 [:github_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | event announcements from [GitHub](https://github.com)
 [:hal](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/hal/README.hal.md) | feel like Dave (demo)
@@ -383,6 +419,12 @@ To install the development dependencies and then run the test suite:
 bundle install
 bundle exec rake    # run tests once
 bundle exec guard   # run tests whenever files are modified
+```
+
+Some tests require Redis and will be skipped by default. You can enable them by setting the following environment variable along the lines of:
+
+```
+export RODBOT_SPEC_REDIS_URL=redis://localhost:6379/10
 ```
 
 You're welcome to join the [discussion forum](https://github.com/svoop/rodbot/discussions) to ask questions or drop feature ideas, [submit issues](https://github.com/svoop/rodbot/issues) you may encounter or contribute code by [forking this project and submitting pull requests](https://docs.github.com/en/get-started/quickstart/fork-a-repo).

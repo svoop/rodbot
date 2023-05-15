@@ -24,6 +24,7 @@ loader.setup
 # * +Rodbot.credentials+ -> {Dry::Credentials}
 # * +Rodbot.config+ -> {Rodbot::Config#config}
 # * +Rodbot.plugins+ -> {Rodbot::Plugins}
+# * +Rodbot.db+ -> {Rodbot::Db#db}
 # * +Rodbot.log+ -> {Rodbot::Log#log}
 module Rodbot
   include Rodbot::Constants
@@ -33,10 +34,11 @@ module Rodbot
     extend Forwardable
 
     attr_reader :env
-    def_delegator :@config, :config, :config
+    def_delegator :@config, :config
     def_delegator :@plugins, :itself, :plugins
-    def_delegator :@log, :log, :log
-    def_delegator 'Rodbot::Relay', :say, :say
+    def_delegator :@db, :itself, :db
+    def_delegator :@log, :log
+    def_delegator 'Rodbot::Relay', :say
 
     def boot(root: nil)
       @env = Rodbot::Env.new(root: root)
@@ -46,6 +48,7 @@ module Rodbot
       end
       @config = Rodbot::Config.new(Rodbot.env.root.join('config', 'rodbot.rb'))
       @plugins = Rodbot::Plugins.new
+      @db = (db = @config.config(:db)) && Rodbot::Db.new(db)
       @log = Rodbot::Log.new
     end
   end

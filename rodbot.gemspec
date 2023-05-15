@@ -57,7 +57,10 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'sucker_punch', '~> 3'
   spec.add_runtime_dependency 'debug'
 
-  spec.add_runtime_dependency 'matrix_sdk', '~> 2'   # matrix plugin
+  # Sync versions with lib/templates/new/gems.rb
+  spec.add_development_dependency 'redis', '~> 5'
+  spec.add_development_dependency 'matrix_sdk', '~> 2'
+  spec.add_development_dependency 'rotp', '~> 6'
 
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'minitest'

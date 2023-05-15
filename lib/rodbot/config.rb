@@ -65,6 +65,7 @@ module Rodbot
     DEFAULTS = <<~END
       name 'Rodbot'
       timezone 'Etc/UTC'
+      db 'hash'
       app do
         threads Rodbot.env.development? ? (1..1) : (2..4)
       end
