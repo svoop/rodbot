@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pathname'
+
 require 'zeitwerk'
 require 'dry/credentials'
 require 'logger'
