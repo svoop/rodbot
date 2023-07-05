@@ -1,10 +1,13 @@
 name 'Rodbot'
 timezone 'Etc/UTC'
 
-plugin :matrix do
-  room_id Rodbot.credentials.matrix.room_id
-  access_token Rodbot.credentials.matrix.access_token
-end
+# Set the credentials, then uncomment if you want to use the relay service
+# for Matrix...
+#
+# plugin :matrix do
+#   room_id Rodbot.credentials.matrix.room_id
+#   access_token Rodbot.credentials.matrix.access_token
+# end
 
 plugin :hal
 
