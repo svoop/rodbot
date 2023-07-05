@@ -8,9 +8,9 @@ module Rodbot
 
   # Generators for new bots, deployments and such
   #
-  # All files inside the +templates_path+ are honored provided they match the
+  # All files inside the +templates_path+ are honoured provided they match the
   # {GLOB}. Files with the extension ".gerb" are parsed like ERB files, however,
-  # GERB tags must use sqare brackets.
+  # GERB tags must use square brackets.
   #
   #   ERB:  <%= 'foobar' %>
   #   GERB: [%= 'foobar' %]
