@@ -7,8 +7,7 @@ Feel like Dave
 Activate this plugin in `config/rodbot.rb`:
 
 ```ruby
-plugin :hal do
-end
+plugin :hal
 ```
 
 ## Usage

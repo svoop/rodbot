@@ -17,7 +17,7 @@ Activate and configure this plugin in `config/rodbot.rb` using the secret you've
 
 ```ruby
 plugin :otp do
-  secret: '<SECRET>'
+  secret '<SECRET>'
 end
 ```
 

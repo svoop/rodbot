@@ -16,7 +16,7 @@ Activate and configure this plugin in `config/rodbot.rb`:
 
 ```ruby
 plugin :gitlab_webhook do
-  secret_tokens: '<TOKEN>'
+  secret_tokens '<TOKEN>'
 end
 ```
 

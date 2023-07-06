@@ -28,8 +28,8 @@ Then activate and configure this plugin in `config/rodbot.rb`:
 
 ```ruby
 plugin :matrix do
-  access_token: '<TOKEN>'
-  room_id: '<ID>'
+  access_token '<TOKEN>'
+  room_id '<ID>'
 end
 ```
 
