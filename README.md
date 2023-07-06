@@ -27,6 +27,7 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 [CLI](#label-CLI) <br>
 [Routes and Commands](#label-Routes-and-Commands) <br>
 [Database](#label-Database) <br>
+[Credentials](#credentials) <br>
 [Plugins](#label-Plugins) <br>
 [Environment Variables](#label-Environment-Variables) <br>
 [Development](#label-Development) <br>
@@ -49,7 +50,20 @@ Similar to other frameworks, generate the files for your new bot as follows:
 gem install rodbot --trust-policy MediumSecurity
 rodbot new my_bot
 cd my_bot
+```
+
+For the bot to be useful at all, you should choose one of the supported [relay service plugins](#label-Plugins). Say, you'd like to interact via Matrix:
+
+```
+bundle config set --local with matrix
 bundle install
+```
+
+(Please refer to the [Matrix plugin README](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) for more on how to configure and authorise this relay service.)
+
+You're all set, let's have a look at what Rodbot can do for you:
+
+```
 bundle exec rodbot --help
 ```
 
@@ -222,16 +236,32 @@ Try to keep these route files thin and extract the heavy lifting into service cl
 
 Your bot might be happy dealing with every command as an isolated event. However, some implementations require data to be persisted between requests. A good example is the [OTP plugin](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) which needs a database to assure each one-time password is accepted once only.
 
-Rodbot implements a very simple key/value database. Currently, the following backends are supported:
+Rodbot implements a very simple key/value database which is completely optional and supports a few different backends.
 
-* Redis
-* Hash (not thread-safe, don't use it in production)
+### Redis
 
-To enable a database, uncomment the Redis gem in `gems.rb`, then add the following configuration to `config/rodbot.rb`:
+For the Redis backend to work, you have to install the corresponding Bundler group:
+
+```
+bundle config set --local with redis
+bundle install
+```
+
+Then set the connection URL in `config/rodbot.rb`:
 
 ```ruby
 db 'redis://localhost:6379/10'
 ```
+
+### Hash
+
+The Hash backend is not thread-safe and therefore shouldn't be used in production. To use it, simply add the following to `config/rodbot.rb`:
+
+```ruby
+db 'hash'
+```
+
+### Write and Read Data
 
 With this in place, you can access the database with `Rodbot.db`:
 
@@ -252,21 +282,32 @@ Rodbot.db.get('lifetime')                              # => nil
 
 For a few more tricks, see the [Rodbot::Db docs](https://www.rubydoc.info/gems/rodbot/Rodbot/Db.html).
 
+## Credentials
+
+In order not to commit secrets to repositories or environment variables, Rodbot bundles the [dry-credentials](https://rubygems.org/gems/dry-credentials) gem and exposes it via the `rodbot credentials` CLI command. The secrets are then available in your code like `Rodbot.credentials.my_secret` and the encrypted files are written to `config/credentials`.
+
 ## Plugins
 
 Rodbot aims to keep its core small and add features via plugins, either built-in or provided by gems.
 
 ### Built-In Plugins
 
-Name | Description
------|------------
-[:matrix](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) | relay with the [Matrix communication network](https://matrix.org)
-[:say](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/say/README.say.md) | write proactive messages to communication networks
-[:otp](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) | guard commands with one-time passwords
-[:gitlab_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | event announcements from [GitLab](https://gitlab.com)
-[:github_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | event announcements from [GitHub](https://github.com)
-[:hal](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/hal/README.hal.md) | feel like Dave (demo)
-[:word_of_the_day](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/word_of_the_day/README.word_of_the_day.md) | word of the day announcements (demo)
+Name | Dependencies | Description
+-----|--------------|------------
+[:matrix](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) | yes | relay service for the [Matrix communication network](https://matrix.org)
+[:say](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/say/README.say.md) | no | write proactive messages to communication networks
+[:otp](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) | yes | guard commands with one-time passwords
+[:gitlab_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | no | event announcements from [GitLab](https://gitlab.com)
+[:github_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | no | event announcements from [GitHub](https://github.com)
+[:hal](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/hal/README.hal.md) | no | feel like Dave (demo)
+[:word_of_the_day](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/word_of_the_day/README.word_of_the_day.md) | no | word of the day announcements (demo)
+
+You have to install the corresponding Bundler group in case the plugin depends on extra gems. Here's an example for the `:otp` plugin listed above:
+
+```
+bundle config set --local with otp
+bundle install
+```
 
 ### How Plugins Work
 

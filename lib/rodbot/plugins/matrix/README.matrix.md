@@ -17,7 +17,14 @@ Invite this new bot user to the room of your choice and figure out the correspon
 
 ## Activation
 
-Activate and configure this plugin in `config/rodbot.rb`:
+Install the required gems via the corresponding Bundler group:
+
+```
+bundle config set --local with matrix
+bundle install
+```
+
+Then activate and configure this plugin in `config/rodbot.rb`:
 
 ```ruby
 plugin :matrix do
@@ -25,6 +32,8 @@ plugin :matrix do
   room_id: '<ID>'
 end
 ```
+
+You might want to use the credentials facilities of Rodbot to encrypt the token.
 
 ## Usage
 
