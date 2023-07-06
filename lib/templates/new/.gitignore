@@ -1,13 +1,6 @@
 # macOS
 .DS_Store
 
-# Ruby
-gems.locked
-pkg/*
-*.gem
-.bundle
-.yardoc
-
 # Temporary
 tmp/*
 *.pid

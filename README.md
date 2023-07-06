@@ -61,6 +61,14 @@ bundle install
 
 (Please refer to the [Matrix plugin README](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) for more on how to configure and authorise this relay service.)
 
+Time to add Git to the mix. Both `gems.locked` and `.bundle` are included in order to use the same gems and versions both for local development and deployment to production:
+
+```
+git init
+git add .
+git commit -m "Bootstrap Rodbot"
+```
+
 You're all set, let's have a look at what Rodbot can do for you:
 
 ```
@@ -183,7 +191,7 @@ rodbot stop
 
 ### Deployment
 
-There are many ways to deploy Rodbot on different hosting services. For the most common scenarios, you can generate the deployment configuration:
+There are many ways to deploy Rodbot on different hosting services. For the most common scenarios, you can generate a deployment configuration blueprint:
 
 ```
 rodbot deploy docker
@@ -193,6 +201,12 @@ In case you prefer to split each service into its own container:
 
 ```
 rodbot deploy docker --split
+```
+
+The Docker deployment is a compose file, so you might want to write it to disk:
+
+```
+rodbot deploy docker >compose.yml
 ```
 
 ## Routes and Commands
