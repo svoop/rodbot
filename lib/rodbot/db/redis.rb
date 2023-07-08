@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'redis'
-
 module Rodbot
   class Db
 
@@ -13,6 +11,10 @@ module Rodbot
     # @example Enable in config/rodbot.rb
     #   db 'redis://localhost:6379/10'
     module Redis
+      def self.extended(*)
+        require 'redis'
+      end
+
       def set(*key, expires_in: nil, &block)
         block.call((get(*key) unless block.arity.zero?)).tap do |value|
           db.set(skey(*key), serialize(value), ex: expires_in)
