@@ -13,6 +13,7 @@ x-defaults: &defaults
       RUN mkdir -p /var/www
       WORKDIR /var/www
       COPY . .
+      COPY .bundle /usr/local/bundle
       RUN bundle config set without "development test" && \
         bundle install --jobs 20 --retry 5
   environment:
