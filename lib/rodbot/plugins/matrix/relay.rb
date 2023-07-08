@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'matrix_sdk'
+
 using Rodbot::Refinements
 
 module Rodbot

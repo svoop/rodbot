@@ -6,8 +6,6 @@ require 'zeitwerk'
 require 'dry/credentials'
 require 'logger'
 
-require 'matrix_sdk'   # matrix plugin
-
 loader = Zeitwerk::Loader.for_gem
 loader.inflector.inflect 'cli' => 'CLI'
 %w(rodbot/plugins roda templates).each { loader.ignore "#{__dir__}/#{_1}" }
