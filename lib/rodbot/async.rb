@@ -1,5 +1,7 @@
 # frozen-string-literal: true
 
+require 'sucker_punch'
+
 module Rodbot
   module Async
     extend self

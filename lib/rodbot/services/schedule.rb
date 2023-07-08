@@ -1,7 +1,6 @@
 # frozen-string-literal: true
 
 require 'clockwork'
-require 'sucker_punch'
 require 'active_support/time'
 
 module Rodbot
