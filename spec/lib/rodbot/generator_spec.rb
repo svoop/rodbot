@@ -104,7 +104,10 @@ describe Rodbot::Generator::Helpers do
 
   describe :relay_extensions do
     it "returns map from relay name to port" do
-      _(subject.relay_extensions).must_equal({ matrix: 16886 })
+      config = Rodbot::Config.new('plugin :matrix')
+      with '@config', config, on: Rodbot do
+        _(subject.relay_extensions).must_equal({ matrix: 16886 })
+      end
     end
   end
 end
