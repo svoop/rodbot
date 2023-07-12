@@ -41,11 +41,11 @@ module Rodbot
   # There are two types configuration items:
   #
   # 1. Object values without block like +name 'Bot'+:<br>The config key +:name+
-  #    is assigned the object +'Bot'+. Subsequent assignments with the same
+  #    gets the object +'Bot'+ assigned. Subsequent assignments with the same
   #    config key overwrite previous assignments.
   # 2. Unspecified value with a block like +log do+:<br>The config key +:log+ is
   #    assigned a hash defined by the block. Subsequent assignments with the
-  #    same config key overwrite previous assignments.
+  #    same config key are merged into the hash.
   # 3. Object values with a block like +plugin :matrix do+:<br>The config key
   #    +:plugin+ is assigned an empty hash which is then populated with the
   #    object `:matrix` (usually a Symbol) as key and the subtree defined by the
@@ -135,7 +135,8 @@ module Rodbot
       def method_missing(key, value=nil, *, &block)
         case
         when block && value.nil?
-          @hash[key] = self.class.new.eval_block(&block).to_h
+          @hash[key] ||= {}
+          @hash[key].merge! self.class.new.eval_block(&block).to_h
         when block || KEYS_WITH_IMPLICIT_BLOCK.include?(key)
           @hash[key] ||= {}
           @hash[key][value] = self.class.new.eval_block(&block).to_h

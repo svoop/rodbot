@@ -131,7 +131,7 @@ describe Rodbot::Config::Reader do
     end
 
     context "with block" do
-      context "without value (defines overwritable simple hash)" do
+      context "without value (defines extensible hash)" do
         it "assigns a hash when used once" do
           _(subject.log(nil) { level 2 }.to_h).must_equal({
             log: {
@@ -140,10 +140,11 @@ describe Rodbot::Config::Reader do
           })
         end
 
-        it "overwrites with a new hash when used repeatedly" do
-          _(subject.log(nil) { level 2 }.log(nil) { level 3 }.to_h).must_equal({
+        it "merges hash when used repeatedly" do
+          _(subject.log(nil) { level 2 }.log(nil) { level 3 }.log(nil) { sublevel 12 }.to_h).must_equal({
             log: {
-              level: 3
+              level: 3,
+              sublevel: 12
             }
           })
         end
