@@ -43,11 +43,11 @@ module Rodbot
     # @param name [Symbol, String] name of the relay extension e.g. +:matrix+
     # @return [Array] designated [IP, port]
     def self.bind_for(name)
+      base_port = Rodbot.config(:app, :port) + 1
       if Rodbot.env.split?
-        ['0.0.0.0', 10001]
+        ['0.0.0.0', base_port]
       else
-        port = 10_001 + (Digest::MD5.digest(name.to_s).unpack('S')[0] % 9_999)
-        ['localhost', port]
+        ['localhost', base_port + Rodbot.config(:plugin).keys.index(name)]
       end
     end
 

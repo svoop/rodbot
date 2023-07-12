@@ -24,7 +24,7 @@ module Rodbot
       end
 
       def bind
-        Rodbot.env.split? ? ['0.0.0.0', 10000] : ['localhost', 10000]
+        [Rodbot.config(:app, :ip), Rodbot.config(:app, :port)]
       end
 
       def app

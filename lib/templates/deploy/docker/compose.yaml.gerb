@@ -23,9 +23,9 @@ x-defaults: &defaults
 services:
   rodbot:
     <<: *defaults
-    command: "bundle exec rodbot start && sleep infinity"
+    command: "sh -c 'bundle exec rodbot start && sleep infinity'"
     ports:
-      - "80"
+      - "[%= Rodbot.config(:app, :port) %]"
 
 networks:
   default:

@@ -22,11 +22,11 @@ x-defaults: &defaults
   restart: "unless-stopped"
 
 services:
-  web:
+  app:
     <<: *defaults
-    command: "bundle exec rodbot start web"
+    command: "bundle exec rodbot start app"
     ports:
-      - 10000
+      - "[%= Rodbot.config(:app, :port) %]"
   schedule:
     <<: *defaults
     command: "bundle exec rodbot start schedule"

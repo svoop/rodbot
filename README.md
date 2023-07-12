@@ -104,6 +104,28 @@ The **app service** is a [Roda app](https://roda.jeremyevans.net) where the real
 * timed events triggered by the **schedule service**
 * third party webhook calls e.g. from GitLab, GitHub etc
 
+See [Rodbot::Config::DEFAULTS](https://github.com/svoop/rodbot/blob/main/lib/rodbot/config.rb) for available config settings and their defaults.
+
+### Bind IP and Port
+
+The **app service** binds to `localhost:9200` by default. If you want it to be reachable from external sources, make sure you change the bind IP in `config/rodbot.rb`:
+
+```ruby
+app do
+  ip '0.0.0.0'
+end
+```
+
+You can also change the port:
+
+```ruby
+app do
+  port 12345
+end
+```
+
+Please note: Each **relay service** binds to a port which is predictable and slightly higher than the app port. Therefore, the next few ports following the app port must not be in use already.
+
 #### Commands
 
 All top level GET requests such as `GET /foobar` are commands and therefore are accessible by relays, for instance using `!foobar` on Matrix.
@@ -454,7 +476,7 @@ end
 
 Please note: Schedules should just call app service routes and let the app do the heavy lifting.
 
-# TODO: needs further description and examples
+TODO: needs further description and examples
 
 For an example, take a look at the [:word_of_the_day plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/word_of_the_day).
 

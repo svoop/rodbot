@@ -4,6 +4,14 @@ Pipeline event announcements from GitLab
 
 ## Preparation
 
+The Rodbot app binds to `localhost` by default which cannot be reached from GitLab. Make sure this connection is possible by setting a different IP in `config/rodbot.rb`:
+
+```ruby
+app do
+  ip '0.0.0.0'
+emd
+```
+
 To authenticate the webhook calls from GitLab, create a new random secret token:
 
 ```

@@ -4,6 +4,14 @@ Pipeline event announcements from GitHub
 
 ## Preparation
 
+The Rodbot app binds to `localhost` by default which cannot be reached from GitHub. Make sure this connection is possible by setting a different IP in `config/rodbot.rb`:
+
+```ruby
+app do
+  ip '0.0.0.0'
+emd
+```
+
 To authenticate the webhook calls from GitHub, create a new random secret token:
 
 ```
