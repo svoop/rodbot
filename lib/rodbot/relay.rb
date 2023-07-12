@@ -29,7 +29,7 @@ module Rodbot
 
     # @return [Symbol] name of the relay extension
     def name
-      __FILE__.split('/')[-2].to_sym
+      self.class.to_s.split('::')[-2].downcase.to_sym
     end
 
     # @see {Rodbot::Relay.bind}
