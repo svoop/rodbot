@@ -106,9 +106,9 @@ The **app service** is a [Roda app](https://roda.jeremyevans.net) where the real
 
 See [Rodbot::Config::DEFAULTS](https://github.com/svoop/rodbot/blob/main/lib/rodbot/config.rb) for available config settings and their defaults.
 
-### Bind IP and Port
+#### Bind IP and Port
 
-The **app service** binds to `localhost:9200` by default. If you want it to be reachable from external sources, make sure you change the bind IP in `config/rodbot.rb`:
+The **app service** binds to `localhost:7200` by default. If you want it to be reachable from external sources, make sure you change the bind IP in `config/rodbot.rb`:
 
 ```ruby
 app do
@@ -409,7 +409,7 @@ module Rodbot
 end
 ```
 
-The `Routes` module contains all the routes you would like to inject. The above corresponds to `GET /my_plugin/hello`.
+The `Routes` module contains all the routes you would like to inject.
 
 The `App` module can be used to [extend all aspects of Roda](https://github.com/jeremyevans/roda#plugins-).
 
