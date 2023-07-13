@@ -8,7 +8,7 @@ describe Rodbot::Relay do
   describe :bind do
     it "returns 0.0.0.0 and port 10001 if RODBOT_SPLIT" do
       with "ENV['RODBOT_SPLIT']", 'true' do
-        _(subject.bind_for(:matrix)).must_equal ['0.0.0.0', 9201]
+        _(subject.bind_for(:matrix)).must_equal ['0.0.0.0', 7201]
       end
     end
 
@@ -16,8 +16,8 @@ describe Rodbot::Relay do
       with "ENV['RODBOT_SPLIT']", 'false' do
         config = Rodbot::Config.new("plugin :matrix\nplugin :slack")
           with '@config', config, on: Rodbot do
-          _(subject.bind_for(:matrix)).must_equal ['localhost', 9201]
-          _(subject.bind_for(:slack)).must_equal ['localhost', 9202]
+          _(subject.bind_for(:matrix)).must_equal ['localhost', 7201]
+          _(subject.bind_for(:slack)).must_equal ['localhost', 7202]
         end
       end
     end
