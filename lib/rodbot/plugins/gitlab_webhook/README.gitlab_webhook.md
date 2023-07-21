@@ -34,7 +34,7 @@ You can set any number of secure tokens here separated with colons.
 
 Add a webhook to every GitLab repository you'd like to see pipeline event announcements for. Go to `https://gitlab.com/<USER>/<REPO>/-/hooks` and create a new webhook with the following properties:
 
-* URL: `https://<RODBOT-APP>/gitlab/webhook`
+* URL: `https://<RODBOT-APP>/gitlab_webhook`
 * Secret token: `<TOKEN>`
 * Trigger: [x] Pipeline events
 * SSL verification: [x] Enable SSL verification

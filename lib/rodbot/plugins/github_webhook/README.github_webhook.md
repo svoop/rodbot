@@ -34,7 +34,7 @@ You can set any number of secure tokens here separated with colons.
 
 Add a webhook to every GitHub repository you'd like to see pipeline event announcements for. Go to `https://github.com/<USER>/<REPO>/settings/hooks` and create a new webhook with the following properties:
 
-* Payload URL: `https://<RODBOT-APP>/github/webhook`
+* Payload URL: `https://<RODBOT-APP>/github_webhook`
 * Content type: `application/json`
 * Secret: `<TOKEN>`
 * SSL verification: (o) Enable SSL verification
