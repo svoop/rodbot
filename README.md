@@ -130,6 +130,8 @@ Please note: Each **relay service** binds to a port which is predictable and sli
 
 All top level GET requests such as `GET /foobar` are commands and therefore are accessible by relays, for instance using `!foobar` on Matrix.
 
+Command arguments can be fetched Roda-style as `r.params["arguments"]`, however, Rodbot implements a handy shortcut `r.arguments` to do the same.
+
 Responses have to be either of the following content types:
 
 * `text/plain; charset=utf-8`

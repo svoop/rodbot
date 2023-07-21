@@ -21,14 +21,8 @@ module Rodbot
     def extend_app
       return if extensions.key? :app
       require_extensions(:app) do |name, path|
-        begin
-          ::App.run(name, "#{path}/routes".constantize)
-        rescue NameError
-        end
-        begin
-          Roda::RodaPlugins.register_plugin(name, path.constantize)
-        rescue NameError
-        end
+        Roda::RodaPlugins.register_plugin(name, path.constantize)
+      rescue NameError
       end
     end
 
