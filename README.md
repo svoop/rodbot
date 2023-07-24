@@ -106,6 +106,33 @@ The **app service** is a [Roda app](https://roda.jeremyevans.net) where the real
 
 See [Rodbot::Config::DEFAULTS](https://github.com/svoop/rodbot/blob/main/lib/rodbot/config.rb) for available config settings and their defaults.
 
+#### Roda
+
+The Roda app is located in the `app` directory. It contains:
+
+* `app.rb` – Roda app class where new routes are added using `run` statements
+* `routes\` – Directory which contains one route file for every `run` statement
+* `views\` – Directory which contains layouts and views called with `view` in route files
+
+For an example, take a look at `app/routes/help.rb` generated as part of every new Rodbot app.
+
+The `app.rb` loads the Rodbot plugin with `plugin :rodbot`. This Roda plugin is a necessary dependency for many Rodbot plugins and does two things.
+
+It loads the following Roda plugins:
+
+* [multi_run](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/MultiRun.html)
+* [environments](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Environments.html)
+* [heartbeat](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Heartbeat.html)
+* [public](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Public.html)
+* [run_append_slash](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/RunAppendSlash.html)
+* [halt](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Halt.html)
+* [unescape_path](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/UnescapePath.html)
+* [render](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Render.html).
+
+It loads the following Roda extensions provided by Rodbot:
+
+* Shortcut `r.arguments` for `r.params['arguments']`
+
 #### Bind IP and Port
 
 The **app service** binds to `localhost:7200` by default. If you want it to be reachable from external sources, make sure you change the bind IP in `config/rodbot.rb`:
