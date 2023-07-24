@@ -19,7 +19,6 @@ module Rodbot
 
     # Extend app service with app components provided by all active plugins
     def extend_app
-      return if extensions.key? :app
       require_extensions(:app) do |name, path|
         begin
           ::App.run(name, "#{path}/routes".constantize)
