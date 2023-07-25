@@ -5,7 +5,7 @@ module Rodbot
     class Hal
       module App
 
-        class Routes < Roda
+        class Routes < ::App
           route do |r|
             r.root do
               response['Content-Type'] = 'text/markdown; charset=utf-8'

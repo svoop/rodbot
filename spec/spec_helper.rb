@@ -2,6 +2,7 @@ gem 'minitest'
 
 require 'debug'
 require 'pathname'
+require 'rack'
 
 def spec_dir
   Pathname(__dir__)
@@ -35,3 +36,4 @@ ENV['RODBOT_CREDENTIALS_DIR'] = spec_dir.join('fixtures', 'credentials').to_s
 ENV['TEST_CREDENTIALS_KEY'] = spec_dir.join('fixtures', 'credentials', 'test.key').read
 ENV['NO_COLOR'] = 'true'
 Rodbot.boot(root: spec_dir.join('..', 'lib', 'templates', 'new'))
+Rodbot::Rack.boot(::Rack::Builder.new)

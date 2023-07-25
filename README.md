@@ -412,7 +412,7 @@ module Rodbot
     module MyPlugin
       module App
 
-        module Routes < Roda
+        module Routes < ::App
           route do |r|
             # GET /my_plugin
             r.root do

@@ -5,7 +5,7 @@ module Rodbot
     class GithubWebhook
       module App
 
-        class Routes < Roda
+        class Routes < ::App
           route do |r|
             r.post '' do
               r.halt 200 if request.env['HTTP_X_GITHUB_EVENT'] == 'ping'

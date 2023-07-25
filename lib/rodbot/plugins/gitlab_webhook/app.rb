@@ -5,7 +5,7 @@ module Rodbot
     class GitlabWebhook
       module App
 
-        class Routes < Roda
+        class Routes < ::App
           route do |r|
             r.post '' do
               r.halt 401 unless authorized? request
