@@ -21,7 +21,7 @@ module Rodbot
         private
 
         def authorized?(request)
-          ENV['BOT_GITLAB_SECRET_TOKENS'].to_s.split(':').include?(request.env['HTTP_X_GITLAB_TOKEN'])
+          Rodbot.config(:plugin, :gitlab_webhook, :secret_tokens).to_s.split(':').include?(request.env['HTTP_X_GITLAB_TOKEN'])
         end
 
         def emoji_for(status)
