@@ -15,7 +15,8 @@ module Rodbot
               project = json.dig('repository', 'full_name')
               status = json.dig('workflow_run', 'status')
               status = json.dig('workflow_run', 'conclusion') if status == 'completed'
-              say [emoji_for(status), project, status].join(' ')
+              Rodbot.say [emoji_for(status), project, status].join(' ')
+              r.halt 200
             end
           end
 

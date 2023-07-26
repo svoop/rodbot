@@ -258,6 +258,31 @@ The Docker deployment is a compose file, so you might want to write it to disk:
 rodbot deploy docker >compose.yml
 ```
 
+## Say
+
+You can send proactive messages to communication networks with `Rodbot.say`.
+
+Since you're not limited to just one relay plugin, you have to configure which of them shall post messages submitted with `Rodbot.say` by adding `say true` in `config/rodbot.rb`. Here's an example for the Matrix relay plugin:
+
+```ruby
+plugin :matrix do
+  say true
+  (...)
+end
+```
+
+With this in place, you can now submit messages from just about anywhere, most notably **app service** routes and **schedule service** jobs.
+
+```ruby
+say("Hello, World!")
+```
+
+You can further narrow where to post the message if you specify the relay plugin explicitly:
+
+```ruby
+say("Hello, Slack!", on: :slack)
+```
+
 ## Routes and Commands
 
 Adding new tricks to your bot boils down to adding routes to the app service which is powered by Roda, a simple yet very powerful framework for web applications: Easy to learn (like Sinatra) but really fast and efficient. Take a minute and [get familiar with the basics of Roda](http://roda.jeremyevans.net/).
@@ -358,7 +383,6 @@ Rodbot aims to keep its core small and add features via plugins, either built-in
 Name | Dependencies | Description
 -----|--------------|------------
 [:matrix](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) | yes | relay service for the [Matrix communication network](https://matrix.org)
-[:say](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/say/README.say.md) | no | write proactive messages to communication networks
 [:otp](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) | yes | guard commands with one-time passwords
 [:gitlab_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | no | event announcements from [GitLab](https://gitlab.com)
 [:github_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | no | event announcements from [GitHub](https://github.com)

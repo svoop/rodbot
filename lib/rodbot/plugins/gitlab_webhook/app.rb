@@ -13,7 +13,8 @@ module Rodbot
               r.halt 400 unless json['object_kind'] == 'pipeline'
               project = json.dig('project', 'path_with_namespace')
               status = json.dig('object_attributes', 'detailed_status')
-              say [emoji_for(status), project, status].join(' ')
+              Rodbot.say [emoji_for(status), project, status].join(' ')
+              r.halt 200
             end
           end
         end
