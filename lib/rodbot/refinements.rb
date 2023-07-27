@@ -1,3 +1,5 @@
+require 'kramdown'
+
 module Rodbot
   module Refinements
 

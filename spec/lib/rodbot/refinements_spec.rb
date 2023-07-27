@@ -1,7 +1,5 @@
 require_relative '../../spec_helper'
 
-require 'kramdown'
-
 using Rodbot::Refinements
 
 describe Rodbot::Refinements do
