@@ -17,7 +17,7 @@ Minitest::Sound.failure = spec_dir.join('sounds', 'failure.mp3').to_s
 
 require 'minitest/focus'
 
-class MiniTest::Spec
+class Minitest::Spec
   class << self
     alias_method :context, :describe
   end

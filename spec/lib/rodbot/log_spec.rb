@@ -7,7 +7,7 @@ describe Rodbot::Log do
 
   describe :log do
     it "writes to default log" do
-      mock_logger = MiniTest::Mock.new.expect(:log, true) do |level, message|
+      mock_logger = Minitest::Mock.new.expect(:log, true) do |level, message|
         true
       end
       with :@default_logger, mock_logger, on: subject do
@@ -46,7 +46,7 @@ end
 describe Rodbot::Log::LoggerIO do
   describe :write do
     it "simulates IO by forwarding write to log" do
-      mock_logger = MiniTest::Mock.new.expect(:log, true) do |level, message|
+      mock_logger = Minitest::Mock.new.expect(:log, true) do |level, message|
         level == 1 && message == 'log message'
       end
       subject = Rodbot::Log::LoggerIO.new(mock_logger, 1)
