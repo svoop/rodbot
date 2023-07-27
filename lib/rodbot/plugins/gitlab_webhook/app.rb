@@ -13,27 +13,27 @@ module Rodbot
               r.halt 400 unless json['object_kind'] == 'pipeline'
               project = json.dig('project', 'path_with_namespace')
               status = json.dig('object_attributes', 'detailed_status')
-              Rodbot.say [emoji_for(status), project, status].join(' ')
+              Rodbot.say [emoji_for(status), project, status.gsub('_', ' ')].join(' ')
               r.halt 200
             end
           end
-        end
 
-        private
+          private
 
-        def authorized?(request)
-          Rodbot.config(:plugin, :gitlab_webhook, :secret_tokens).to_s.split(':').include?(request.env['HTTP_X_GITLAB_TOKEN'])
-        end
-
-        def emoji_for(status)
-          case status
-            when 'running' then '🟡'
-            when 'passed' then '🟢'
-            when 'failed' then '🔴'
-            else '⚪️'
+          def authorized?(request)
+            Rodbot.config(:plugin, :gitlab_webhook, :secret_tokens).to_s.split(':').include?(request.env['HTTP_X_GITLAB_TOKEN'])
           end
-        end
 
+          def emoji_for(status)
+            case status
+              when 'running' then '🟡'
+              when 'passed' then '🟢'
+              when 'failed' then '🔴'
+              else '⚪️'
+            end
+          end
+
+        end
       end
     end
   end
