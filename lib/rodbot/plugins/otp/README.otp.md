@@ -65,11 +65,11 @@ To execute the command now, you have to add the six digit one-time password to t
 
 The `r.valid_otp?` guard extracts the one-time password from the message and validates it. In this example, a validation result `true` causes the server to be rebooted. Please note that `r.argument` after the guard does not contain the one-time password anymore!
 
-If halting with a 401 error is all you want, there's even a shorter alternative `r.require_valid_otp`:
+If halting with a 401 error is all you want, there's even a shorter alternative `r.require_valid_otp!`:
 
 ```ruby
 r.root do |r|
-  r.require_valid_otp
+  r.require_valid_otp!
   response['Content-Type'] = 'text/plain; charset=utf-8'
   ServerService.new(r.arguments).reboot!
   'Done!'

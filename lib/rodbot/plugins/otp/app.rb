@@ -10,7 +10,7 @@ module Rodbot
             !!@totp.verify(password, drift_behind: Rodbot.config(:otp, :drift).to_i)
           end
 
-          def require_valid_otp
+          def require_valid_otp!
             halt [401, {}, ['Unauthorized']] unless valid_otp?
           end
 
