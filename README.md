@@ -566,10 +566,6 @@ module Rodbot
 end
 ```
 
-Please note: Schedules should just call app service routes and let the app do the heavy lifting.
-
-TODO: needs further description and examples
-
 For an example, take a look at the [:word_of_the_day plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/word_of_the_day).
 
 ## Environment Variables
