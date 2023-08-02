@@ -7,7 +7,7 @@ module Rodbot
     SERVICES = %i(app relay schedule).freeze
 
     # Hosting types
-    HOSTINGS = %i(docker render).freeze
+    HOSTINGS = %i(procfile docker render).freeze
 
   end
 end

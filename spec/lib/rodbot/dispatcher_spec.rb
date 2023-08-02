@@ -33,7 +33,7 @@ describe Rodbot::Dispatcher do
       end
     end
 
-    it "runs, monitors and terminates tasks" do
+    it "runs, supervises and terminates tasks" do
       2.times do |index|
         subject.register(index.to_s) do
           tmp.join("rodbot-test.#{index}.run").write 'running'

@@ -2,7 +2,7 @@
 
 module Rodbot
 
-  # Dispatcher infrastructure to run and monitor tasks
+  # Dispatcher infrastructure to run and supervise tasks
   class Dispatcher
 
     # Which signals detached processes trap in order to exit
@@ -40,26 +40,28 @@ module Rodbot
       self
     end
 
-    # Run and monitor the registered tasks
+    # Run the registered tasks
     #
-    # @param daemonize [Boolean] whether to run the tasks in the background
+    # @param daemonize [Boolean] whether to run and supervise the tasks in
+    #   the background
     def run(daemonize: false)
-      cleanup
       if daemonize
         Process.daemon(false, true)
-        detach 'monitor'
+        detach 'supervisor'
+        dispatch
+        supervise
       else
-        Process.setproctitle("#{group}.monitor")
+        Process.setproctitle("#{group}.supervisor")
+        dispatch
+        sleep
       end
-      dispatch
-      monitor
     ensure
       cleanup
     end
 
     # Interrupt the registered tasks
     def interrupt
-      Process.kill('INT', pid_file('monitor').read.to_i)
+      Process.kill('INT', pid_file('supervisor').read.to_i)
     rescue Errno::ESRCH
     end
 
@@ -70,8 +72,8 @@ module Rodbot
       tasks.each_value { fork &_1 }
     end
 
-    # Monitor all dispatched tasks
-    def monitor
+    # Supervise all dispatched tasks
+    def supervise
       loop do
         pid = Process.wait
         sleep @refork_delay

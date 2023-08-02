@@ -1,0 +1,5 @@
+app: bundle exec rodbot start app
+schedule: bundle exec rodbot start schedule
+[% relay_extensions.each do |name, port| -%]
+relay_[%= name %]: bundle exec rodbot start relay [%= name %]
+[% end -%]

@@ -220,19 +220,20 @@ rodbot start app --debugger
 
 This requires the [debug gem](https://rubygems.org/gems/debug) and adds the ability to set breakpoints with `debugger`.
 
-You can also start single services in the background:
+Here's how to start single services in the background:
 
 ```
 rodbot start app --daemonize
 ```
 
-However, it's not particularly useful unless you start all services at once. In fact, it's even mandatory in this case, so you don't have to mentioe `--daemonize` explicitly:
+You can also start all services at once in which case the services must run in the background and therefore the `--daemonize` is implied and may be omitted:
+
 
 ```
 rodbot start
 ```
 
-Finally, to start all running Rodbot services:
+Finally, to stop all running Rodbot services:
 
 ```
 rodbot stop
@@ -240,7 +241,17 @@ rodbot stop
 
 ### Deployment
 
-There are many ways to deploy Rodbot on different hosting services. For the most common scenarios, you can generate a deployment configuration blueprint:
+While controlling Rodbot as mentioned in the previous section is okay for local development, deploying the bot to production comes in a gazillion scenarios. Rodbot helps you with scaffolds for some of them. To get the list of all deploy scaffolds:
+
+```
+rodbot deploy --help
+```
+
+Let's take a quick look at the two most common scenarios:
+
+#### Docker
+
+To run all of Rodbot in one single Docker service:
 
 ```
 rodbot deploy docker
@@ -252,10 +263,40 @@ In case you prefer to split each service into its own container:
 rodbot deploy docker --split
 ```
 
-The Docker deployment is a compose file, so you might want to write it to disk:
+The Docker deployment is a `compose.yml` file, so you might want to write it to disk:
 
 ```
 rodbot deploy docker >compose.yml
+```
+
+#### Procfile
+
+The `Procfile` was introduced by Heroku and is nowadays supported many cloud providers as well as tools for local development.
+
+While a monolith approach is certainly possible, it makes more sense to split each service into its own process:
+
+```
+rodbot deploy procfile --split
+```
+
+As per convention, the `Procfile` should be placed in the root of the project:
+
+```
+rodbot deploy procfile --split >Procfile
+```
+
+It's easy to test drive using a process manager such as [Foreman](https://rubygems.org/gems/foreman):
+
+```
+gem install foreman
+foreman start
+```
+
+For more control and debug features, you might want to try [Overmind](https://github.com/DarthSim/overmind) instead e.g. installed via [Homebrew](https://brew.sh):
+
+```
+brew install overmind
+overmind start
 ```
 
 ## Say
