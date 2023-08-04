@@ -8,7 +8,7 @@ The Rodbot app binds to `localhost` by default which cannot be reached from GitL
 
 ```ruby
 app do
-  ip '0.0.0.0'
+  host '0.0.0.0'
 emd
 ```
 

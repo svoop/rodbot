@@ -139,7 +139,7 @@ The **app service** binds to `localhost:7200` by default. If you want it to be r
 
 ```ruby
 app do
-  ip '0.0.0.0'
+  host '0.0.0.0'
 end
 ```
 

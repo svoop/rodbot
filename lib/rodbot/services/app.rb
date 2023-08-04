@@ -24,7 +24,7 @@ module Rodbot
       end
 
       def bind
-        [Rodbot.config(:app, :ip), Rodbot.config(:app, :port)]
+        [Rodbot.config(:app, :host), Rodbot.config(:app, :port)]
       end
 
       def app

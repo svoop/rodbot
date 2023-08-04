@@ -68,7 +68,7 @@ module Rodbot
       timezone 'Etc/UTC'
       db 'hash'
       app do
-        ip 'localhost'
+        host 'localhost'
         port 7200
         threads Rodbot.env.development? ? (1..1) : (2..4)
       end
