@@ -65,7 +65,7 @@ module Rodbot
         end
 
         def on_invite(invite)
-          client.join_room(invite[:room_id]) if @options[:room_id] == invite[:room_id]
+          client.join_room(invite[:room_id]) if Rodbot.config(:plugin, :matrix, :room_id) == invite[:room_id]
         end
 
         def on_message(message)
