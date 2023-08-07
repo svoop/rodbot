@@ -59,7 +59,7 @@ bundle config set --local with matrix
 bundle install
 ```
 
-(Please refer to the [Matrix plugin README](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) for more on how to configure and authorise this relay service.)
+Please refer to the [Matrix plugin README](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) for more on how to configure and authorise this relay service.
 
 Time to add Git to the mix. Both `gems.locked` and `.bundle` are included in order to use the same gems and versions both for local development and deployment to production:
 
@@ -133,25 +133,21 @@ It loads the following Roda extensions provided by Rodbot:
 
 * Shortcut `r.arguments` for `r.params['arguments']`
 
-#### Bind IP and Port
+#### Host
 
-The **app service** binds to `localhost:7200` by default. If you want it to be reachable from external sources, make sure you change the bind IP in `config/rodbot.rb`:
+The **app service** binds to `localhost` by default and therefore isolates it from the internet. In case you want to make it publicly reachable, you have to set the `RODBOT_APP_HOST` environment variable to a public IP. Or to bind to all IPs of all interfaces:
 
-```ruby
-app do
-  host '0.0.0.0'
-end
+```
+export RODBOT_APP_HOST=0.0.0.0
 ```
 
-You can also change the port:
+#### Ports
+
+The **app service** binds to the base port 7200 by default. However, each **relay service** needs a predictable port to bind to as well, which is why the next few following ports must not be in use already. If you have to, you can change the base port in `config/rodbot.rb`:
 
 ```ruby
-app do
-  port 12345
-end
+port 12345
 ```
-
-Please note: Each **relay service** binds to a port which is predictable and slightly higher than the app port. Therefore, the next few ports following the app port must not be in use already.
 
 #### Commands
 
@@ -544,7 +540,7 @@ end
 
 The `loops` method must returns an array of callables (e.g. a Proc or Method) which will be called when this relay service is started. The loops must trap the `INT` signal.
 
-Proactive messsages require other parts of Rodbot to forward a message directly. To do so, the relay has to implement a TCP socket. This socket must bind to the IP and port you get from the `bind` method which returns an array like `["localhost", 16881]`.
+Proactive messsages require other parts of Rodbot to forward a message directly. To do so, the relay has to implement a TCP socket. This socket must bind to the IP and port you get from the `bind` method which returns an array like `["localhost", 7201]`.
 
 For an example, take a look at the [:matrix plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/matrix).
 
@@ -570,11 +566,16 @@ For an example, take a look at the [:word_of_the_day plugin](https://github.com/
 
 ## Environment Variables
 
-Variable | Description
----------|------------
-RODBOT_ENV | Environment (default: development)
-RODBOT_CREDENTIALS_DIR | Override the directory containing encrypted credentials files
-RODBOT_SPLIT | Split deploy into individual services when set to "true" (default: false)
+Environment variables are used for the configuration bits which cannot or should not be part of `config/rodbot.rb` mainly because they have to be set on the infrastructure level.
+
+Variable | Description | Default
+---------|-------------|--------
+`RODBOT_ENV` | Environment | development
+`RODBOT_CREDENTIALS_DIR` | Override the directory containing encrypted credentials files | config/credentials/
+`RODBOT_APP_HOST` | Override where to locally bind the app service | localhost
+`RODBOT_APP_URL` | Override where to locally reach the app service | http://localhost
+`RODBOT_RELAY_HOST` | Override where to bind the relay services | localhost
+`RODBOT_RELAY_URL_XXX` | Override where to locally reach the given relay service `XXX` (e.g. `MATRIX`) | http://localhost
 
 ## Development
 

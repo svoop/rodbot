@@ -44,13 +44,5 @@ module Rodbot
       end
     end
 
-    # Whether the current environment is split.
-    #
-    # @return [Boolean] +true+ if every service runs it its own container or
-    #   +false+ if all services run in the same container (or on the host)
-    def split?
-      ENV['RODBOT_SPLIT'] == 'true'
-    end
-
   end
 end

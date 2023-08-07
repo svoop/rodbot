@@ -1,3 +1,4 @@
+require 'uri'
 require 'kramdown'
 
 module Rodbot
@@ -26,6 +27,33 @@ module Rodbot
     refine String do
       def constantize
         Module.const_get(self.split('/').map(&:camelize).join('::'))
+      end
+    end
+
+    # @!method uri_concat
+    #   Safely concat path segments to a URI string
+    #
+    #   {URI#join} is ultimately used to add the given segments which has a
+    #   maybe counter-intuitive API at first. Check out the docs of {URI#join}
+    #   and the examples below.
+    #
+    #   @example
+    #     s = 'http://example.com'
+    #     s.uri_concat('foo')               # => "http://example.com/foo"
+    #     s.uri_concat('foo/')              # => "http://example.com/foo/"
+    #     s.uri_concat('foo', 'bar')        # => "http://example.com/bar"   <- sic!
+    #     s.uri_concat('foo/, 'bar')        # => "http://example.com/foo/bar"
+    #     s.uri_concat('foo/, 'bar.html')   # => "http://example.com/foo/bar.html"
+    #     s.uri_concat('föö')               # => "http://example.com/f%C3%B6%C3%B6"
+    #
+    #   @param segments [Array<String>] path segments
+    #   @return [String] concatted URI
+    refine String do
+      def uri_concat(*segments)
+        parser = URI::Parser.new
+        segments.inject(URI(self)) do |uri, segment|
+          uri + parser.escape(segment)
+        end.to_s
       end
     end
 

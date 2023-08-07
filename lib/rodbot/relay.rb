@@ -2,6 +2,7 @@
 
 require 'digest'
 require 'socket'
+require 'httparty'
 
 module Rodbot
 
@@ -69,12 +70,26 @@ module Rodbot
     # @param name [Symbol, String] name of the relay extension e.g. +:matrix+
     # @return [Array] designated [IP, port]
     def self.bind_for(name)
-      base_port = Rodbot.config(:app, :port) + 1
-      if Rodbot.env.split?
-        ['0.0.0.0', base_port]
-      else
-        ['localhost', base_port + Rodbot.config(:plugin).keys.index(name)]
+      (@bind ||= {})[name] ||= [
+        (ENV["RODBOT_RELAY_HOST"] || 'localhost'),
+        Rodbot.config(:port) + 1 + Rodbot.config(:plugin).keys.index(name)
+      ]
+    end
+
+    # Perform the command on the app using a GET request
+    #
+    # @param command [String] command to perform
+    # @param argument [String, nil] optional arguments
+    # @return [String] response as Markdown
+    def command(command, argument=nil)
+      response = HTTParty.get(Rodbot::Services::App.url.uri_concat(command), query: { argument: argument }, timeout: 10)
+      case response.code
+        when 200 then response.body
+        when 404 then "[[SENDER]] I don't know what do do with `!#{command}`. 🤔"
+        else fail
       end
+    rescue
+      "[[SENDER]] I'm having trouble talking to the app. 💣"
     end
 
   end

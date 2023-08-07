@@ -33,6 +33,40 @@ describe Rodbot::Refinements do
     end
   end
 
+  describe :uri_concat do
+    subject do
+      'http://example.com'
+    end
+
+    it "returns unchanged URI if no path segment is given" do
+      _(subject.uri_concat).must_equal 'http://example.com'
+    end
+
+    it "concats one ASCII path segment" do
+      _(subject.uri_concat('foo')).must_equal 'http://example.com/foo'
+    end
+
+    it "concats one ASCII path segment with extension" do
+      _(subject.uri_concat('foo.html')).must_equal 'http://example.com/foo.html'
+    end
+
+    it "concats multiple ASCII path segments" do
+      _(subject.uri_concat('foo/', 'bar/')).must_equal 'http://example.com/foo/bar/'
+    end
+
+    it "concats multiple ASCII path segments with extension" do
+      _(subject.uri_concat('foo/', 'bar.html')).must_equal 'http://example.com/foo/bar.html'
+    end
+
+    it "encodes non-ASCII path segments" do
+      _(subject.uri_concat('föö')).must_equal 'http://example.com/f%C3%B6%C3%B6'
+    end
+
+    it "encodes unsafe path segments" do
+      _(subject.uri_concat('foo#bar')).must_equal 'http://example.com/foo%23bar'
+    end
+  end
+
   describe :md_to_html do
     it "converts Markdown to HTML" do
       _('**important**'.md_to_html).must_equal '<p><strong>important</strong></p>'

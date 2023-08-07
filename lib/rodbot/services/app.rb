@@ -8,6 +8,16 @@ module Rodbot
   class Services
     class App
 
+      # URL (including port) to reach the app service locally
+      #
+      # @return [String] URL
+      def self.url
+        @url ||= [
+          (ENV['RODBOT_APP_URL'] || 'http://localhost'),
+          Rodbot.config(:port)
+        ].join(':')
+      end
+
       def tasks(**)
         puts "Starting app service on http://#{bind.join(':')}"
         [method(:run)]
@@ -24,7 +34,10 @@ module Rodbot
       end
 
       def bind
-        [Rodbot.config(:app, :host), Rodbot.config(:app, :port)]
+        @bind ||= [
+          (ENV['RODBOT_APP_HOST'] || 'localhost'),
+          Rodbot.config(:port)
+        ]
       end
 
       def app

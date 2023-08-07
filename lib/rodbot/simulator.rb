@@ -20,7 +20,7 @@ module Rodbot
     end
 
     def run
-      puts nil, "Talking to app on #{app_url} as sender #{@pastel.inverse(@sender)}."
+      puts nil, "Talking to app on #{Rodbot::Services::App.url} as sender #{@pastel.inverse(@sender)}."
       puts 'Type commands beginning with "!" or empty line to exit.', nil
       while (line = Readline.readline("rodbot> ", true)) && !line.empty?
         puts nil, reply_to(line), nil
@@ -30,15 +30,11 @@ module Rodbot
 
     private
 
-    def app_url
-      "http://localhost:#{Rodbot.config(:app, :port)}"
-    end
-
     def reply_to(message)
       return "(no command given)" unless message.match?(/^!/)
       command, argument = message[1..].split(/\s+/, 2)
       body = begin
-        response = HTTParty.get("#{app_url}/#{command}", query: { argument: argument }, timeout: 10)
+        response = HTTParty.get(Rodbot::Services::App.url.uri_concat(command), query: { argument: argument }, timeout: 10)
         case response.code
           when 200 then response.body
           when 404 then "[[SENDER]] I've never heard of `!#{command}`, try `!help` instead. 🤔"

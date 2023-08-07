@@ -77,19 +77,9 @@ module Rodbot
         end
 
         def reply_to(message)
-          sender = client.get_user(message.sender)
-          command, argument = message.content[:body][1..].split(/\s+/, 2)
-          body = begin
-            response = HTTParty.get("#{@options[:backend]}/bot/#{command}", query: { argument: argument }, timeout: 10)
-            case response.code
-              when 200 then response.body
-              when 404 then "[[SENDER]] I've never heard of `!#{command}`, try `!help` instead. 🤔"
-              else fail
-            end
-          rescue
-            "[[SENDER]] I'm having trouble talking to the backend. 💣"
-          end
-          body.md_to_html.psub(placeholders(sender))
+          command(*message.content[:body][1..].split(/\s+/, 2)).
+            md_to_html.
+            psub(placeholders(client.get_user(message.sender)))
         end
 
         def placeholders(sender)

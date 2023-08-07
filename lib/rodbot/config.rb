@@ -65,11 +65,10 @@ module Rodbot
     # Default configuration
     DEFAULTS = <<~END
       name 'Rodbot'
+      port 7200
       timezone 'Etc/UTC'
       db 'hash'
       app do
-        host 'localhost'
-        port 7200
         threads Rodbot.env.development? ? (1..1) : (2..4)
       end
       log do

@@ -17,7 +17,12 @@ x-defaults: &defaults
       RUN bundle config set without "development test" && \
         bundle install --jobs 20 --retry 5
   environment:
-    - RODBOT_SPLIT=true
+    - RODBOT_APP_HOST=0.0.0.0
+    - RODBOT_APP_URL=http://app
+    - RODBOT_RELAY_HOST=0.0.0.0
+[% relay_extensions.each do |name, _| -%]
+    - RODBOT_RELAY_URL_[%= name.upcase %]=http://relay-[%= name %]
+[% end -%]
     - PRODUCTION_CREDENTIALS_KEY
   restart: "unless-stopped"
 

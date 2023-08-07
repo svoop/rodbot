@@ -51,18 +51,4 @@ describe Rodbot::Env do
       end
     end
   end
-
-  describe :split? do
-    it 'returns false if RODBOT_SPLIT is not "true"' do
-      with 'ENV["RODBOT_SPLIT"]', 'false' do
-        _(subject).wont_be :split?
-      end
-    end
-
-    it 'returns true if RODBOT_SPLIT is "true"' do
-      with 'ENV["RODBOT_SPLIT"]', 'true' do
-        _(subject).must_be :split?
-      end
-    end
-  end
 end
