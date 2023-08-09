@@ -6,6 +6,8 @@ module Rodbot
       module App
 
         module RequestMethods
+          include Rodbot::Concerns::Memoize
+
           def valid_otp?
             !!@totp.verify(password, drift_behind: Rodbot.config(:otp, :drift).to_i)
           end
@@ -16,8 +18,8 @@ module Rodbot
 
           private
 
-          def totp
-            @totp ||= ROTP::TOTP.new(Rodbot.config(:otp, :secret), issuer: 'Rodbot')
+          memoize def totp
+            ROTP::TOTP.new(Rodbot.config(:otp, :secret), issuer: 'Rodbot')
           end
 
           def password

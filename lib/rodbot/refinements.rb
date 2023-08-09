@@ -101,11 +101,15 @@ module Rodbot
       end
     end
 
-    # Reusable inflector instance
-    #
-    # @return [Zeitwerk::Inflector]
-    def self.inflector
-      @inflector ||= Zeitwerk::Inflector.new
+    class << self
+      include Rodbot::Concerns::Memoize
+
+      # Reusable inflector instance
+      #
+      # @return [Zeitwerk::Inflector]
+      memoize def inflector
+        Zeitwerk::Inflector.new
+      end
     end
 
   end

@@ -27,6 +27,7 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 [CLI](#label-CLI) <br>
 [Routes and Commands](#label-Routes-and-Commands) <br>
 [Database](#label-Database) <br>
+[Environments](#environments) <br>
 [Credentials](#credentials) <br>
 [Plugins](#label-Plugins) <br>
 [Environment Variables](#label-Environment-Variables) <br>
@@ -407,6 +408,25 @@ Rodbot.db.get('lifetime')                              # => nil
 
 For a few more tricks, see the [Rodbot::Db docs](https://www.rubydoc.info/gems/rodbot/Rodbot/Db.html).
 
+## Environments
+
+Similar to other frameworks, Rodbot features different environments which affect the way certain processes work. Use the environment variable `RODBOT_ENV` to set control this:
+
+Value | Meaning
+------|--------
+development | This is the default environment used for local develoment.
+production | Use this environment when you deploy Rodbot.
+test | This environment is set for the automated tests of Rodbot.
+
+The current environment can be programmatically queried:
+
+```ruby
+ENV['RODBOT_ENV'] = "production"
+Rodbot.env.current        # => "production"
+Rodbot.env.production?    # => true
+Rodbot.env.development?   # => false
+```
+
 ## Credentials
 
 In order not to commit secrets to repositories or environment variables, Rodbot bundles the [dry-credentials](https://rubygems.org/gems/dry-credentials) gem and exposes it via the `rodbot credentials` CLI command. The secrets are then available in your code like `Rodbot.credentials.my_secret` and the encrypted files are written to `config/credentials`.
@@ -563,6 +583,13 @@ end
 ```
 
 For an example, take a look at the [:word_of_the_day plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/word_of_the_day).
+
+#### Toolbox
+
+Before you write a plugin, familiarize yourself with the following bundled helpers:
+
+* [Rodbot::Concerns::Memoize](https://www.rubydoc.info/gems/rodbot/Rodbot/Concerns/Memoize.html) – environment-aware memoization for method return values
+* [Rodbot::Refinements](https://www.rubydoc.info/gems/rodbot/Rodbot/Refinements.html) – just a few handy extensions to Ruby core classes
 
 ## Environment Variables
 

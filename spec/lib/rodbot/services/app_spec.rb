@@ -6,10 +6,6 @@ describe Rodbot::Services::App do
       Rodbot::Services::App.new
     end
 
-    after do
-      subject.instance_variable_set(:@bind, nil)
-    end
-
     it "returns localhost and port 7200 by default" do
       _(subject.send(:bind)).must_equal ['localhost', 7200]
     end
@@ -30,10 +26,6 @@ describe Rodbot::Services::App do
   describe :url do
     subject do
       Rodbot::Services::App
-    end
-
-    after do
-      subject.instance_variable_set(:@url, nil)
     end
 
     it "returns http://localhost:7200 by default" do

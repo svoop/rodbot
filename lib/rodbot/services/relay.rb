@@ -6,15 +6,19 @@ module Rodbot
   class Services
     class Relay
 
-      # URL (including port) to reach the given relay service locally
-      #
-      # @param name [Symbol] relay service
-      # @return [String] URL
-      def self.url(name)
-        (@url ||= {})[name] ||= [
-          (ENV["RODBOT_RELAY_URL_#{name.upcase}"] || 'http://localhost'),
-          Rodbot.config(:port) + 1 + Rodbot.config(:plugin).keys.index(name)
-        ].join(':')
+      class << self
+        include Rodbot::Concerns::Memoize
+
+        # URL (including port) to reach the given relay service locally
+        #
+        # @param name [Symbol] relay service
+        # @return [String] URL
+        memoize def url(name)
+          [
+            (ENV["RODBOT_RELAY_URL_#{name.upcase}"] || 'http://localhost'),
+            Rodbot.config(:port) + 1 + Rodbot.config(:plugin).keys.index(name)
+          ].join(':')
+        end
       end
 
       def tasks(only: nil)

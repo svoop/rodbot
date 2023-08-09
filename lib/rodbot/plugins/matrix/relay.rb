@@ -8,6 +8,7 @@ module Rodbot
   class Plugins
     class Matrix
       class Relay < Rodbot::Relay
+        include Rodbot::Concerns::Memoize
 
         def loops
           client.on_invite_event.add_handler { on_invite(_1) }
@@ -36,12 +37,12 @@ module Rodbot
           raise Rodbot::PluginError.new("invalid room_id", error.message)
         end
 
-        def client
-          @client ||= MatrixSdk::Client.new(homeserver, access_token: access_token, client_cache: :some)
+        memoize def client
+          MatrixSdk::Client.new(homeserver, access_token: access_token, client_cache: :some)
         end
 
-        def room
-          @room ||= client.ensure_room(room_id)
+        memoize def room
+          client.ensure_room(room_id)
         end
 
         def read_loop

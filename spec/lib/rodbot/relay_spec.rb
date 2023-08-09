@@ -1,13 +1,7 @@
 require_relative '../../spec_helper'
 
 describe Rodbot::Relay do
-  subject do
-    Rodbot::Relay
-  end
 
-  after do
-    subject.instance_variable_set(:@bind, nil)
-  end
 
   describe :bind do
     it "returns localhost and ports above 7200 by default" do

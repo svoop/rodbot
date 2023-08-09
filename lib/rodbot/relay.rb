@@ -8,6 +8,7 @@ module Rodbot
 
   # Base class for relay extensions
   class Relay
+    include Rodbot::Concerns::Memoize
 
     # Post a message via one or more relay services
     #
@@ -55,7 +56,7 @@ module Rodbot
     private
 
     # @return [Symbol] name of the relay extension
-    def name
+    memoize def name
       self.class.to_s.split('::')[-2].downcase.to_sym
     end
 
@@ -65,15 +66,19 @@ module Rodbot
       self.class.bind_for name
     end
 
-    # Determine where to bind a relay extension
-    #
-    # @param name [Symbol, String] name of the relay extension e.g. +:matrix+
-    # @return [Array] designated [IP, port]
-    def self.bind_for(name)
-      (@bind ||= {})[name] ||= [
-        (ENV["RODBOT_RELAY_HOST"] || 'localhost'),
-        Rodbot.config(:port) + 1 + Rodbot.config(:plugin).keys.index(name)
-      ]
+    class << self
+      include Rodbot::Concerns::Memoize
+
+      # Determine where to bind a relay extension
+      #
+      # @param name [Symbol, String] name of the relay extension e.g. +:matrix+
+      # @return [Array] designated [IP, port]
+      memoize def bind_for(name)
+        [
+          (ENV["RODBOT_RELAY_HOST"] || 'localhost'),
+          Rodbot.config(:port) + 1 + Rodbot.config(:plugin).keys.index(name)
+        ]
+      end
     end
 
     # Perform the command on the app using a GET request

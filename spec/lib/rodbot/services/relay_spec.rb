@@ -6,10 +6,6 @@ describe Rodbot::Services::Relay do
   end
 
   describe :url do
-    after do
-      subject.instance_variable_set(:@url, nil)
-    end
-
     it "returns http://localhost and ports above 7200 by default" do
       with '@config', Rodbot::Config.new("plugin :matrix\nplugin :slack"), on: Rodbot do
         _(subject.url(:matrix)).must_equal 'http://localhost:7201'

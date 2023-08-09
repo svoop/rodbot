@@ -2,7 +2,7 @@
 
 module Rodbot
 
-  # Environment the bot is living in
+  # Environment the bot is currently living in
   #
   # @note Use the +Rodbot.env+ shortcut to access these methods!
   class Env

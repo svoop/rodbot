@@ -11,6 +11,8 @@ module Rodbot
     # @example Enable in config/rodbot.rb
     #   db 'redis://localhost:6379/10'
     module Redis
+      include Rodbot::Concerns::Memoize
+
       def self.extended(*)
         require 'redis'
       end
@@ -47,8 +49,8 @@ module Rodbot
 
       private
 
-      def db
-        @db ||= ::Redis.new(url: url)
+      memoize def db
+        ::Redis.new(url: url)
       end
 
       def skey(*key)

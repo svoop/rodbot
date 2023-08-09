@@ -7,15 +7,20 @@ require 'roda'
 module Rodbot
   class Services
     class App
+      include Rodbot::Concerns::Memoize
 
-      # URL (including port) to reach the app service locally
-      #
-      # @return [String] URL
-      def self.url
-        @url ||= [
-          (ENV['RODBOT_APP_URL'] || 'http://localhost'),
-          Rodbot.config(:port)
-        ].join(':')
+      class << self
+        include Rodbot::Concerns::Memoize
+
+        # URL (including port) to reach the app service locally
+        #
+        # @return [String] URL
+        memoize def url
+          [
+            (ENV['RODBOT_APP_URL'] || 'http://localhost'),
+            Rodbot.config(:port)
+          ].join(':')
+        end
       end
 
       def tasks(**)
@@ -33,15 +38,15 @@ module Rodbot
         end.run.join
       end
 
-      def bind
-        @bind ||= [
+      memoize def bind
+        [
           (ENV['RODBOT_APP_HOST'] || 'localhost'),
           Rodbot.config(:port)
         ]
       end
 
-      def app
-        @app ||= ::Rack::Builder.parse_file(Rodbot.env.root.join('config.ru').to_s)
+      memoize def app
+        ::Rack::Builder.parse_file(Rodbot.env.root.join('config.ru').to_s)
       end
 
       def options
@@ -53,8 +58,8 @@ module Rodbot
         }
       end
 
-      def logger
-        @logger ||= Rodbot::Log.logger('app')
+      memoize def logger
+        Rodbot::Log.logger('app')
       end
 
       def lowlevel_error_handler(error)
