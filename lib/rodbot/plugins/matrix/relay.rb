@@ -85,7 +85,7 @@ module Rodbot
 
         def placeholders(sender)
           {
-            sender: "[@#{sender.friendly_name}](https://matrix.to/#/#{sender.id})"
+            sender: "https://matrix.to/#/#{sender.id}"
           }
         end
 
