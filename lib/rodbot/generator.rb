@@ -99,7 +99,7 @@ module Rodbot
       def relay_extensions
         Rodbot.plugins.extend_relay
         Rodbot.plugins.extensions[:relay].to_h do |name, _|
-          [name, Rodbot::Relay.bind_for(name).last]
+          [name, URI(Rodbot::Services::Relay.url(name)).port]
         end
       end
     end

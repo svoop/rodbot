@@ -4,6 +4,8 @@ require 'digest'
 require 'socket'
 require 'httparty'
 
+using Rodbot::Refinements
+
 module Rodbot
 
   # Base class for relay extensions
@@ -24,7 +26,8 @@ module Rodbot
       Rodbot.config(:plugin).select do |extension, config|
         config[:say] == true && (!on || extensions == on)
       end.keys.each_with_object(true) do |extension, result|
-        Socket.tcp(*bind_for(extension), connect_timeout: 3) do |socket|
+        uri = URI(Rodbot::Services::Relay.url(extension))
+        Socket.tcp(uri.host, uri.port, connect_timeout: 3) do |socket|
           socket.write message
           socket.write "\x04"
         end
@@ -62,23 +65,11 @@ module Rodbot
 
     # @see {Rodbot::Relay.bind}
     # @return [String] designated "IP:port"
-    def bind
-      self.class.bind_for name
-    end
-
-    class << self
-      include Rodbot::Concerns::Memoize
-
-      # Determine where to bind a relay extension
-      #
-      # @param name [Symbol, String] name of the relay extension e.g. +:matrix+
-      # @return [Array] designated [IP, port]
-      memoize def bind_for(name)
-        [
-          (ENV["RODBOT_RELAY_HOST"] || 'localhost'),
-          Rodbot.config(:port) + 1 + Rodbot.config(:plugin).keys.index(name)
-        ]
-      end
+    memoize def bind
+      [
+        (ENV["RODBOT_RELAY_HOST"] || 'localhost'),
+        Rodbot.config(:port) + 1 + Rodbot.config(:plugin).keys.index(name)
+      ]
     end
 
     # Perform the command on the app using a GET request

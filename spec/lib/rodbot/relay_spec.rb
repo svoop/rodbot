@@ -1,28 +1,38 @@
 require_relative '../../spec_helper'
 
 describe Rodbot::Relay do
+  let :matrix do
+    Rodbot::Relay.new.tap do |relay|
+      relay.define_singleton_method(:name) { :matrix }
+    end
+   end
 
+  let :slack  do
+    Rodbot::Relay.new.tap do |relay|
+      relay.define_singleton_method(:name) { :slack }
+    end
+   end
 
   describe :bind do
     it "returns localhost and ports above 7200 by default" do
       with '@config', Rodbot::Config.new("plugin :matrix\nplugin :slack"), on: Rodbot do
-        _(subject.bind_for(:matrix)).must_equal ['localhost', 7201]
-        _(subject.bind_for(:slack)).must_equal ['localhost', 7202]
+        _(matrix.send(:bind)).must_equal ['localhost', 7201]
+        _(slack.send(:bind)).must_equal ['localhost', 7202]
       end
     end
 
     it "returns localhost and ports about explicit port config" do
       with '@config', Rodbot::Config.new("plugin :matrix\nplugin :slack\nport 8888"), on: Rodbot do
-        _(subject.bind_for(:matrix)).must_equal ['localhost', 8889]
-        _(subject.bind_for(:slack)).must_equal ['localhost', 8890]
+        _(matrix.send(:bind)).must_equal ['localhost', 8889]
+        _(slack.send(:bind)).must_equal ['localhost', 8890]
       end
     end
 
     it "returns value of RODBOT_RELAY_HOST and ports above 7200" do
       with "ENV['RODBOT_RELAY_HOST']", '0.0.0.0' do
         with '@config', Rodbot::Config.new("plugin :matrix\nplugin :slack"), on: Rodbot do
-          _(subject.bind_for(:matrix)).must_equal ['0.0.0.0', 7201]
-          _(subject.bind_for(:slack)).must_equal ['0.0.0.0', 7202]
+          _(matrix.send(:bind)).must_equal ['0.0.0.0', 7201]
+          _(slack.send(:bind)).must_equal ['0.0.0.0', 7202]
         end
       end
     end

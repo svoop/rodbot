@@ -602,7 +602,7 @@ Variable | Description | Default
 `RODBOT_APP_HOST` | Override where to locally bind the app service | localhost
 `RODBOT_APP_URL` | Override where to locally reach the app service | http://localhost
 `RODBOT_RELAY_HOST` | Override where to bind the relay services | localhost
-`RODBOT_RELAY_URL_XXX` | Override where to locally reach the given relay service `XXX` (e.g. `MATRIX`) | http://localhost
+`RODBOT_RELAY_URL_XXX` | Override where to locally reach the given relay service `XXX` (e.g. `MATRIX`) | tcp://localhost
 
 ## Development
 

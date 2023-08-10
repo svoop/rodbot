@@ -6,25 +6,25 @@ describe Rodbot::Services::Relay do
   end
 
   describe :url do
-    it "returns http://localhost and ports above 7200 by default" do
+    it "returns tcp://localhost and ports above 7200 by default" do
       with '@config', Rodbot::Config.new("plugin :matrix\nplugin :slack"), on: Rodbot do
-        _(subject.url(:matrix)).must_equal 'http://localhost:7201'
-        _(subject.url(:slack)).must_equal 'http://localhost:7202'
+        _(subject.url(:matrix)).must_equal 'tcp://localhost:7201'
+        _(subject.url(:slack)).must_equal 'tcp://localhost:7202'
       end
     end
 
-    it "returns localhost and ports about explicit port config" do
+    it "returns tcp://localhost and ports above explicit port config" do
       with '@config', Rodbot::Config.new("plugin :matrix\nplugin :slack\nport 8888"), on: Rodbot do
-        _(subject.url(:matrix)).must_equal 'http://localhost:8889'
-        _(subject.url(:slack)).must_equal 'http://localhost:8890'
+        _(subject.url(:matrix)).must_equal 'tcp://localhost:8889'
+        _(subject.url(:slack)).must_equal 'tcp://localhost:8890'
       end
     end
 
     it "returns value of RODBOT_RELAY_URL_XXX and ports above 7200" do
-      with "ENV['RODBOT_RELAY_URL_MATRIX']", 'https://matrix.relay.local' do
+      with "ENV['RODBOT_RELAY_URL_MATRIX']", 'tcp://matrix.relay.local' do
         with '@config', Rodbot::Config.new("plugin :matrix\nplugin :slack"), on: Rodbot do
-          _(subject.url(:matrix)).must_equal 'https://matrix.relay.local:7201'
-          _(subject.url(:slack)).must_equal 'http://localhost:7202'
+          _(subject.url(:matrix)).must_equal 'tcp://matrix.relay.local:7201'
+          _(subject.url(:slack)).must_equal 'tcp://localhost:7202'
         end
       end
     end
