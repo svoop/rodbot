@@ -17,6 +17,7 @@ x-defaults: &defaults
       RUN bundle config set without "development test" && \
         bundle install --jobs 20 --retry 5
   environment:
+    - RODBOT_APP_HOST=0.0.0.0
     - PRODUCTION_CREDENTIALS_KEY
   restart: "unless-stopped"
 
