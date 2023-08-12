@@ -11,8 +11,6 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 
 <br clear="all">
 
-<b>⚠️ RODBOT IS UNDER CONSTRUCTION AND NOT FIT FOR ANY USE YET.<br>🚧 Active development is underway, the first release should be ready soonish.</b>
-
 * [Homepage](https://github.com/svoop/rodbot)
 * [API](https://rubydoc.info/gems/rodbot)
 * Author: [Sven Schwyn - Bitcetera](https://bitcetera.com)
