@@ -1,5 +1,13 @@
 require_relative '../../spec_helper'
 
+module Rodbot
+  class Relay
+    def self.write(message, extension)
+      puts "#{extension}: `#{message}'"
+    end
+  end
+end
+
 describe Rodbot::Relay do
   let :matrix do
     Rodbot::Relay.new.tap do |relay|
@@ -39,8 +47,58 @@ describe Rodbot::Relay do
   end
 
   describe :say do
-    it "write the message to all relay extensions" do
-      skip   # TODO: not implemented yet
+    context "all relay extensions have say enabled" do
+      let :config do
+        "plugin(:matrix) { say true }\nplugin(:slack) { say true }"
+      end
+
+      it "writes the message to all relay extensions" do
+        with '@config', Rodbot::Config.new(config), on: Rodbot do
+          _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\nslack: `foobar'\n"
+        end
+      end
+
+      it "writes the message to the explicitly given extension" do
+        with '@config', Rodbot::Config.new(config), on: Rodbot do
+          _{ Rodbot.say('foobar', on: :slack) }.must_output "slack: `foobar'\n"
+        end
+      end
+    end
+
+    context "some relay extensions have say enabled" do
+      let :config do
+        "plugin(:matrix) { say true }\nplugin(:slack)"
+      end
+
+      it "writes the message to all with say enabled" do
+        with '@config', Rodbot::Config.new(config), on: Rodbot do
+          _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\n"
+        end
+      end
+
+      it "writes the message to the given with say enabled" do
+        with '@config', Rodbot::Config.new(config), on: Rodbot do
+          _{ Rodbot.say('foobar', on: :matrix) }.must_output "matrix: `foobar'\n"
+        end
+      end
+
+      it "writes no message to the given with say disabled" do
+        with '@config', Rodbot::Config.new(config), on: Rodbot do
+          _{ Rodbot.say('foobar', on: :slack) }.must_be_silent
+        end
+      end
+    end
+
+    context "no relay extensions have say enabled" do
+      let :config do
+        "plugin(:matrix)\nplugin(:slack)"
+      end
+
+      it "writes no message to any relay extension" do
+        with '@config', Rodbot::Config.new(config), on: Rodbot do
+          _{ Rodbot.say('foobar') }.must_be_silent
+        end
+      end
     end
   end
 end
