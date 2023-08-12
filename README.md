@@ -244,6 +244,8 @@ While controlling Rodbot as mentioned in the previous section is okay for local 
 rodbot deploy --help
 ```
 
+:warning: It's near impossible to include such deployment scenarios in the test suite. If you find an error or have an improvement, please [submit an issue](https://github.com/svoop/rodbot/issues)!
+
 Let's take a quick look at the two most common scenarios:
 
 #### Docker
