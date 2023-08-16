@@ -11,10 +11,7 @@ end
 require 'minitest/autorun'
 require spec_dir.join('..', 'lib', 'rodbot')
 
-require 'minitest/sound'
-Minitest::Sound.success = spec_dir.join('sounds', 'success.mp3').to_s
-Minitest::Sound.failure = spec_dir.join('sounds', 'failure.mp3').to_s
-
+require 'minitest/flash'
 require 'minitest/focus'
 
 class Minitest::Spec
