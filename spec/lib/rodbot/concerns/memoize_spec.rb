@@ -6,7 +6,7 @@ class Either
   def either(argument=nil, keyword: nil, &block)
     $entropy || argument || keyword || (block.call if block)
   end
-  memoize :either, disabled: false
+  memoize :either
 end
 
 describe Rodbot::Concerns::Memoize do
@@ -49,6 +49,17 @@ describe Rodbot::Concerns::Memoize do
       _(subject.either { 1 }).must_equal 1
       $entropy = :not_nil
       _(subject.either { 1 }).must_equal :not_nil
+    end
+  end
+
+  describe :suspend do
+    it "doesn't memoize when wrapped with suspend block" do
+      _(subject.either(1)).must_equal 1
+      $entropy = :not_nil
+      Rodbot::Concerns::Memoize.suspend do
+        _(subject.either(1)).must_equal :not_nil
+      end
+      _(subject.either(1)).must_equal 1
     end
   end
 end
