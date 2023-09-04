@@ -18,13 +18,15 @@ module Rodbot
         loader.setup
         rack.run ->(env) do
           loader.reload
-          Rodbot.plugins.extend_app
+# TODO: obsolete?
+#          Rodbot.plugins.extend_app
           App.call(env)
         end
       else
         loader.setup
         Zeitwerk::Loader.eager_load_all
-        Rodbot.plugins.extend_app
+# TODO: obsolete?
+#        Rodbot.plugins.extend_app
         rack.run App.freeze.app
       end
     end

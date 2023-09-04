@@ -18,8 +18,11 @@ Activate and configure this plugin in `config/rodbot.rb` using the secret you've
 ```ruby
 plugin :otp do
   secret '<SECRET>'
+  drift 10
 end
 ```
+
+The `drift` config is optional. In this example, one-time passwords are accepted up to 10 seconds beyond their expiration to compensate for slow networks. By default, no drift is granted.
 
 ## Usage
 

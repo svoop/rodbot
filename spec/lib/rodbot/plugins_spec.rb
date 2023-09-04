@@ -2,10 +2,13 @@ require_relative '../../spec_helper'
 
 require 'roda'
 
-class App
-  def self.run(*)
+module Minitest::Refinements
+  refine App.singleton_class do
+    def run(*)
+    end
   end
 end
+using Minitest::Refinements
 
 describe Rodbot::Plugins do
   subject do
@@ -16,7 +19,10 @@ describe Rodbot::Plugins do
     describe :extend_app do
       it "requires the corresponding app.rb file" do
         subject.extend_app
-        _(subject.extensions[:app]).must_equal(hal: 'rodbot/plugins/hal/app')
+        _(subject.extensions[:app]).must_equal(
+          hal: 'rodbot/plugins/hal/app',
+          otp: 'rodbot/plugins/otp/app'
+        )
       end
 
       it "registers App routes" do
