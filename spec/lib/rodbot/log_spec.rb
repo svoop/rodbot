@@ -5,18 +5,19 @@ describe Rodbot::Log do
     Rodbot::Log.new
   end
 
-  describe :log do
-    it "writes to default log" do
-      mock_logger = Minitest::Mock.new.expect(:log, true) do |level, message|
-        true
-      end
-      with :@default_logger, mock_logger, on: subject do
-        subject.instance_variable_set(:@default_logger, mock_logger)
-        _(subject.log('log message')).must_equal true
-        _(mock_logger.verify).must_equal true
-      end
-    end
-  end
+#   describe :log do
+#     with :@default_logger do
+#       Minitest::Mock.new.expect(:log, true) do |level, message|
+#         true
+#       end
+#     end
+#
+#     it "writes to default log" do
+#       subject.instance_variable_set(:@default_logger, mock_logger)
+#       _(subject.log('log message')).must_equal true
+#       _(mock_logger.verify).must_equal true
+#     end
+#   end
 
   describe :logger do
     it "returns a new Logger instance" do

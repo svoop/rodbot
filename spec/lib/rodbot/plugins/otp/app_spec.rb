@@ -31,11 +31,13 @@ describe 'plugin :otp' do
     ROTP::TOTP.new(secret, issuer: 'Rodbot').now
   end
 
+  with '@config', on: Rodbot do
+    Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end")
+  end
+
   describe :password do
     it "extracts the password" do
-      with '@config', Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end"), on: Rodbot do
-        _(app_request("/spec_otp/password?arguments=foobar+#{current_otp}").body).must_equal current_otp
-      end
+      _(app_request("/spec_otp/password?arguments=foobar+#{current_otp}").body).must_equal current_otp
     end
   end
 
@@ -49,30 +51,22 @@ describe 'plugin :otp' do
     end
 
     it "accepts correct OTP" do
-      with '@config', Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end"), on: Rodbot do
-        _(app_request("/spec_otp/valid_otp?arguments=foobar+#{current_otp}").body).must_equal 'true'
-      end
+      _(app_request("/spec_otp/valid_otp?arguments=foobar+#{current_otp}").body).must_equal 'true'
     end
 
     it "rejects duplicate correct OTP" do
-      with '@config', Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end"), on: Rodbot do
-        _(app_request("/spec_otp/valid_otp?arguments=foobar+#{current_otp}").body).must_equal 'true'
-        _(app_request("/spec_otp/valid_otp?arguments=foobar+#{current_otp}").body).must_equal 'false'
-      end
+      _(app_request("/spec_otp/valid_otp?arguments=foobar+#{current_otp}").body).must_equal 'true'
+      _(app_request("/spec_otp/valid_otp?arguments=foobar+#{current_otp}").body).must_equal 'false'
     end
   end
 
   describe :require_valid_otp! do
     it "does nothing on correct OTP" do
-      with '@config', Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end"), on: Rodbot do
-        _(app_request("/spec_otp/require_valid_otp?arguments=foobar+#{current_otp}").status).must_equal 200
-      end
+      _(app_request("/spec_otp/require_valid_otp?arguments=foobar+#{current_otp}").status).must_equal 200
     end
 
     it "responds with 401 on wrong OTP" do
-      with '@config', Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end"), on: Rodbot do
-        _(app_request("/spec_otp/require_valid_otp?arguments=foobar+xxxxxx").status).must_equal 401
-      end
+      _(app_request("/spec_otp/require_valid_otp?arguments=foobar+xxxxxx").status).must_equal 401
     end
   end
 end

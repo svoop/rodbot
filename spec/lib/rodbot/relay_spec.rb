@@ -48,56 +48,44 @@ describe Rodbot::Relay do
 
   describe :say do
     context "all relay extensions have say enabled" do
-      let :config do
-        "plugin(:matrix) { say true }\nplugin(:slack) { say true }"
+      with '@config', on: Rodbot do
+        Rodbot::Config.new("plugin(:matrix) { say true }\nplugin(:slack) { say true }")
       end
 
       it "writes the message to all relay extensions" do
-        with '@config', Rodbot::Config.new(config), on: Rodbot do
-          _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\nslack: `foobar'\n"
-        end
+        _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\nslack: `foobar'\n"
       end
 
       it "writes the message to the explicitly given extension" do
-        with '@config', Rodbot::Config.new(config), on: Rodbot do
-          _{ Rodbot.say('foobar', on: :slack) }.must_output "slack: `foobar'\n"
-        end
+        _{ Rodbot.say('foobar', on: :slack) }.must_output "slack: `foobar'\n"
       end
     end
 
     context "some relay extensions have say enabled" do
-      let :config do
-        "plugin(:matrix) { say true }\nplugin(:slack)"
+      with '@config', on: Rodbot do
+        Rodbot::Config.new("plugin(:matrix) { say true }\nplugin(:slack)")
       end
 
       it "writes the message to all with say enabled" do
-        with '@config', Rodbot::Config.new(config), on: Rodbot do
-          _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\n"
-        end
+        _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\n"
       end
 
       it "writes the message to the given with say enabled" do
-        with '@config', Rodbot::Config.new(config), on: Rodbot do
-          _{ Rodbot.say('foobar', on: :matrix) }.must_output "matrix: `foobar'\n"
-        end
+        _{ Rodbot.say('foobar', on: :matrix) }.must_output "matrix: `foobar'\n"
       end
 
       it "writes no message to the given with say disabled" do
-        with '@config', Rodbot::Config.new(config), on: Rodbot do
-          _{ Rodbot.say('foobar', on: :slack) }.must_be_silent
-        end
+        _{ Rodbot.say('foobar', on: :slack) }.must_be_silent
       end
     end
 
     context "no relay extensions have say enabled" do
-      let :config do
-        "plugin(:matrix)\nplugin(:slack)"
+      with '@config', on: Rodbot do
+        Rodbot::Config.new("plugin(:matrix)\nplugin(:slack)")
       end
 
       it "writes no message to any relay extension" do
-        with '@config', Rodbot::Config.new(config), on: Rodbot do
-          _{ Rodbot.say('foobar') }.must_be_silent
-        end
+        _{ Rodbot.say('foobar') }.must_be_silent
       end
     end
   end

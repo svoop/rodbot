@@ -16,18 +16,12 @@ require spec_dir.join('..', 'lib', 'rodbot')
 
 require 'minitest/flash'
 require 'minitest/focus'
+require 'minitest/substitute'
 
 class Minitest::Spec
   class << self
     alias_method :context, :describe
   end
-end
-
-def with(subject, substitute, on: self, assign: '=')
-  memo = on.instance_eval subject.to_s
-  on.instance_eval "#{subject}#{assign} substitute"
-  yield
-  on.instance_eval "#{subject}#{assign} memo"
 end
 
 def app_request(url, verb: :get, env: {})

@@ -45,12 +45,13 @@ describe Rodbot::Plugins do
     end
 
     describe :extend_relay do
+      with '@config', on: Rodbot do
+        Rodbot::Config.new('plugin :matrix')
+      end
+
       it "requires the corresponding relay.rb file" do
-        config = Rodbot::Config.new('plugin :matrix')
-        with '@config', config, on: Rodbot do
-          subject.extend_relay
-          _(subject.extensions[:relay]).must_equal(matrix: 'rodbot/plugins/matrix/relay')
-        end
+        subject.extend_relay
+        _(subject.extensions[:relay]).must_equal(matrix: 'rodbot/plugins/matrix/relay')
       end
     end
 
