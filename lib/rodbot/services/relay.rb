@@ -7,7 +7,7 @@ module Rodbot
     class Relay
 
       class << self
-        include Rodbot::Concerns::Memoize
+        include Rodbot::Memoize
 
         # URL (including port) to reach the given relay service locally
         #

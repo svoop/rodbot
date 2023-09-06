@@ -588,8 +588,8 @@ For an example, take a look at the [:word_of_the_day plugin](https://github.com/
 
 Before you write a plugin, familiarize yourself with the following bundled helpers:
 
-* [Rodbot::Concerns::Memoize](https://www.rubydoc.info/gems/rodbot/Rodbot/Concerns/Memoize.html) – environment-aware memoization for method return values
 * [Rodbot::Refinements](https://www.rubydoc.info/gems/rodbot/Rodbot/Refinements.html) – just a few handy extensions to Ruby core classes
+* [Rodbot::Memoize](https://www.rubydoc.info/gems/rodbot/Rodbot/Memoize.html) – environment-aware memoization for method return values
 
 ## Environment Variables
 

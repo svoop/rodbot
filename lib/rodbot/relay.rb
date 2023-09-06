@@ -10,7 +10,7 @@ module Rodbot
 
   # Base class for relay extensions
   class Relay
-    include Rodbot::Concerns::Memoize
+    include Rodbot::Memoize
 
     class << self
 

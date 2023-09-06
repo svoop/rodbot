@@ -8,7 +8,7 @@ module Rodbot
       module App
 
         module RequestMethods
-          include Rodbot::Concerns::Memoize
+          include Rodbot::Memoize
 
           def valid_otp?
             return false unless password

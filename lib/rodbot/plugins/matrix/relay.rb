@@ -8,7 +8,7 @@ module Rodbot
   class Plugins
     class Matrix
       class Relay < Rodbot::Relay
-        include Rodbot::Concerns::Memoize
+        include Rodbot::Memoize
 
         def loops
           client.on_invite_event.add_handler { on_invite(_1) }

@@ -102,7 +102,7 @@ module Rodbot
     end
 
     class << self
-      include Rodbot::Concerns::Memoize
+      include Rodbot::Memoize
 
       # Reusable inflector instance
       #

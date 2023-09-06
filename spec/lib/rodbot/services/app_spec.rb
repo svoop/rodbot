@@ -29,13 +29,13 @@ describe Rodbot::Services::App do
     end
 
     it "returns http://localhost:7200 by default" do
-      Rodbot::Concerns::Memoize::suspend do
+      Rodbot::Memoize::suspend do
         _(subject.url).must_equal 'http://localhost:7200'
       end
     end
 
     it "returns http://localhost and explicit port config" do
-      Rodbot::Concerns::Memoize::suspend do
+      Rodbot::Memoize::suspend do
         with '@config', Rodbot::Config.new("port 8888"), on: Rodbot do
           _(subject.url).must_equal 'http://localhost:8888'
         end
@@ -43,7 +43,7 @@ describe Rodbot::Services::App do
     end
 
     it "returns value of RODBOT_APP_URL and port 7200" do
-      Rodbot::Concerns::Memoize::suspend do
+      Rodbot::Memoize::suspend do
         with "ENV['RODBOT_APP_URL']", 'https://app.local' do
           _(subject.url).must_equal 'https://app.local:7200'
         end

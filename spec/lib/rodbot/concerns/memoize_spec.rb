@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 
 class Either
-  include Rodbot::Concerns::Memoize
+  include Rodbot::Memoize
 
   def either(argument=nil, keyword: nil, &block)
     $entropy || argument || keyword || (block.call if block)
@@ -9,7 +9,7 @@ class Either
   memoize :either
 end
 
-describe Rodbot::Concerns::Memoize do
+describe Rodbot::Memoize do
   subject do
     Either.new
   end
@@ -56,7 +56,7 @@ describe Rodbot::Concerns::Memoize do
     it "doesn't memoize when wrapped with suspend block" do
       _(subject.either(1)).must_equal 1
       $entropy = :not_nil
-      Rodbot::Concerns::Memoize.suspend do
+      Rodbot::Memoize.suspend do
         _(subject.either(1)).must_equal :not_nil
       end
       _(subject.either(1)).must_equal 1

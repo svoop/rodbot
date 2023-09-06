@@ -7,10 +7,10 @@ require 'roda'
 module Rodbot
   class Services
     class App
-      include Rodbot::Concerns::Memoize
+      include Rodbot::Memoize
 
       class << self
-        include Rodbot::Concerns::Memoize
+        include Rodbot::Memoize
 
         # URL (including port) to reach the app service locally
         #
