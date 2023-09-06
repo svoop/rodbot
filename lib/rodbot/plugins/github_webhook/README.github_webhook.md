@@ -9,7 +9,7 @@ The Rodbot app binds to `localhost` by default which cannot be reached from GitH
 ```ruby
 app do
   host '0.0.0.0'
-emd
+end
 ```
 
 To authenticate the webhook calls from GitHub, create a new random secret token:
