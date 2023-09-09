@@ -23,6 +23,8 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 &emsp;&emsp;&emsp;[Relay Services](#label-Relay-Services) <br>
 &emsp;&emsp;&emsp;[Schedule Service](#label-Schedule-Service) <br>
 [CLI](#label-CLI) <br>
+[Request](#request)<br>
+[Say](#say)<br>
 [Routes and Commands](#label-Routes-and-Commands) <br>
 [Database](#label-Database) <br>
 [Environments](#environments) <br>
@@ -189,7 +191,9 @@ Enter the command `!pay EUR 123` and you see the request `GET /pay?argument=EUR+
 
 ### Schedule Service
 
-The **schedule service** is a [Clockwork process](https://github.com/Rykian/clockwork) which triggers HTTP requests to the **app service** based on timed events.
+The **schedule service** is a [Clockwork process](https://github.com/Rykian/clockwork) which triggers Ruby code asynchronously as configured in `config/schedule.rb`.
+
+It's a good idea to have the **app service** do the heavy lifting while the schedule simply fires the corresponding HTTP request.
 
 ## CLI
 
@@ -294,6 +298,21 @@ For more control and debug features, you might want to try [Overmind](https://gi
 ```
 brew install overmind
 overmind start
+```
+
+## Request
+
+To query the **app service**, you can either use the bundled [HTTParty](https://rubygems.org/gems/httparty) gem or the following convenience wrapper:
+
+```ruby
+response = Rodbot.request('/time', query: { zone: 'UTC' })
+```
+
+This uses the default `method: :get` and the default `timeout: 10` seconds, it returns an instance of [HTTParty::Response](https://www.rubydoc.info/gems/httparty/HTTParty/Response):
+
+```ruby
+response.code   # => 200
+response.body   # => '2023-09-06 22:51:50.231703 UTC'
 ```
 
 ## Say

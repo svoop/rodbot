@@ -4,6 +4,7 @@ require 'digest'
 require 'socket'
 require 'httparty'
 
+# TODO: obsolete?
 using Rodbot::Refinements
 
 module Rodbot
@@ -92,7 +93,7 @@ module Rodbot
     # @param argument [String, nil] optional arguments
     # @return [String] response as Markdown
     def command(command, argument=nil)
-      response = HTTParty.get(Rodbot::Services::App.url.uri_concat(command), query: { argument: argument }, timeout: 10)
+      response = Rodbot.request(command, query: { argument: argument })
       case response.code
         when 200 then response.body
         when 404 then "[[SENDER]] I don't know what do do with `!#{command}`. 🤔"

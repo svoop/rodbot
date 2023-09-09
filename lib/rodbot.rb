@@ -26,6 +26,8 @@ loader.setup
 # * +Rodbot.plugins+ -> {Rodbot::Plugins}
 # * +Rodbot.db+ -> {Rodbot::Db#db}
 # * +Rodbot.log+ -> {Rodbot::Log#log}
+# * +Rodbot.request+ -> {Rodbot::Rack#request}
+# * +Rodbot.say+ -> {Rodbot::Relay#say}
 module Rodbot
   include Rodbot::Constants
   extend Dry::Credentials
@@ -38,6 +40,7 @@ module Rodbot
     def_delegator :@plugins, :itself, :plugins
     def_delegator :@db, :itself, :db
     def_delegator :@log, :log
+    def_delegator 'Rodbot::Rack', :request
     def_delegator 'Rodbot::Relay', :say
 
     def boot(root: nil)
