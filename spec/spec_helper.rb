@@ -44,5 +44,3 @@ ENV['NO_COLOR'] = 'true'
 Rodbot.boot(root: spec_dir.join('..', 'lib', 'templates', 'new'))
 Rodbot.instance_variable_set(:@config, Rodbot::Config.new(spec_dir.join('rodbot.rb').read))
 Rodbot::Rack.boot(::Rack::Builder.new)
-# TODO: obsolete?
-# Rodbot.plugins.extend_app

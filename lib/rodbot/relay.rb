@@ -4,9 +4,6 @@ require 'digest'
 require 'socket'
 require 'httparty'
 
-# TODO: obsolete?
-using Rodbot::Refinements
-
 module Rodbot
 
   # Base class for relay extensions

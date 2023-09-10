@@ -24,15 +24,11 @@ module Rodbot
           loader.setup
           rack.run ->(env) do
             loader.reload
-# TODO: obsolete?
-#          Rodbot.plugins.extend_app
             App.call(env)
           end
         else
           loader.setup
           Zeitwerk::Loader.eager_load_all
-# TODO: obsolete?
-#        Rodbot.plugins.extend_app
           rack.run App.freeze.app
         end
       end
