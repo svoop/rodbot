@@ -20,7 +20,7 @@ module Rodbot
           handler { Rodbot::Async.perform(&_1) }
         end
         require Rodbot.env.root.join('config', 'schedule')
-        Clockwork::run
+        Clockwork.run
       end
 
     end
