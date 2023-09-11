@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.1.0
+
 #### Initial Implementation
 * Rodbot CLI
 * App, relay and schedule services
