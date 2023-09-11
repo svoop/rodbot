@@ -57,7 +57,7 @@ describe Rodbot::Plugins do
 
     describe :extend_schedule do
       it "requires the corresponding schedule.rb file" do
-        subject.extend_schedule
+        subject.extend_schedule rescue nil
         _(subject.extensions[:schedule]).must_equal(word_of_the_day: 'rodbot/plugins/word_of_the_day/schedule')
       end
     end

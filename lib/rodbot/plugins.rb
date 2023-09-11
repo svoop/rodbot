@@ -41,7 +41,9 @@ module Rodbot
     # plugins
     def extend_schedule
       return if extensions.key? :schedule
-      require_extensions(:schedule)
+      require_extensions(:schedule) do |name, path|
+        path.constantize.new
+      end
     end
 
     private

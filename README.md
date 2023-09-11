@@ -504,7 +504,7 @@ Please adhere to common naming conventions and use the dashed prefix `rodbot-` (
 
 #### App Extension
 
-An app extension `rodbot/plugins/my_plugin/app.rb` looks something like this:
+An app extension `rodbot/plugins/my_plugin/app.rb` defines the module `App` and looks something like this:
 
 ```ruby
 module Rodbot
@@ -544,7 +544,7 @@ For an example, take a look at the [:hal plugin](https://github.com/svoop/rodbot
 
 #### Relay Extension
 
-A relay extension `rodbot/plugins/my_plugin/relay.rb` looks something like this:
+A relay extension `rodbot/plugins/my_plugin/relay.rb` defines the class `Relay` and looks something like this:
 
 ```ruby
 module Rodbot
@@ -585,21 +585,31 @@ For an example, take a look at the [:matrix plugin](https://github.com/svoop/rod
 
 #### Schedule Extension
 
-A schedule extension `rodbot/plugins/my_plugin/schedule.rb` looks something like this:
+A schedule extension `rodbot/plugins/my_plugin/schedule.rb` defines the class `Schedule` and looks something like this:
 
 ```ruby
 module Rodbot
   class Plugins
     module MyPlugin
-      module Schedule
+      class Schedule
 
-        # (...)
+        def initialize
+          Clockwork.every(1.day, -> { tea }, at: '16:00')
+        end
+
+        private
+
+        def tea
+          Rodbot.say "Time for a cup of tea!"
+        end
 
       end
     end
   end
 end
 ```
+
+The initializer must set at least one schedule using `Clockwork.every` – see the [Clockwork docs](https://www.rubydoc.info/gems/clockwork).
 
 For an example, take a look at the [:word_of_the_day plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/word_of_the_day).
 

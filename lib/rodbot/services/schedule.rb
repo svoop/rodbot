@@ -19,6 +19,7 @@ module Rodbot
           configure { _1[:logger] = Rodbot::Log.logger('schedule') }
           handler { Rodbot::Async.perform(&_1) }
         end
+        Rodbot.plugins.extend_schedule
         require Rodbot.env.root.join('config', 'schedule')
         Clockwork.run
       end
