@@ -42,5 +42,5 @@ ENV['TEST_CREDENTIALS_KEY'] = spec_dir.join('fixtures', 'credentials', 'test.key
 ENV['NO_COLOR'] = 'true'
 
 Rodbot.boot(root: spec_dir.join('..', 'lib', 'templates', 'new'))
-Rodbot.instance_variable_set(:@config, Rodbot::Config.new(spec_dir.join('rodbot.rb').read))
+Rodbot.instance_variable_set(:@config, Rodbot::Config.new(spec_dir.join('rodbot.rb')))
 Rodbot::Rack.boot(::Rack::Builder.new)

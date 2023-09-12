@@ -49,7 +49,7 @@ module Rodbot
         env Rodbot.env.current
         dir ENV['RODBOT_CREDENTIALS_DIR'] || Rodbot.env.root.join('config', 'credentials')
       end
-      @config = Rodbot::Config.new(Rodbot.env.root.join('config', 'rodbot.rb').read)
+      @config = Rodbot::Config.new(Rodbot.env.root.join('config', 'rodbot.rb'))
       @plugins = Rodbot::Plugins.new
       @db = (db = @config.config(:db)) && Rodbot::Db.new(db)
       @log = Rodbot::Log.new

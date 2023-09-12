@@ -1,5 +1,7 @@
 require_relative '../../spec_helper'
 
+require 'stringio'
+
 describe Rodbot::Config do
   let :source do
     <<~END
@@ -36,6 +38,18 @@ describe Rodbot::Config do
 
     it "ignores the DEFAULTS if defaults is false" do
       _(subject.config(:timezone)).must_be :nil?
+      _(subject.config(:name)).must_equal 'Bot'
+    end
+
+    it "accetpts IO by reading from it" do
+      io = StringIO.new(source)
+      io.instance_eval do
+        def readable?
+          true
+        end
+      end
+      subject = Rodbot::Config.new(io)
+      _(subject.config(:timezone)).must_equal 'Etc/UTC'
       _(subject.config(:name)).must_equal 'Bot'
     end
   end

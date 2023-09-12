@@ -23,8 +23,8 @@ module Rodbot
   # Within Rodbot, you should use the +Rodbot.config+ shortcut to access the
   # configuration.
   #
-  #   file = File.new('config/rodbot.rb')
-  #   rc = Rodbot::Config.new(file.read)
+  #   source = Pathname('config/rodbot.rb')
+  #   rc = Rodbot::Config.new(source)
   #   rc.config(:name)        # => 'Bot'
   #   rc.config(:country)     # => nil
   #   rc.config(:undefined)   # => nil
@@ -77,13 +77,16 @@ module Rodbot
       end
     END
 
-    # Read configuration from file
+    # Read configuration
     #
-    # @param source [String] config source e.g. read from +config/rodbot.rb+
+    # @param source [String, IO] config source as raw string or file e.g. +config/rodbot.rb+
     # @param defaults [Boolean] whether to load the defaults or not
     # @return [self]
     def initialize(source, defaults: true)
-      @config = Reader.new.eval_strings((DEFAULTS if defaults), source).to_h
+      @config = Reader.new.eval_strings(
+        (DEFAULTS if defaults),
+        (source.respond_to?(:read) ? (source.read if source.readable?) : source)
+      ).to_h
     end
 
     # Get config values and subtrees

@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Fixes
+* Fix `rodbot new` by making `config/rodbot.rb` optional
 
 ## 0.1.0
 
