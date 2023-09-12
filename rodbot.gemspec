@@ -23,7 +23,9 @@ Gem::Specification.new do |spec|
     'bug_tracker_uri'   => 'https://github.com/svoop/rodbot/issues'
   }
 
-  spec.files         = Dir['lib/**/*']
+  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
+    `git ls-files -z`.split("\x0").reject { _1.match? %r{^spec/} }
+  end
   spec.require_paths = %w(lib)
   spec.bindir        = 'exe'
   spec.executables   = %w(rodbot)
