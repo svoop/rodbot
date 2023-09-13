@@ -2,8 +2,12 @@ require_relative '../../spec_helper'
 
 module Rodbot
   class Relay
-    def self.write(message, extension)
-      puts "#{extension}: `#{message}'"
+    class << self
+      undef_method :write
+
+      def write(message, extension)
+        puts "#{extension}: `#{message}'"
+      end
     end
   end
 end

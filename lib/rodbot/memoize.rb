@@ -82,5 +82,5 @@ module Rodbot
     end
   end
 
-  end
+end
 

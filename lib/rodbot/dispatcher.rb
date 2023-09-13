@@ -69,7 +69,7 @@ module Rodbot
 
     # Dispatch all registered tasks
     def dispatch
-      tasks.each_value { fork &_1 }
+      tasks.each_value { fork(&_1) }
     end
 
     # Supervise all dispatched tasks
@@ -77,7 +77,7 @@ module Rodbot
       loop do
         pid = Process.wait
         sleep @refork_delay
-        fork &tasks[task(pid)]
+        fork(&tasks[task(pid)])
       end
     end
 
