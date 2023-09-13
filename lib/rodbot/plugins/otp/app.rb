@@ -13,10 +13,8 @@ module Rodbot
           def valid_otp?
             return false unless password
             return false if Rodbot.db.get(:otp, password)   # already used
-            valid = totp.verify(password, drift_behind: Rodbot.config(:otp, :drift).to_i)
-            !!if
+            !!if totp.verify(password, drift_behind: Rodbot.config(:otp, :drift).to_i)
               Rodbot.db.set(:otp, password) { true }
-              true
             end
           end
 
@@ -36,8 +34,10 @@ module Rodbot
           #
           # @return [String, nil] extracted password if any
           memoize def password
-            params['arguments'] = params['arguments']&.sub(/\s*(\d{6})\s*\z/, '')
-            $1
+            if params['arguments']
+              params['arguments'] = params['arguments'].sub(/\s*(\d{6})\s*\z/, '')
+              $1
+            end
           end
         end
 

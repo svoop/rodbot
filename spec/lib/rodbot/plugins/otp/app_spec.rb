@@ -2,6 +2,10 @@ require_relative '../../../../spec_helper'
 
 module Minitest
   class SpecOtp < App
+    def self.secret
+      @secret ||= ROTP::Base32.random
+    end
+
     route do |r|
       r.get 'password' do
         r.send(:password)
@@ -23,8 +27,12 @@ end
 
 
 describe 'plugin :otp' do
+  before do
+    Rodbot.db.flush
+  end
+
   let :secret do
-    ROTP::Base32.random
+    Minitest::SpecOtp.secret
   end
 
   let :current_otp do
