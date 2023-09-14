@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.2.0
+
 #### Fixes
 * Fix OTP verification
 * Drop futile files from packaged gem
