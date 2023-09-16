@@ -2,10 +2,6 @@ require_relative '../../../../spec_helper'
 
 module Minitest
   class SpecOtp < App
-    def self.secret
-      @secret ||= ROTP::Base32.random
-    end
-
     route do |r|
       r.get 'arguments' do
         r.valid_otp?
@@ -37,15 +33,11 @@ describe 'plugin :otp' do
   end
 
   let :secret do
-    Minitest::SpecOtp.secret
+    Rodbot.config(:plugin, :otp, :secret)   # current secret reset every time in rodbot.rb
   end
 
   let :current_otp do
     ROTP::TOTP.new(secret, issuer: 'Rodbot').now
-  end
-
-  with '@config', on: Rodbot do
-    Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end")
   end
 
   describe :arguments do

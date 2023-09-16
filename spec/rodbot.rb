@@ -1,3 +1,5 @@
+require 'rotp'
+
 name 'Rodbot'
 timezone 'Etc/UTC'
 
@@ -8,6 +10,6 @@ plugin :word_of_the_day do
 end
 
 plugin :otp do
-  secret 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  secret ROTP::Base32.random
   drift 3
 end
