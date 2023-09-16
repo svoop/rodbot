@@ -7,6 +7,11 @@ module Minitest
     end
 
     route do |r|
+      r.get 'arguments' do
+        r.valid_otp?
+        r.send(:arguments)
+      end
+
       r.get 'password' do
         r.send(:password)
       end
@@ -43,6 +48,12 @@ describe 'plugin :otp' do
     Rodbot::Config.new("plugin :otp do; secret '#{secret}'; end")
   end
 
+  describe :arguments do
+    it "contains the arguments without the password" do
+      _(app_request("/spec_otp/arguments?arguments=foobar+#{current_otp}").body).must_equal 'foobar'
+    end
+  end
+
   describe :password do
     it "extracts the password" do
       _(app_request("/spec_otp/password?arguments=foobar+#{current_otp}").body).must_equal current_otp
@@ -55,7 +66,7 @@ describe 'plugin :otp' do
     end
 
     it "rejects wrong OTP" do
-      _(app_request('/spec_otp/valid_otp?arguments=foobar+xxxxxx').body).must_equal 'false'
+      _(app_request('/spec_otp/valid_otp?arguments=foobar+000000').body).must_equal 'false'
     end
 
     it "accepts correct OTP" do
@@ -74,7 +85,7 @@ describe 'plugin :otp' do
     end
 
     it "responds with 401 on wrong OTP" do
-      _(app_request("/spec_otp/require_valid_otp?arguments=foobar+xxxxxx").status).must_equal 401
+      _(app_request("/spec_otp/require_valid_otp?arguments=foobar+000000").status).must_equal 401
     end
   end
 end

@@ -47,7 +47,7 @@ module Routes
 end
 ```
 
-(As a reminder: Up until this point, `r.arguments` is a mere shortcut for `r.params['arguments']`.)
+As a reminder: In the above example, `r.arguments` is a mere shortcut for `r.params['arguments']`.
 
 In order to protect this rather dangerous command with a one-time password, you have to guard the route:
 
@@ -66,7 +66,9 @@ To execute the command now, you have to add the six digit one-time password to t
 !reboot example.com 123456
 ```
 
-The `r.valid_otp?` guard extracts the one-time password from the message and validates it. In this example, a validation result `true` causes the server to be rebooted. Please note that `r.argument` after the guard does not contain the one-time password anymore!
+The `r.valid_otp?` guard extracts the one-time password from the message and validates it. In this example, a validation result `true` causes the server to be rebooted.
+
+Please note that `r.valid_otp?` redefines `r.arguments` to no longer include the password.
 
 If halting with a 401 error is all you want, there's even a shorter alternative `r.require_valid_otp!`:
 
@@ -80,3 +82,5 @@ end
 ```
 
 This route does exactly the same as the more verbose one above.
+
+Please note that `r.require_valid_otp!` redefines `r.arguments` to no longer include the password.
