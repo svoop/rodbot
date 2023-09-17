@@ -53,13 +53,24 @@ describe Rodbot::Memoize do
   end
 
   describe :suspend do
-    it "doesn't memoize when wrapped with suspend block" do
+    it "recalculates but doesn't memoize when wrapped with suspend block" do
       _(subject.either(1)).must_equal 1
       $entropy = :not_nil
       Rodbot::Memoize.suspend do
         _(subject.either(1)).must_equal :not_nil
       end
       _(subject.either(1)).must_equal 1
+    end
+  end
+
+  describe :revisit do
+    it "recalculates and memoizes when wrapped with revisit block" do
+      _(subject.either(1)).must_equal 1
+      $entropy = :not_nil
+      Rodbot::Memoize.revisit do
+        _(subject.either(1)).must_equal :not_nil
+      end
+      _(subject.either(1)).must_equal :not_nil
     end
   end
 end

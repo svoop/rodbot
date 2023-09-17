@@ -39,7 +39,10 @@ module Rodbot
   #   e.either(keyword: 2)        # => 2          (memoized)
   #   e.either { 3 }              # => :not_nil   (cannot be memoized)
   #   Rodbot::Memoize.suspend do
-  #     e.either(1)               # => 1          (calculated, not memoized)
+  #     e.either(1)               # => 1          (recalculated, not memoized)
+  #   end
+  #   Rodbot::Memoize.revisit do
+  #     e.either(5)               # => 5          (recalculated, memoized anew)
   #   end
   module Memoize
     module ClassMethods
@@ -47,12 +50,12 @@ module Rodbot
         unmemoized_method = :"_unmemoized_#{method}"
         alias_method unmemoized_method, method
         define_method method do |*args, **kargs, &block|
-          if Rodbot::Memoize.suspended? || block
+          if Rodbot::Memoize.suspend? || block
             send(unmemoized_method, *args, **kargs, &block)
           else
             id = method.hash ^ args.hash ^ kargs.hash
             @_memoize_cache ||= {}
-            if @_memoize_cache.has_key? id
+            if !Rodbot::Memoize.revisit? && @_memoize_cache.has_key?(id)
               @_memoize_cache[id]
             else
               @_memoize_cache[id] = send(unmemoized_method, *args, **kargs)
@@ -64,16 +67,22 @@ module Rodbot
     end
 
     class << self
-      def suspend
-        @suspended = true
-        yield
-      ensure
-        @suspended = false
-      end
+      %i(suspend revisit).each do |switch|
+        ivar = "@#{switch}"
+        define_method switch do |&block|
+          instance_variable_set(ivar, true)
+          block.call
+        ensure
+          instance_variable_set(ivar, false)
+        end
 
-      def suspended?
-        @suspended = false if @suspended.nil?
-        @suspended
+        define_method "#{switch}?" do
+          if instance_variable_defined? ivar
+            instance_variable_get ivar
+          else
+            instance_variable_set(ivar, false)
+          end
+        end
       end
 
       def included(base)
