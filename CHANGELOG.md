@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Additions
+* Built-in plugin for Slack
 
 ## 0.2.0
 

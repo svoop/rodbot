@@ -58,8 +58,10 @@ Gem::Specification.new do |spec|
 
   # Sync versions with lib/templates/new/gems.rb
   spec.add_development_dependency 'redis', '~> 5'
-  spec.add_development_dependency 'matrix_sdk', '~> 2'
   spec.add_development_dependency 'rotp', '~> 6'
+  spec.add_development_dependency 'matrix_sdk', '~> 2'
+  spec.add_development_dependency 'slack-ruby-client', '~> 2'
+  spec.add_development_dependency 'async-websocket', '~> 0.8.0'
 
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'minitest'
