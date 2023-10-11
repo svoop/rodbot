@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.3.1
+
 #### Fixes
 * Explicitly require Forwardable
 
