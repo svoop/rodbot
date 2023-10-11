@@ -7,5 +7,6 @@ class App < Roda
     r.root { view :root }
   end
 
+  run :healthz, Routes::Healthz
   run :help, Routes::Help
 end

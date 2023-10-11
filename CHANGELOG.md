@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Additions
+* Simple /healthz route e.g. for deployments on render.com
 
 ## 0.3.1
 
