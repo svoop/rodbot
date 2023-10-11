@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Fixes
+* Explicitly require Forwardable
 
 ## 0.3.0
 
