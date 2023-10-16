@@ -1,7 +1,7 @@
 # frozen-string-literal: true
 
 require 'readline'
-require 'httparty'
+require 'httpx'
 require 'pastel'
 require 'tty-markdown'
 
@@ -34,9 +34,9 @@ module Rodbot
       return "(no command given)" unless message.match?(/^!/)
       command, argument = message[1..].split(/\s+/, 2)
       body = begin
-        response = Rodbot.request(command, query: { argument: argument })
-        case response.code
-          when 200 then response.body
+        response = Rodbot.request(command, params: { argument: argument })
+        case response.status
+          when 200 then response.body.to_s
           when 404 then "[[SENDER]] I've never heard of `!#{command}`, try `!help` instead. 🤔"
           else fail
         end

@@ -12,7 +12,7 @@ describe Rodbot::Simulator do
       end
 
       it "handles 404 error from the app" do
-        mock_response = Minitest::Mock.new.expect(:code, 404)
+        mock_response = Minitest::Mock.new.expect(:status, 404)
         Rodbot.stub(:request, mock_response) do
           _(subject.send(:reply_to, '!unknown')).must_match(/never heard of/)
           _(mock_response.verify).must_equal true
@@ -20,7 +20,7 @@ describe Rodbot::Simulator do
       end
 
       it "handles other errors from the app" do
-        mock_response = Minitest::Mock.new.expect(:code, 500)
+        mock_response = Minitest::Mock.new.expect(:status, 500)
         Rodbot.stub(:request, mock_response) do
           _(subject.send(:reply_to, '!broken')).must_match(/having trouble talking to the app/)
           _(mock_response.verify).must_equal true
@@ -28,7 +28,7 @@ describe Rodbot::Simulator do
       end
 
       it "returns the response body" do
-        mock_response = Minitest::Mock.new.expect(:code, 200).expect(:body, 'hello')
+        mock_response = Minitest::Mock.new.expect(:status, 200).expect(:body, 'hello')
         Rodbot.stub(:request, mock_response) do
           _(subject.send(:reply_to, '!known')).must_equal 'hello'
           _(mock_response.verify).must_equal true
@@ -36,7 +36,7 @@ describe Rodbot::Simulator do
       end
 
       it "interpolates [[SENDER]] in the response body" do
-        mock_response = Minitest::Mock.new.expect(:code, 200).expect(:body, 'hello [[SENDER]]')
+        mock_response = Minitest::Mock.new.expect(:status, 200).expect(:body, 'hello [[SENDER]]')
         Rodbot.stub(:request, mock_response) do
           _(subject.send(:reply_to, '!known')).must_equal 'hello tester'
           _(mock_response.verify).must_equal true
@@ -44,7 +44,7 @@ describe Rodbot::Simulator do
       end
 
       it "converts Markdown in the response body" do
-        mock_response = Minitest::Mock.new.expect(:code, 200).expect(:body, '* list')
+        mock_response = Minitest::Mock.new.expect(:status, 200).expect(:body, '* list')
         Rodbot.stub(:request, mock_response) do
           _(subject.send(:reply_to, '!known')).must_equal '● list'
           _(mock_response.verify).must_equal true
@@ -66,7 +66,7 @@ describe Rodbot::Simulator do
 
     describe :reply_to do
       it "returns raw Markdown in the response body" do
-        mock_response = Minitest::Mock.new.expect(:code, 200).expect(:body, '* hello')
+        mock_response = Minitest::Mock.new.expect(:status, 200).expect(:body, '* hello')
         Rodbot.stub(:request, mock_response) do
           _(subject.send(:reply_to, '!known')).must_equal '* hello'
           _(mock_response.verify).must_equal true

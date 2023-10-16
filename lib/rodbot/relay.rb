@@ -2,7 +2,7 @@
 
 require 'digest'
 require 'socket'
-require 'httparty'
+require 'httpx'
 
 module Rodbot
 
@@ -90,9 +90,9 @@ module Rodbot
     # @param argument [String, nil] optional arguments
     # @return [String] response as Markdown
     def command(command, argument=nil)
-      response = Rodbot.request(command, query: { argument: argument })
-      case response.code
-        when 200 then response.body
+      response = Rodbot.request(command, params: { argument: argument })
+      case response.status
+        when 200 then response.body.to_s
         when 404 then "[[SENDER]] I don't know what do do with `!#{command}`. 🤔"
         else fail
       end

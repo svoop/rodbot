@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'httparty'
+require 'httpx'
 
 module Rodbot
   class Plugins
@@ -24,11 +24,11 @@ module Rodbot
 
       class Today
         def initialize
-          @response = HTTParty.get('https://www.merriam-webster.com/word-of-the-day')
+          @response = HTTPX.with(timeout: { request_timeout: 60 }).get('https://www.merriam-webster.com/word-of-the-day')
         end
 
         def message
-          if @response.success?
+          if @response.status == 200
             "Word of the day: [#{word}](#{url})"
           else
             "Sorry, there was a problem fetching the word of the day."
@@ -38,11 +38,11 @@ module Rodbot
         private
 
         def word
-          @response.body.match(/<h2 class="word-header-txt">(.+?)</).captures.first
+          @response.body.to_s.match(/<h2 class="word-header-txt">(.+?)</).captures.first
         end
 
         def url
-          @response.body.match(/<meta property="og:url" content="(.+?)"/).captures.first
+          @response.body.to_s.match(/<meta property="og:url" content="(.+?)"/).captures.first
         end
       end
 

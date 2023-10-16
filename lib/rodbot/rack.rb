@@ -1,6 +1,6 @@
 # frozen-string-literal: true
 
-require 'httparty'
+require 'httpx'
 
 using Rodbot::Refinements
 
@@ -36,12 +36,11 @@ module Rodbot
       # Send request to the app service
       #
       # @param path [String] path e.g. +/help+
-      # @param query [Hash] query hash e.g. +{ search: 'foobar' }+
-      # @param method [Symbol, String] HTTP method
+      # @param params [Hash] params hash e.g. +{ search: 'foobar' }+
       # @param timeout [Integer] max seconds to wait for response
-      # @return [HTTParty::Response]
-      def request(path, query: {}, method: :get, timeout: 10)
-        HTTParty.send(method, Rodbot::Services::App.url.uri_concat(path), query: query, timeout: timeout)
+      # @return [HTTPX::Response]
+      def request(path, params: {}, timeout: 10)
+        HTTPX.with(timeout: { request_timeout: timeout }).get(Rodbot::Services::App.url.uri_concat(path), params: params)
       end
 
     end

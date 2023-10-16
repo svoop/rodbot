@@ -46,7 +46,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'dry-credentials', '~> 0'
   spec.add_runtime_dependency 'tty-markdown', '~> 0'
   spec.add_runtime_dependency 'pastel', '~> 0'
-  spec.add_runtime_dependency 'httparty', '~> 0'
+  spec.add_runtime_dependency 'httpx', '~> 1'
   spec.add_runtime_dependency 'puma', '~> 6', '>= 6.2'
   spec.add_runtime_dependency 'roda', '~> 3'
   spec.add_runtime_dependency 'tilt', '~> 2'

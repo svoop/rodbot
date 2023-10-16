@@ -302,13 +302,13 @@ overmind start
 
 ## Request
 
-To query the **app service**, you can either use the bundled [HTTParty](https://rubygems.org/gems/httparty) gem or the following convenience wrapper:
+To query the **app service**, you can either use the bundled [HTTPX](https://rubygems.org/gems/httpx) gem or the following convenience wrapper:
 
 ```ruby
-response = Rodbot.request('/time', query: { zone: 'UTC' })
+response = Rodbot.request('/time', params: { zone: 'UTC' })
 ```
 
-This uses the default `method: :get` and the default `timeout: 10` seconds, it returns an instance of [HTTParty::Response](https://www.rubydoc.info/gems/httparty/HTTParty/Response):
+This uses the default `method: :get` and the default `timeout: 10` seconds, it returns an instance of [HTTPX::Response](https://www.rubydoc.info/gems/httpx/HTTPX/Response):
 
 ```ruby
 response.code   # => 200
