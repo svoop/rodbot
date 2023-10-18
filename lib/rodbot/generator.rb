@@ -22,7 +22,7 @@ module Rodbot
   class Generator
 
     # Glob to filter relevant template files
-    GLOB = "**/{*,.ruby-version,.gitignore,.keep}"
+    GLOB = "**/{*,.ruby-version*,.gitignore,.keep}"
 
     # Colors used by +info+ to color part of the output
     TAG_COLORS = {
