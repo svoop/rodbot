@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: bot-app
+    domains:
+      - bot.example.com   # TODO: use a domain name of your own
+    runtime: ruby
+    buildCommand: render-build.sh
+    startCommand: render-start.sh app
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - fromGroup: bot
+      - key: PORT
+        value: 7200
+  - type: worker
+    name: bot-relay
+    runtime: ruby
+    buildCommand: render-build.sh
+    startCommand: render-start.sh relay
+    autoDeploy: true
+    envVars:
+      - fromGroup: bot
+  - type: worker
+    name: bot-schedule
+    runtime: ruby
+    buildCommand: render-build.sh
+    startCommand: render-start.sh schedule
+    autoDeploy: true
+    envVars:
+      - fromGroup: bot
+
+envVarGroups:
+  - name: bot
+    envVars:
+      - key: PRODUCTION_CREDENTIALS_KEY
+        value:
+      - key: RODBOT_ENV
+        value: production
+      - key: RODBOT_PLUGINS
+        value: "matrix"   # TODO: update space separated list of plugins
+      - key: RODBOT_APP_URL
+        value: https://bot.example.com   # TODO: use the above service domain name

@@ -2,6 +2,7 @@
 
 #### Additions
 * Simple /healthz route e.g. for deployments on render.com
+* Deploy templates for render.com
 
 #### Changes
 * Switch from httparty to httpx

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: bot
+    domains:
+      - bot.example.com   # TODO: use a domain name of your own
+    runtime: ruby
+    buildCommand: render-build.sh
+    startCommand: render-start.sh
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 7200
+      - key: PRODUCTION_CREDENTIALS_KEY
+        value:
+      - key: RODBOT_ENV
+        value: production
+      - key: RODBOT_PLUGINS
+        value: matrix   # TODO: update space separated list of plugins
