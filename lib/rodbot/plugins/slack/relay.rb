@@ -42,7 +42,11 @@ module Rodbot
               body = remote.gets("\x04")
               remote.close
               body.force_encoding('UTF-8')
-              client.web_client.chat_postMessage(channel: channel_id, text: body, as_user: true)
+              client.web_client.chat_postMessage(
+                channel: channel_id,
+                text: md2slack(body),
+                as_user: true
+              )
             end
           end
         end
@@ -58,19 +62,31 @@ module Rodbot
           if message.text.start_with?('!')
             md = 'pong' if message.text == '!ping'
             md ||= reply_to(message)
-            client.web_client.chat_postMessage(channel: message.channel, text: md, as_user: true)
+            client.web_client.chat_postMessage(
+              channel: message.channel,
+              text: md2text(md),
+              as_user: true
+            )
           end
         end
 
         def reply_to(message)
           command(*message.text[1..].split(/\s+/, 2)).
-            psub(placeholders(message.user))
+            psub(placeholders(message.user)).
         end
 
+        # @see https://api.slack.com/reference/surfaces/formatting
         def placeholders(sender)
           {
             sender: "<@#{sender}>"
           }
+        end
+
+        # @see https://api.slack.com/reference/surfaces/formatting
+        def md2text(md)
+          md.
+            gsub(/\[(.+?)\]\((.+?)\)/, '<\2|\1>').   # convert links
+            gsub(/^\s*[*-]\s+/, '• ')                # convert bullet lists
         end
 
       end
