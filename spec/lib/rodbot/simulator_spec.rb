@@ -14,7 +14,7 @@ describe Rodbot::Simulator do
       it "handles 404 error from the app" do
         mock_response = Minitest::Mock.new.expect(:status, 404)
         Rodbot.stub(:request, mock_response) do
-          _(subject.send(:reply_to, '!unknown')).must_match(/never heard of/)
+          _(subject.send(:reply_to, '!unknown')).must_match(/I don.t know what do do with/)
           _(mock_response.verify).must_equal true
         end
       end
@@ -22,7 +22,7 @@ describe Rodbot::Simulator do
       it "handles other errors from the app" do
         mock_response = Minitest::Mock.new.expect(:status, 500)
         Rodbot.stub(:request, mock_response) do
-          _(subject.send(:reply_to, '!broken')).must_match(/having trouble talking to the app/)
+          _(subject.send(:reply_to, '!broken')).must_match(/I.m having trouble talking to the app/)
           _(mock_response.verify).must_equal true
         end
       end

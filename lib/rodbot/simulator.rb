@@ -16,6 +16,7 @@ module Rodbot
     # @param raw [Boolean] whether to display raw Markdown
     def initialize(sender, raw: false)
       @sender, @raw = sender, raw
+      @relay = Rodbot::Relay.new
       @pastel = Pastel.new
     end
 
@@ -33,17 +34,7 @@ module Rodbot
     def reply_to(message)
       return "(no command given)" unless message.match?(/^!/)
       command, argument = message[1..].split(/\s+/, 2)
-      body = begin
-        response = Rodbot.request(command, params: { argument: argument })
-        case response.status
-          when 200 then response.body.to_s
-          when 404 then "[[SENDER]] I've never heard of `!#{command}`, try `!help` instead. 🤔"
-          else fail
-        end
-      rescue
-        "[[SENDER]] I'm having trouble talking to the app. 💣"
-      end
-      text_for body.psub(placeholders)
+      text_for @relay.send(:command, command, argument).psub(placeholders)
     end
 
     def placeholders
