@@ -84,12 +84,25 @@ module Rodbot
       ]
     end
 
-    # Perform the command on the app using a GET request
+    # Perform the built-in command or fall back to the app using +request+
     #
     # @param command [String] command to perform
     # @param argument [String, nil] optional arguments
     # @return [String] response as Markdown
     def command(command, argument=nil)
+      case command
+        when 'ping' then 'pong'
+        when 'version' then "rodbot-#{Rodbot::VERSION}"
+        else request(command, argument)
+      end
+    end
+
+    # Perform the command on the app using a GET request
+    #
+    # @param command [String] command to perform
+    # @param argument [String, nil] optional arguments
+    # @return [String] response as Markdown
+    def request(command, argument=nil)
       response = Rodbot.request(command, params: { argument: argument })
       case response.status
         when 200 then response.body.to_s

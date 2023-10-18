@@ -71,9 +71,7 @@ module Rodbot
 
         def on_message(message)
           if message.content[:msgtype] == 'm.text' && message.content[:body].start_with?('!')
-            html = 'pong' if message.content[:body] == '!ping'
-            html ||= reply_to(message)
-            room.send_html(html)
+            room.send_html(reply_to(message))
           end
         end
 
