@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.3.2
+
 #### Additions
 * Simple /healthz route e.g. for deployments on render.com
 * Deploy templates for render.com
