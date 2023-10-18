@@ -38,8 +38,9 @@ module Rodbot
 
     # Print the interpolated template to STDOUT
     def display
+      puts
       each_template_path do |template_path, target_path, content|
-        puts "# #{target_path}", (content || template_path.read)
+        puts "### #{target_path} ###", (content || template_path.read), nil
       end
     end
 

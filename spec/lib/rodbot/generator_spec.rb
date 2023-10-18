@@ -8,14 +8,19 @@ describe Rodbot::Generator do
   describe :display do
     it "prints all interpolated templates to STDOUT" do
       _{ subject.display }.must_output <<~END
-        # test/test.md
+
+        ### test/test.md ###
         **Markdown**
-        # test.erb
+
+        ### test.erb ###
         <%= 'ERB' %> with GERB
-        # test.html
+
+        ### test.html ###
         HTML with GERB
-        # test.txt
+
+        ### test.txt ###
         Plain text
+
       END
     end
   end
