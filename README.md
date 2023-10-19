@@ -166,6 +166,7 @@ The response may contain special tags which have to be replace appropriately by 
 Tag | Replaced with
 ----|--------------
 `[[SENDER]]` | Mention the sender of the command.
+`[[EVERYBODY]]` | Mention everybody.
 
 #### Other Routes
 

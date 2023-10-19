@@ -57,10 +57,10 @@ module Rodbot
           server = TCPServer.new(*bind)
           loop do
             Thread.start(server.accept) do |remote|
-              body = remote.gets("\x04")
+              md = remote.gets("\x04").chop
               remote.close
-              body.force_encoding('UTF-8')
-              room.send_html body.md_to_html
+              md.force_encoding('UTF-8')
+              room.send_html md.psub(placeholders).md_to_html
             end
           end
         end
@@ -78,12 +78,13 @@ module Rodbot
         def reply_to(message)
           command(*message.content[:body][1..].split(/\s+/, 2)).
             md_to_html.
-            psub(placeholders(client.get_user(message.sender)))
+            psub(placeholders(sender: client.get_user(message.sender)))
         end
 
-        def placeholders(sender)
+        def placeholders(locals={})
           {
-            sender: "https://matrix.to/#/#{sender.id}"
+            sender: ("https://matrix.to/#/#{locals[:sender].id}" if locals[:sender]),
+            everybody: "https://matrix.to/#room"
           }
         end
 

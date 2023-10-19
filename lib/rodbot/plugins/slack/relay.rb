@@ -39,12 +39,12 @@ module Rodbot
           server = TCPServer.new(*bind)
           loop do
             Thread.start(server.accept) do |remote|
-              body = remote.gets("\x04")
+              md = remote.gets("\x04").chop
               remote.close
-              body.force_encoding('UTF-8')
+              md.force_encoding('UTF-8')
               client.web_client.chat_postMessage(
                 channel: channel_id,
-                text: md_to_slack_text(body),
+                text: md_to_slack_text(md.psub(placeholders)),
                 as_user: true
               )
             end
@@ -70,14 +70,15 @@ module Rodbot
 
         def reply_to(message)
           command(*message.text[1..].split(/\s+/, 2)).
-            psub(placeholders(message.user)).
+            psub(placeholders(sender: message.user)).
             then { md_to_slack_text(_1) }
         end
 
         # @see https://api.slack.com/reference/surfaces/formatting
-        def placeholders(sender)
+        def placeholders(locals={})
           {
-            sender: "<@#{sender}>"
+            sender: ("<@#{locals[:sender]}>" if locals[:sender]),
+            everybody: "<!channel>"
           }
         end
 
