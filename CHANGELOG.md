@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.3.3
+
 #### Additions
 * Support placeholders when using `Rodbot.say` and add `[[EVERYBODY]]`
   placeholder to mention all hands in a room or channel.
