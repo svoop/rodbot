@@ -10,7 +10,7 @@ module Rodbot
             r.post '' do
               r.halt 200 if request.env['HTTP_X_GITHUB_EVENT'] == 'ping'
               r.halt 400 unless request.env['HTTP_X_GITHUB_EVENT'] == 'workflow_run'
-              r.halt 401 unless authorized? request
+              r.halt 401 unless authorized?
               json = JSON.parse(request.body.read)
               project = json.dig('repository', 'full_name')
               status = json.dig('workflow_run', 'status')
@@ -22,7 +22,7 @@ module Rodbot
 
           private
 
-          def authorized?(request)
+          def authorized?
             Rodbot.config(:plugin, :github_webhook, :secret_tokens).to_s.split(':').any? do |secret|
               signature = 'sha256=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), secret, request.body.read)
               request.body.rewind

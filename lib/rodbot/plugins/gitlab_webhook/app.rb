@@ -8,7 +8,7 @@ module Rodbot
         class Routes < ::App
           route do |r|
             r.post '' do
-              r.halt 401 unless authorized? request
+              r.halt 401 unless authorized?
               json = JSON.parse(request.body.read)
               r.halt 400 unless json['object_kind'] == 'pipeline'
               project = json.dig('project', 'path_with_namespace')
@@ -20,7 +20,7 @@ module Rodbot
 
           private
 
-          def authorized?(request)
+          def authorized?
             Rodbot.config(:plugin, :gitlab_webhook, :secret_tokens).to_s.split(':').include?(request.env['HTTP_X_GITLAB_TOKEN'])
           end
 
