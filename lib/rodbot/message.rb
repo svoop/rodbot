@@ -1,8 +1,5 @@
 # frozen-string-literal: true
 
-require 'json'
-require 'base64'
-
 module Rodbot
 
   # Generic serializable chat message container
@@ -18,7 +15,7 @@ module Rodbot
   # 1. Create a JSON hash which contains the keys +class+ (with static value
   #    +Rodbot::Message+), +text+ and optionally +room+.
   # 2. Encode it as Base64 without newlines.
-  # 3. Prefix the result with the {PRELUDE}.
+  # 3. Prefix the result with {Rodbot::Serializer::PRELUDE}.
   #
   # Example for Shell:
   #   string='{"class":"Rodbot::Message",text":"hello, world","room":"general"}'
@@ -26,9 +23,6 @@ module Rodbot
   #   string="data:application/json;base64,$string"
   #   echo $string
   class Message
-
-    # Prelude string for serialized message objects
-    PRELUDE = 'data:application/json;base64,'
 
     # Raw message text
     #
@@ -58,8 +52,9 @@ module Rodbot
     #   contain the key +"class":"Rodbot::Message"+
     def self.new(string, room: nil)
       allocate.instance_eval do
-        if string.match? /\A#{PRELUDE}/
-          hash = JSON.load(Base64.strict_decode64(string.delete_prefix(PRELUDE)))
+        serializer = Rodbot::Serializer.new(string)
+        if serializer.deserializable?
+          hash = serializer.hash
           fail(ArgumentError, "not a dumped message") unless hash['class'] == self.class.to_s
           initialize(hash['text'], room: room || hash['room'])
         else
@@ -67,15 +62,13 @@ module Rodbot
         end
         self
       end
-    rescue JSON::ParserError
-      raise(ArgumentError, "invalid JSON")
     end
 
     # Serialize the message
     #
     # @return [String] serialized and encoded +self+
     def dump
-      to_h.to_json.then { PRELUDE + Base64.strict_encode64(_1) }
+      Rodbot::Serializer.new(to_h).string
     end
 
     # Convert message to Hash

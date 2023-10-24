@@ -11,7 +11,7 @@ describe Rodbot::Message do
         _{ Rodbot::Message.new }.must_raise ArgumentError
       end
 
-      it "treats string as raw message if no prelude is present" do
+      it "treats string as raw message unless deserializable" do
         _(Rodbot::Message.new('foo').to_h).must_equal({ class: 'Rodbot::Message', text: 'foo', room: nil })
       end
 
@@ -29,23 +29,16 @@ describe Rodbot::Message do
         _(Rodbot::Message.new(subject.dump, room: 'biz').to_h).must_equal({ class: 'Rodbot::Message', text: 'foo', room: 'biz' })
       end
     end
+  end
 
-    context "with invalid dumped message object" do
-      it "fails on invalid Base64" do
-        base64 = Rodbot::Message::PRELUDE + '&&&'
-        _{ Rodbot::Message.new(base64) }.must_raise ArgumentError
-      end
+  describe :dump do
+    it "encodes the message" do
+      _(subject.dump).must_match(/\A#{Rodbot::Serializer::PRELUDE}[A-Za-z0-9\/+=]+\z/)
+    end
 
-      it "fails on invalid JSON" do
-        base64 = Rodbot::Message::PRELUDE + Base64.strict_encode64('invalid')
-        _{ Rodbot::Message.new(base64)}.must_raise ArgumentError
-      end
-
-      it "fails unless registered class is Rodbot::Message" do
-        json = { class: 'invalid', text: 'text', room: 'room' }.to_json
-        base64 = Rodbot::Message::PRELUDE + Base64.strict_encode64(json)
-        _{ Rodbot::Message.new(base64) }.must_raise ArgumentError
-      end
+    it "performs successful roundtrips" do
+      _(Rodbot::Message.new(subject.dump).to_h).must_equal({ class: 'Rodbot::Message', text: 'foo', room: 'bar' })
+      _(Rodbot::Message.new(Rodbot::Message.new('foobar').dump).to_h).must_equal({ class: 'Rodbot::Message', text: 'foobar', room: nil })
     end
   end
 
@@ -62,12 +55,6 @@ describe Rodbot::Message do
 
     it "returns false for different messages" do
       _(subject == Rodbot::Message.new('notfoo')).must_equal false
-    end
-  end
-
-  describe :dump do
-    it "encodes the message with strict Base64 and prefixes the PRELUDE" do
-      _(subject.dump).must_match(/\A#{Rodbot::Message::PRELUDE}[A-Za-z0-9\/+=]+\z/)
     end
   end
 end
