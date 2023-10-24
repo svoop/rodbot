@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.3.4
+
 #### Additions
 * Support to post to secondary rooms with `Rodbot.say`
 * `Rodbot::Message` container class for messages with meta data
