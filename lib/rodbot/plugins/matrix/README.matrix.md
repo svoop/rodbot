@@ -40,3 +40,15 @@ You might want to use the credentials facilities of Rodbot to encrypt the token.
 Once Rodbot is restarted, the Matrix relay will automatically accept the invitation and start listening. To check whether the relay works fine, just say +!ping+ in the room, you should receive a "pong" in reply.
 
 Any room message beginning with "!" is considered a bot command.
+
+To post messages to the primary channel configured with the plugin:
+
+```
+Rodbot.say('Hello, world!')
+```
+
+It's possible to post to other, secondary channels, provided you have previously added the bot app to those secondary channels as [described above](#preparation):
+
+```
+Rodbot.say('Hello, world!', room: '#general:matrix.org')
+```

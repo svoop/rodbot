@@ -1,12 +1,14 @@
 ## Main
 
-Nothing so far
+#### Additions
+* Support to post to secondary rooms with `Rodbot.say`
+* `Rodbot::Message` container class for messages with meta data
 
 ## 0.3.3
 
 #### Additions
 * Support placeholders when using `Rodbot.say` and add `[[EVERYBODY]]`
-  placeholder to mention all hands in a room or channel.
+  placeholder to mention all hands in a room or channel
 
 ## 0.3.2
 

@@ -18,15 +18,16 @@ module Rodbot
       # "say true" configured in their corresponding config blocks. To further
       # narrow it to exactly one relay service, use the +on+ argument.
       #
-      # @param message [String] message to post
+      # @param text [String] message to post
       # @param on [Symbol, nil] post via this relay service only
+      # @param room [String, nil] post to this room (aka: channel, group etc)
       # @return [Boolean] +false+ if at least one relay refused the connection or
       #   +true+ otherwise
-      def say(message, on: nil)
+      def say(text, on: nil, room: nil)
         Rodbot.config(:plugin).select do |extension, config|
           config[:say] == true && (!on || extension == on)
         end.keys.inject(true) do |success, extension|
-          write(message, extension) && success
+          write(Rodbot::Message.new(text, room: room).dump, extension) && success
         end
       end
 

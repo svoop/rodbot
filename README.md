@@ -178,7 +178,7 @@ The **relay service** act as glue between the **app service** and external commu
 
 Each relay service does three things:
 
-* **Proactive:** It creates and listens to a local TCP socket. Plain text or Markdown sent to this socket is forwarded as a message to the corresponding communication network. This text may have multiple lines, use the EOT character (`\x04` alias Ctrl-D) to mark the end.
+* **Proactive:** It creates and listens to a local TCP socket which accepts and forwards messages. See below for more on this.
 * **Reactive:** It reads messages, detects commands usually beginning with a `!`, forwards them to the **app service** and writes the HTTP response back as a message to the communication network.
 * **Test:** It detects the `!ping` command and replies with "pong" *without* hitting the **app service**.
 
@@ -189,6 +189,14 @@ rodbot simulator
 ```
 
 Enter the command `!pay EUR 123` and you see the request `GET /pay?argument=EUR+123` hitting the **app service**.
+
+#### TCP Socket
+
+The TCP socket is primarily used by other Rodbot services to forward messages to the corresponding external communication network. However, you can use these sockets for non-Rodbot processes as well e.g. to issue notifications when events happen on the host running Rodbot.
+
+Simply connect to a socket and submit the message as plain text or Markdown in UTF-8. Multiple lines are allowed, to finish and post the message, append the EOT character (`\x04` alias Ctrl-D).
+
+Such simple messages are always posted to the primary room (aka: channel, group etc) of the communication network. For more complex scenarios, please take a look at [message objects](https://www.rubydoc.info/gems/rodbot/Rodbot/Message) which may contain meta information as well.
 
 ### Schedule Service
 

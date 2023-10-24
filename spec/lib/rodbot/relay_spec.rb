@@ -23,7 +23,7 @@ describe Rodbot::Relay do
     Rodbot::Relay.new.tap do |relay|
       relay.define_singleton_method(:name) { :slack }
     end
-   end
+  end
 
   describe :bind do
     it "returns localhost and ports above 7200 by default" do
@@ -57,11 +57,13 @@ describe Rodbot::Relay do
       end
 
       it "writes the message to all relay extensions" do
-        _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\nslack: `foobar'\n"
+        message = Rodbot::Message.new('foobar')
+        _{ Rodbot.say(message.text) }.must_output "matrix: `#{message.dump}'\nslack: `#{message.dump}'\n"
       end
 
       it "writes the message to the explicitly given extension" do
-        _{ Rodbot.say('foobar', on: :slack) }.must_output "slack: `foobar'\n"
+        message = Rodbot::Message.new('foobar')
+        _{ Rodbot.say(message.text, on: :slack) }.must_output "slack: `#{message.dump}'\n"
       end
     end
 
@@ -71,11 +73,13 @@ describe Rodbot::Relay do
       end
 
       it "writes the message to all with say enabled" do
-        _{ Rodbot.say('foobar') }.must_output "matrix: `foobar'\n"
+        message = Rodbot::Message.new('foobar')
+        _{ Rodbot.say(message.text) }.must_output "matrix: `#{message.dump}'\n"
       end
 
       it "writes the message to the given with say enabled" do
-        _{ Rodbot.say('foobar', on: :matrix) }.must_output "matrix: `foobar'\n"
+        message = Rodbot::Message.new('foobar')
+        _{ Rodbot.say(message.text, on: :matrix) }.must_output "matrix: `#{message.dump}'\n"
       end
 
       it "writes no message to the given with say disabled" do

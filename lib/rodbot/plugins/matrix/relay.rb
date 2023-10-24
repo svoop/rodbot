@@ -38,7 +38,7 @@ module Rodbot
         end
 
         memoize def client
-          MatrixSdk::Client.new(homeserver, access_token: access_token, client_cache: :some)
+          MatrixSdk::Client.new(homeserver, access_token: access_token, client_cache: :some).tap(&:reload_rooms!)
         end
 
         memoize def room
@@ -57,10 +57,10 @@ module Rodbot
           server = TCPServer.new(*bind)
           loop do
             Thread.start(server.accept) do |remote|
-              md = remote.gets("\x04").chop
+              message = Rodbot::Message.new(remote.gets("\x04").chop)
               remote.close
-              md.force_encoding('UTF-8')
-              room.send_html md.psub(placeholders).md_to_html
+              target_room = message.room ? client.find_room(message.room) : room
+              target_room.send_html message.text.psub(placeholders).md_to_html
             end
           end
         end

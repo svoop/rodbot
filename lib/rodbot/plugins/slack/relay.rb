@@ -39,12 +39,11 @@ module Rodbot
           server = TCPServer.new(*bind)
           loop do
             Thread.start(server.accept) do |remote|
-              md = remote.gets("\x04").chop
+              message = Rodbot::Message.new(remote.gets("\x04").chop)
               remote.close
-              md.force_encoding('UTF-8')
               client.web_client.chat_postMessage(
-                channel: channel_id,
-                text: md_to_slack_text(md.psub(placeholders)),
+                channel: message.room || channel_id,
+                text: md_to_slack_text(message.text.psub(placeholders)),
                 as_user: true
               )
             end

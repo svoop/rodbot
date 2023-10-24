@@ -46,3 +46,17 @@ You might want to use the credentials facilities of Rodbot to encrypt the token.
 Once Rodbot is restarted, the Slack relay starts listening. To check whether the relay works fine, just say +!ping+ in the channel, you should receive a "pong" in reply.
 
 Any room message beginning with "!" is considered a bot command.
+
+To post messages to the primary channel configured with the plugin:
+
+```
+Rodbot.say('Hello, world!')
+```
+
+It's possible to post to other, secondary channels, provided you have previously added the bot app to those secondary channels as [described above](#preparation):
+
+```
+Rodbot.say('Hello, world!', room: '#general')
+```
+
+Please note that Rodbot uses the term "room" for what is called a channel on Slack.
