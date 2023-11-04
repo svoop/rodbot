@@ -53,12 +53,12 @@ module Rodbot
           if Rodbot::Memoize.suspend? || block
             send(unmemoized_method, *args, **kargs, &block)
           else
-            id = method.hash ^ args.hash ^ kargs.hash
-            @_memoize_cache ||= {}
-            if !Rodbot::Memoize.revisit? && @_memoize_cache.has_key?(id)
-              @_memoize_cache[id]
+            cache = Rodbot::Memoize.cache
+            id = object_id.hash ^ method.hash ^ args.hash ^ kargs.hash
+            if !Rodbot::Memoize.revisit? && cache.has_key?(id)
+              cache[id]
             else
-              @_memoize_cache[id] = send(unmemoized_method, *args, **kargs)
+              cache[id] = send(unmemoized_method, *args, **kargs)
             end
           end
         end
@@ -67,6 +67,13 @@ module Rodbot
     end
 
     class << self
+      attr_reader :cache
+
+      def included(base)
+        base.extend(ClassMethods)
+        @cache = {}
+      end
+
       %i(suspend revisit).each do |switch|
         ivar = "@#{switch}"
         define_method switch do |&block|
@@ -83,10 +90,6 @@ module Rodbot
             instance_variable_set(ivar, false)
           end
         end
-      end
-
-      def included(base)
-        base.extend(ClassMethods)
       end
     end
   end
