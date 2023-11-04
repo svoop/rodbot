@@ -60,6 +60,13 @@ bundle config set --local with matrix
 bundle install
 ```
 
+You can use more than one plugin of course. Please note that you have to list them separated with a space:
+
+```
+bundle config set --local with matrix slack
+bundle install
+```
+
 Please refer to the [Matrix plugin README](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) for more on how to configure and authorise this relay service.
 
 Time to add Git to the mix. Both `gems.locked` and `.bundle` are included in order to use the same gems and versions both for local development and deployment to production:
