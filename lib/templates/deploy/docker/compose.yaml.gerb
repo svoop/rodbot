@@ -9,7 +9,7 @@ x-defaults: &defaults
       ENV RODBOT_ENV="production"
       ENV RACK_ENV="production"
       ENV RACK_ROOT="/var/www"
-      ENV TZ="[%= timezone %]"
+      ENV TZ="[%= time_zone %]"
       RUN mkdir -p /var/www
       WORKDIR /var/www
       COPY . .

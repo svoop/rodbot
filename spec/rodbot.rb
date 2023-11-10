@@ -1,7 +1,7 @@
 require 'rotp'
 
 name 'Rodbot'
-timezone 'Etc/UTC'
+time_zone 'Etc/UTC'
 
 plugin :hal
 

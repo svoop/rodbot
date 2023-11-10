@@ -93,8 +93,8 @@ module Rodbot
     end
 
     class Helpers
-      def timezone
-        Rodbot.config(:timezone)
+      def time_zone
+        Rodbot.config(:time_zone)
       end
 
       def relay_extensions

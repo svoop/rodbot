@@ -32,12 +32,12 @@ describe Rodbot::Config do
   describe :initialize do
     it "honors the DEFAULTS by default" do
       subject = Rodbot::Config.new(source)
-      _(subject.config(:timezone)).must_equal 'Etc/UTC'
+      _(subject.config(:time_zone)).must_equal 'Etc/UTC'
       _(subject.config(:name)).must_equal 'Bot'
     end
 
     it "ignores the DEFAULTS if defaults is false" do
-      _(subject.config(:timezone)).must_be :nil?
+      _(subject.config(:time_zone)).must_be :nil?
       _(subject.config(:name)).must_equal 'Bot'
     end
 
@@ -49,7 +49,7 @@ describe Rodbot::Config do
         end
       end
       subject = Rodbot::Config.new(io)
-      _(subject.config(:timezone)).must_equal 'Etc/UTC'
+      _(subject.config(:time_zone)).must_equal 'Etc/UTC'
       _(subject.config(:name)).must_equal 'Bot'
     end
   end

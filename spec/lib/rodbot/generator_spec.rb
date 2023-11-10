@@ -85,7 +85,7 @@ describe Rodbot::Generator do
     end
 
     it "makes helpers avaiable" do
-      _(subject.send(:eval_gerb, '[%= timezone %]')).must_equal 'Etc/UTC'
+      _(subject.send(:eval_gerb, '[%= time_zone %]')).must_equal 'Etc/UTC'
     end
   end
 
@@ -101,9 +101,9 @@ describe Rodbot::Generator::Helpers do
     Rodbot::Generator::Helpers.new
   end
 
-  describe :timezone do
+  describe :time_zone do
     it "returns the configured timezone" do
-      _(subject.timezone).must_equal 'Etc/UTC'
+      _(subject.time_zone).must_equal 'Etc/UTC'
     end
   end
 
