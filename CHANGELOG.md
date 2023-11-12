@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.4.0
+
 #### Breaking Changes
 * Rename `timezone` config to `time_zone` and properly implement and document
   time zone handling
