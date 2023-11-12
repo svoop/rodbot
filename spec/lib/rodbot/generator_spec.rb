@@ -102,7 +102,7 @@ describe Rodbot::Generator::Helpers do
   end
 
   describe :time_zone do
-    it "returns the configured timezone" do
+    it "returns the configured time zone" do
       _(subject.time_zone).must_equal 'Etc/UTC'
     end
   end

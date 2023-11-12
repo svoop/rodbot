@@ -51,6 +51,7 @@ module Rodbot
         dir ENV['RODBOT_CREDENTIALS_DIR'] || Rodbot.env.root.join('config', 'credentials')
       end
       @config = Rodbot::Config.new(Rodbot.env.root.join('config', 'rodbot.rb'))
+      ENV['TZ'] = @config.config(:time_zone)
       @plugins = Rodbot::Plugins.new
       @db = (db = @config.config(:db)) && Rodbot::Db.new(db)
       @log = Rodbot::Log.new

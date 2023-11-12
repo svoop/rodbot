@@ -135,7 +135,7 @@ It loads the following Roda plugins:
 * [run_append_slash](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/RunAppendSlash.html)
 * [halt](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Halt.html)
 * [unescape_path](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/UnescapePath.html)
-* [render](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Render.html).
+* [render](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Render.html)
 
 It loads the following Roda extensions provided by Rodbot:
 
@@ -210,6 +210,8 @@ Such simple messages are always posted to the primary room (aka: channel, group 
 The **schedule service** is a [Clockwork process](https://github.com/Rykian/clockwork) which triggers Ruby code asynchronously as configured in `config/schedule.rb`.
 
 It's a good idea to have the **app service** do the heavy lifting while the schedule simply fires the corresponding HTTP request.
+
+A word on time zones since they are particularly important for schedules: Automatic discovery of the local time zone and DST status is rather unreliable. Therefore, Rodbot expects you to set the time zone in `config/rodbot.rb` using `time_zone`. See `ls /usr/share/zoneinfo` for valid values. To correctly handle DST, you should use geographical zones like `Europe/Paris` rather than technical zones like `CET`. If `time_zone` is not defined, the environment variable `TZ` is read instead. And if `TZ` isn't set neither, Rodbot falls back to `Etc/UTC`.
 
 ## CLI
 

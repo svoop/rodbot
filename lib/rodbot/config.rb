@@ -66,7 +66,7 @@ module Rodbot
     DEFAULTS = <<~END
       name 'Rodbot'
       port 7200
-      time_zone 'Etc/UTC'
+      time_zone ENV['TZ'] || 'Etc/UTC'
       db 'hash'
       app do
         threads Rodbot.env.development? ? (1..1) : (2..4)

@@ -1,6 +1,8 @@
 ## Main
 
-Nothing so far
+#### Breaking Changes
+* Rename `timezone` config to `time_zone` and properly implement and document
+  time zone handling
 
 ## 0.3.4
 
