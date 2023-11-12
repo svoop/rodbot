@@ -71,7 +71,7 @@ module Rodbot
 
       def included(base)
         base.extend(ClassMethods)
-        @cache = {}
+        @cache ||= {}
       end
 
       %i(suspend revisit).each do |switch|
