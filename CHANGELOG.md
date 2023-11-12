@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.4.1
+
 #### Fixes
 * Fix init of memoization cache
 
