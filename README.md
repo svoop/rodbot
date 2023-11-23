@@ -211,7 +211,11 @@ The **schedule service** is a [Clockwork process](https://github.com/Rykian/cloc
 
 It's a good idea to have the **app service** do the heavy lifting while the schedule simply fires the corresponding HTTP request.
 
-A word on time zones since they are particularly important for schedules: Automatic discovery of the local time zone and DST status is rather unreliable. Therefore, Rodbot expects you to set the time zone in `config/rodbot.rb` using `time_zone`. See `ls /usr/share/zoneinfo` for valid values. To correctly handle DST, you should use geographical zones like `Europe/Paris` rather than technical zones like `CET`. If `time_zone` is not defined, the environment variable `TZ` is read instead. And if `TZ` isn't set neither, Rodbot falls back to `Etc/UTC`.
+A word or two on time zones since they are particularly important for schedules:
+
+Automatic discovery of the local time zone and DST status is rather unreliable. Therefore, Rodbot expects you to set the time zone in `config/rodbot.rb` using `time_zone`. See `ls /usr/share/zoneinfo` for valid values. To correctly handle DST, you should use geographical zones like `Europe/Paris` rather than technical zones like `CET`. If `time_zone` is not defined, the environment variable `TZ` is read instead. And if `TZ` isn't set neither, Rodbot falls back to `Etc/UTC`.
+
+Also, make sure the [time zone data is available](https://tzinfo.github.io) where you deploy your bot to. The [official Alpine-based Ruby images](https://hub.docker.com/_/ruby) for instance doesn't come with it preinstalled, so you either have to `RUN apk add --no-cache tzdata` in the Dockerfile or add the [tzinfo-data gem](https://rubygems.org/gems/tzinfo-data) to the bundle for `TZ` to have any effect at all.
 
 ## CLI
 
