@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Fixes
+* Pass the time zone down to Clockwork
 
 ## 0.4.1
 

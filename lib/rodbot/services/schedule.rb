@@ -16,7 +16,10 @@ module Rodbot
 
       def run
         Clockwork.instance_eval do
-          configure { _1[:logger] = Rodbot::Log.logger('schedule') }
+          configure do |config|
+            config[:tz] = Rodbot.config[:time_zone]
+            config[:logger] = Rodbot::Log.logger('schedule')
+          end
           handler { Rodbot::Async.perform(&_1) }
         end
         Rodbot.plugins.extend_schedule
