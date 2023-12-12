@@ -17,21 +17,21 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 
 ## Table of Contents
 
-[Install](#label-Install) <br>
-[Anatomy](#label-Anatomy) <br>
-&emsp;&emsp;&emsp;[App Service](#label-App-Service) <br>
-&emsp;&emsp;&emsp;[Relay Services](#label-Relay-Services) <br>
-&emsp;&emsp;&emsp;[Schedule Service](#label-Schedule-Service) <br>
-[CLI](#label-CLI) <br>
+[Install](#install) <br>
+[Anatomy](#anatomy) <br>
+&emsp;&emsp;&emsp;[App Service](#app-service) <br>
+&emsp;&emsp;&emsp;[Relay Services](#relay-services) <br>
+&emsp;&emsp;&emsp;[Schedule Service](#schedule-service) <br>
+[CLI](#CLI) <br>
 [Request](#request)<br>
 [Say](#say)<br>
-[Routes and Commands](#label-Routes-and-Commands) <br>
-[Database](#label-Database) <br>
+[Routes and Commands](#routes-and-commands) <br>
+[Database](#database) <br>
 [Environments](#environments) <br>
 [Credentials](#credentials) <br>
-[Plugins](#label-Plugins) <br>
-[Environment Variables](#label-Environment-Variables) <br>
-[Development](#label-Development) <br>
+[Plugins](#plugins) <br>
+[Environment Variables](#environment-variables) <br>
+[Development](#development) <br>
 
 ## Install
 
@@ -53,7 +53,7 @@ rodbot new my_bot
 cd my_bot
 ```
 
-For the bot to be useful at all, you should choose one of the supported [relay service plugins](#label-Plugins). Say, you'd like to interact via Matrix:
+For the bot to be useful at all, you should choose one of the supported [relay service plugins](#plugins). Say, you'd like to interact via Matrix:
 
 ```
 bundle config set --local with matrix

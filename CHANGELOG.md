@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Changes
+* Add more languages to the word of the day demo plugin
 
 ## 0.4.2
 
