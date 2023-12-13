@@ -137,7 +137,7 @@ It loads the following Roda plugins:
 * [unescape_path](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/UnescapePath.html)
 * [render](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Render.html)
 
-It loads the following Roda extensions provided by Rodbot:
+It also loads the following Roda extension provided by Rodbot:
 
 * Shortcut `r.arguments` for `r.params['arguments']`
 
@@ -159,7 +159,7 @@ port 12345
 
 #### Commands
 
-All top level GET requests such as `GET /foobar` are commands and therefore are accessible by relays, for instance using `!foobar` on Matrix.
+All top level GET requests such as `GET /foobar` are commands and therefore accessible by relays, for instance using `!foobar` on Matrix.
 
 Responses have to be either of the following content types:
 
@@ -168,7 +168,7 @@ Responses have to be either of the following content types:
 
 Please note that the Markdown might get stripped on communication networks which feature only limited or no support for Markdown.
 
-The response may contain special tags which have to be replace appropriately by the corresponding **relay service**:
+The response may contain special tags which have to be replaced appropriately by the corresponding **relay service**:
 
 Tag | Replaced with
 ----|--------------
@@ -482,10 +482,10 @@ Name | Dependencies | Description
 -----|--------------|------------
 [:matrix](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) | yes | relay service for the [Matrix communication network](https://matrix.org)
 [:otp](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) | yes | guard commands with one-time passwords
-[:gitlab_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | no | event announcements from [GitLab](https://gitlab.com)
-[:github_webhook](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | no | event announcements from [GitHub](https://github.com)
+[:gitlab_webhook](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | no | event announcements from [GitLab](https://gitlab.com)
+[:github_webhook](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | no | event announcements from [GitHub](https://github.com)
 [:hal](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/hal/README.hal.md) | no | feel like Dave (demo)
-[:word_of_the_day](ttps://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/word_of_the_day/README.word_of_the_day.md) | no | word of the day announcements (demo)
+[:word_of_the_day](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/word_of_the_day/README.word_of_the_day.md) | no | word of the day announcements (demo)
 
 You have to install the corresponding Bundler group in case the plugin depends on extra gems. Here's an example for the `:otp` plugin listed above:
 
@@ -601,7 +601,7 @@ end
 
 The `loops` method must returns an array of callables (e.g. a Proc or Method) which will be called when this relay service is started. The loops must trap the `INT` signal.
 
-Proactive messsages require other parts of Rodbot to forward a message directly. To do so, the relay has to implement a TCP socket. This socket must bind to the IP and port you get from the `bind` method which returns an array like `["localhost", 7201]`.
+Proactive messages require other parts of Rodbot to forward a message directly. To do so, the relay has to implement a TCP socket. This socket must bind to the IP and port you get from the `bind` method which returns an array like `["localhost", 7201]`.
 
 For an example, take a look at the [:matrix plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/matrix).
 
@@ -637,7 +637,7 @@ For an example, take a look at the [:word_of_the_day plugin](https://github.com/
 
 #### Toolbox
 
-Before you write a plugin, familiarize yourself with the following bundled helpers:
+Before you write a plugin, familiarise yourself with the following bundled helpers:
 
 * [Rodbot::Refinements](https://www.rubydoc.info/gems/rodbot/Rodbot/Refinements.html) – just a few handy extensions to Ruby core classes
 * [Rodbot::Memoize](https://www.rubydoc.info/gems/rodbot/Rodbot/Memoize.html) – environment-aware memoization for method return values
