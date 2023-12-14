@@ -2,7 +2,7 @@
 
 require 'httpx'
 
-require_relative 'adapter'
+require_relative 'lib/adapter'
 
 module Rodbot
   class Plugins
@@ -23,7 +23,7 @@ module Rodbot
         end
 
         def message
-          languages.map { Adapter.new(_1).message }.compact.join(' / ')
+          languages.map { ::WordOfTheDay::Adapter.new(_1).message }.compact.join(' / ')
         end
       end
     end

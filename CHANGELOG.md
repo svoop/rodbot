@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Changes
+* Adhere to plugin file layout suggestions
 
 ## 0.4.3
 
