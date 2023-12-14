@@ -481,6 +481,7 @@ Rodbot aims to keep its core small and add features via plugins, either built-in
 Name | Dependencies | Description
 -----|--------------|------------
 [:matrix](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/matrix/README.matrix.md) | yes | relay service for the [Matrix communication network](https://matrix.org)
+[:slack](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/slack/README.slack.md) | yes | relay service for the [Slack communication network](https://slack.com)
 [:otp](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/otp/README.otp.md) | yes | guard commands with one-time passwords
 [:gitlab_webhook](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/gitlab_webhook/README.gitlab_webhook.md) | no | event announcements from [GitLab](https://gitlab.com)
 [:github_webhook](https://rubydoc.info/github/svoop/rodbot/file/lib/rodbot/plugins/github_webhook/README.github_webhook.md) | no | event announcements from [GitHub](https://github.com)
