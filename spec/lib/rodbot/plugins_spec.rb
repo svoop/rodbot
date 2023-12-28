@@ -17,30 +17,22 @@ describe Rodbot::Plugins do
 
   describe :extensions do
     describe :extend_app do
-      it "requires the corresponding app.rb file" do
-        subject.extend_app
+      it "requires the corresponding app.rb file, registers routes and plugins" do
+        $checkpoints = []
+        App.stub(:run,
+          -> { $checkpoints << :added if _1 == :hal && _2 == Rodbot::Plugins::Hal::App::Routes }
+        ) do
+          Roda::RodaPlugins.stub(:register_plugin,
+            -> { $checkpoints << :registered if _1 == :hal && _2 == Rodbot::Plugins::Hal::App }
+          ) do
+            subject.extend_app
+          end
+        end
         _(subject.extensions[:app]).must_equal(
           hal: 'rodbot/plugins/hal/app',
           otp: 'rodbot/plugins/otp/app'
         )
-      end
-
-      it "registers App routes" do
-        subject.instance_variable_set(:@extensions, {})
-        App.stub(:run,
-          -> { throw :added if _1 == :hal && _2 == Rodbot::Plugins::Hal::App::Routes }
-        ) do
-          _{ subject.extend_app }.must_throw :added
-        end
-      end
-
-      it "registers Roda plugins" do
-        subject.instance_variable_set(:@extensions, {})
-        Roda::RodaPlugins.stub(:register_plugin,
-          -> { throw :registered if _1 == :hal && _2 == Rodbot::Plugins::Hal::App }
-        ) do
-          _{ subject.extend_app }.must_throw :registered
-        end
+        _($checkpoints).must_equal %i(added registered)
       end
     end
 

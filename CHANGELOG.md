@@ -2,6 +2,7 @@
 
 #### Changes
 * Adhere to plugin file layout suggestions
+* Support Ruby 3.3
 
 ## 0.4.3
 
