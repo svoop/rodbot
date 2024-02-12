@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.4.4
+
 #### Changes
 * Adhere to plugin file layout suggestions
 * Support Ruby 3.3
