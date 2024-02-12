@@ -3,6 +3,7 @@
 #### Changes
 * Adhere to plugin file layout suggestions
 * Support Ruby 3.3
+* Honor `APP_ENV` as an alternative to `RODBOT_ENV`
 
 ## 0.4.3
 

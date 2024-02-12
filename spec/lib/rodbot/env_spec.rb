@@ -51,4 +51,20 @@ describe Rodbot::Env do
       end
     end
   end
+
+  describe 'APP_ENV environment variable' do
+    it "sets the environment" do
+      with "ENV['APP_ENV']", 'production' do
+        with "ENV['RODBOT_ENV']", nil do
+          _(subject).must_be :production?
+        end
+      end
+    end
+
+    it "RODBOT_ENV takes precedence" do
+      with "ENV['APP_ENV']", 'production' do
+        _(subject).must_be :test?
+      end
+    end
+  end
 end

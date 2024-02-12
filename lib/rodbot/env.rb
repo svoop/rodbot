@@ -27,7 +27,7 @@ module Rodbot
       @root = root ? Pathname(root).realpath : Pathname.pwd
       @tmp = @root.join('tmp')
       @gem = Pathname(__dir__).join('..', '..').realpath
-      @current = ENV['RODBOT_ENV']
+      @current = ENV['RODBOT_ENV'] || ENV['APP_ENV']
       @current = 'development' unless ENVS.include? @current
     end
 

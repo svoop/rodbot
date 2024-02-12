@@ -468,6 +468,8 @@ Rodbot.env.production?    # => true
 Rodbot.env.development?   # => false
 ```
 
+You can use the more generic alternative `APP_ENV` as well, however, if `RODBOT_ENV` is defined, it takes precedence over `APP_ENV`.
+
 ## Credentials
 
 In order not to commit secrets to repositories or environment variables, Rodbot bundles the [dry-credentials](https://rubygems.org/gems/dry-credentials) gem and exposes it via the `rodbot credentials` CLI command. The secrets are then available in your code like `Rodbot.credentials.my_secret` and the encrypted files are written to `config/credentials`.
