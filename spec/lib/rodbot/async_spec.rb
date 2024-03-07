@@ -18,7 +18,7 @@ describe Rodbot::Async do
     end
 
     it "yields as an asynchronous job in non-test environment" do
-      with '@current', 'production', on: Rodbot::Env do
+      substitute '@current', 'production', on: Rodbot::Env do
         yielded = false
         subject.perform { yielded = true }
         _(yielded).must_equal true

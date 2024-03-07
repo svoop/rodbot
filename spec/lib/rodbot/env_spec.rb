@@ -46,7 +46,7 @@ describe Rodbot::Env do
     end
 
     it "defaults to development" do
-      with "ENV['RODBOT_ENV']", 'unset or invalid' do
+      substitute "ENV['RODBOT_ENV']", 'unset or invalid' do
         _(subject).must_be :development?
       end
     end
@@ -54,15 +54,15 @@ describe Rodbot::Env do
 
   describe 'APP_ENV environment variable' do
     it "sets the environment" do
-      with "ENV['APP_ENV']", 'production' do
-        with "ENV['RODBOT_ENV']", nil do
+      substitute "ENV['APP_ENV']", 'production' do
+        substitute "ENV['RODBOT_ENV']", nil do
           _(subject).must_be :production?
         end
       end
     end
 
     it "RODBOT_ENV takes precedence" do
-      with "ENV['APP_ENV']", 'production' do
+      substitute "ENV['APP_ENV']", 'production' do
         _(subject).must_be :test?
       end
     end

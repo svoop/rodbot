@@ -11,13 +11,13 @@ describe Rodbot::Services::App do
     end
 
     it "returns localhost and explicit port config" do
-      with '@config', Rodbot::Config.new("port 8888"), on: Rodbot do
+      substitute '@config', Rodbot::Config.new("port 8888"), on: Rodbot do
         _(subject.send(:bind)).must_equal ['localhost', 8888]
       end
     end
 
     it "returns value of RODBOT_APP_HOST and port 7200" do
-      with "ENV['RODBOT_APP_HOST']", 'app.local' do
+      substitute "ENV['RODBOT_APP_HOST']", 'app.local' do
         _(subject.send(:bind)).must_equal ['app.local', 7200]
       end
     end
@@ -36,7 +36,7 @@ describe Rodbot::Services::App do
 
     it "returns http://localhost and explicit port config" do
       Rodbot::Memoize::suspend do
-        with '@config', Rodbot::Config.new("port 8888"), on: Rodbot do
+        substitute '@config', Rodbot::Config.new("port 8888"), on: Rodbot do
           _(subject.url).must_equal 'http://localhost:8888'
         end
       end
@@ -44,7 +44,7 @@ describe Rodbot::Services::App do
 
     it "returns value of RODBOT_APP_URL and port 7200" do
       Rodbot::Memoize::suspend do
-        with "ENV['RODBOT_APP_URL']", 'https://app.local' do
+        substitute "ENV['RODBOT_APP_URL']", 'https://app.local' do
           _(subject.url).must_equal 'https://app.local:7200'
         end
       end

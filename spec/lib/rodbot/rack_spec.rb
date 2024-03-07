@@ -24,7 +24,7 @@ end
 
 describe Rodbot::Rack do
   describe :request do
-    with '::HTTPX', Minitest::HTTPX
+    substitute '::HTTPX', Minitest::HTTPX
 
     it "does a GET request to the full URL using HTTPX" do
       _(Rodbot.request('/search', params: { foo: 'bar' })).must_be :matched?

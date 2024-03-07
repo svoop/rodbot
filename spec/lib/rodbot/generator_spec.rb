@@ -108,7 +108,7 @@ describe Rodbot::Generator::Helpers do
   end
 
   describe :relay_extensions do
-    with '@config', on: Rodbot do
+    substitute '@config', on: Rodbot do
       Rodbot::Config.new('plugin :matrix')
     end
 
