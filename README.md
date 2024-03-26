@@ -1,7 +1,7 @@
 [![Version](https://img.shields.io/gem/v/rodbot.svg?style=flat)](https://rubygems.org/gems/rodbot)
 [![Tests](https://img.shields.io/github/actions/workflow/status/svoop/rodbot/test.yml?style=flat&label=tests)](https://github.com/svoop/rodbot/actions?workflow=Test)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/svoop/rodbot.svg?style=flat)](https://codeclimate.com/github/svoop/rodbot/)
-[![Donorbox](https://img.shields.io/badge/donate-on_donorbox-yellow.svg)](https://donorbox.org/bitcetera)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/svoop.svg)](https://github.com/sponsors/svoop)
 
 <img src="https://github.com/svoop/rodbot/raw/main/doc/rodbot.avif" alt="Rodbot" height="125" align="left">
 
@@ -14,6 +14,8 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 * [Homepage](https://github.com/svoop/rodbot)
 * [API](https://rubydoc.info/gems/rodbot)
 * Author: [Sven Schwyn - Bitcetera](https://bitcetera.com)
+
+Thank you for supporting free and open-source software by sponsoring on [GitHub](https://github.com/sponsors/svoop) or on [Donorbox](https://donorbox.com/bitcetera). Any gesture is appreciated, from a single Euro for a ☕️ cup of coffee to 🍹 early retirement.
 
 ## Table of Contents
 
