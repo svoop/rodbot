@@ -42,6 +42,9 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 3.0.0'
 
   spec.add_runtime_dependency 'zeitwerk', '~> 2'
+  spec.add_runtime_dependency 'ostruct'
+  spec.add_runtime_dependency 'fiddle'
+  spec.add_runtime_dependency 'logger'
   spec.add_runtime_dependency 'dry-cli', '~> 1'
   spec.add_runtime_dependency 'dry-credentials', '~> 0'
   spec.add_runtime_dependency 'tty-markdown', '~> 0'
