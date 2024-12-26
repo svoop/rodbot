@@ -5,7 +5,7 @@ Nothing so far
 ## 0.4.5
 
 #### Changes
-* Update Ruby to 3.3
+* Update Ruby to 3.4
 
 ## 0.4.4
 
