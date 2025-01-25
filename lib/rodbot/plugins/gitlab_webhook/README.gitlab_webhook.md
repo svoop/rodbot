@@ -45,7 +45,7 @@ You can change how the plugin reacts to which webhook requests by configuring a 
 
 ```ruby
 plugin :gitlab_webhook do
-  handler: ->(request) do
+  handler ->(request) do
     json = JSON.parse(request.body.read)
     if json['object_kind'] == 'pipeline'
       project = json.dig('project', 'path_with_namespace')

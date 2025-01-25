@@ -47,7 +47,7 @@ You can change how the plugin reacts to which webhook requests by configuring a 
 
 ```ruby
 plugin :github_webhook do
-  handler: ->(request) do
+  handler ->(request) do
     if request.env['HTTP_X_GITHUB_EVENT'] == 'workflow_run'
       json = JSON.parse(request.body.read)
       project = json.dig('repository', 'full_name')
