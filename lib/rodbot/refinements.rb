@@ -52,7 +52,7 @@ module Rodbot
     #   @return [String] concatted URI
     refine String do
       def uri_concat(*segments)
-        parser = URI::Parser.new
+        parser = URI::RFC2396_PARSER
         segments.inject(URI(self)) do |uri, segment|
           uri + parser.escape(segment)
         end.to_s
