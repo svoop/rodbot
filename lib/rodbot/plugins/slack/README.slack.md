@@ -1,4 +1,4 @@
-# Rodbot Plugin – Slack
+# Rodbot plugin – Slack
 
 Relay with the Slack communication network
 

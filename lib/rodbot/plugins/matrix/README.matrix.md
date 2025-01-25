@@ -1,4 +1,4 @@
-# Rodbot Plugin – Matrix
+# Rodbot plugin – Matrix
 
 Relay with the Matrix communication network
 

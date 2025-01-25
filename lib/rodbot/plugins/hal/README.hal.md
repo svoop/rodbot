@@ -1,4 +1,4 @@
-# Rodbot Plugin – HAL 9000
+# Rodbot plugin – HAL 9000
 
 Feel like Dave
 

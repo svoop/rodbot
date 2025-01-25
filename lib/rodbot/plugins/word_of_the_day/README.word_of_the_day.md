@@ -1,4 +1,4 @@
-# Rodbot Plugin – Word of the Day
+# Rodbot plugin – word of the day
 
 Word of the day announcements
 
@@ -37,4 +37,3 @@ Word of the day: foobar (English) / foobâr (French) / foobår (Swedish)
 ```
 
 In case the word of the day is not available, the message will contain the missing language struck through.
-

@@ -17,22 +17,22 @@ Minimalistic yet polyglot framework to build chat bots on top of a Roda backend 
 
 Thank you for supporting free and open-source software by sponsoring on [GitHub](https://github.com/sponsors/svoop) or on [Donorbox](https://donorbox.com/bitcetera). Any gesture is appreciated, from a single Euro for a ☕️ cup of coffee to 🍹 early retirement.
 
-## Table of Contents
+## Table of contents
 
 [Install](#install) <br>
 [Anatomy](#anatomy) <br>
-&emsp;&emsp;&emsp;[App Service](#app-service) <br>
-&emsp;&emsp;&emsp;[Relay Services](#relay-services) <br>
-&emsp;&emsp;&emsp;[Schedule Service](#schedule-service) <br>
+&emsp;&emsp;&emsp;[App service](#app-service) <br>
+&emsp;&emsp;&emsp;[Relay services](#relay-services) <br>
+&emsp;&emsp;&emsp;[Schedule service](#schedule-service) <br>
 [CLI](#CLI) <br>
 [Request](#request)<br>
 [Say](#say)<br>
-[Routes and Commands](#routes-and-commands) <br>
+[Routes and commands](#routes-and-commands) <br>
 [Database](#database) <br>
 [Environments](#environments) <br>
 [Credentials](#credentials) <br>
 [Plugins](#plugins) <br>
-[Environment Variables](#environment-variables) <br>
+[Environment variables](#environment-variables) <br>
 [Development](#development) <br>
 
 ## Install
@@ -45,7 +45,7 @@ This gem is [cryptographically signed](https://guides.rubygems.org/security/#usi
 gem cert --add <(curl -Ls https://raw.github.com/svoop/rodbot/main/certs/svoop.pem)
 ```
 
-### Generate New Bot
+### Generate new bot
 
 Similar to other frameworks, generate the files for your new bot as follows:
 
@@ -106,7 +106,7 @@ RODBOT                                                            EXTERNAL
 ╰╴ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ╶╯
 ```
 
-### App Service
+### App service
 
 The **app service** is a [Roda app](https://roda.jeremyevans.net) where the real action happens. It acts on and responds to HTTP requests from:
 
@@ -177,11 +177,11 @@ Tag | Replaced with
 `[[SENDER]]` | Mention the sender of the command.
 `[[EVERYBODY]]` | Mention everybody.
 
-#### Other Routes
+#### Other routes
 
 All higher level requests such as `GET /foo/bar` are not accessible by relays. Use them to implement other aspects of your bot such as webhooks or schedule tasks.
 
-### Relay Services
+### Relay services
 
 The **relay service** act as glue between the **app service** and external communication networks such as Matrix.
 
@@ -199,7 +199,7 @@ rodbot simulator
 
 Enter the command `!pay EUR 123` and you see the request `GET /pay?argument=EUR+123` hitting the **app service**.
 
-#### TCP Socket
+#### TCP socket
 
 The TCP socket is primarily used by other Rodbot services to forward messages to the corresponding external communication network. However, you can use these sockets for non-Rodbot processes as well e.g. to issue notifications when events happen on the host running Rodbot.
 
@@ -207,7 +207,7 @@ Simply connect to a socket and submit the message as plain text or Markdown in U
 
 Such simple messages are always posted to the primary room (aka: channel, group etc) of the communication network. For more complex scenarios, please take a look at [message objects](https://www.rubydoc.info/gems/rodbot/Rodbot/Message) which may contain meta information as well.
 
-### Schedule Service
+### Schedule service
 
 The **schedule service** is a [Clockwork process](https://github.com/Rykian/clockwork) which triggers Ruby code asynchronously as configured in `config/schedule.rb`.
 
@@ -227,7 +227,7 @@ The `rodbot` CLI is the main tool to manage your bot. For a full list of functio
 rodbot --help
 ```
 
-### Starting and Stopping Services
+### Starting and stopping services
 
 While working on the app service, you certainly want to try routes:
 
@@ -364,7 +364,7 @@ You can further narrow where to post the message if you specify the relay plugin
 say("Hello, Slack!", on: :slack)
 ```
 
-## Routes and Commands
+## Routes and commands
 
 Adding new tricks to your bot boils down to adding routes to the app service which is powered by Roda, a simple yet very powerful framework for web applications: Easy to learn (like Sinatra) but really fast and efficient. Take a minute and [get familiar with the basics of Roda](http://roda.jeremyevans.net/).
 
@@ -430,7 +430,7 @@ The Hash backend is not thread-safe and therefore shouldn't be used in productio
 db 'hash'
 ```
 
-### Write and Read Data
+### Write and read data
 
 With this in place, you can access the database with `Rodbot.db`:
 
@@ -480,7 +480,7 @@ In order not to commit secrets to repositories or environment variables, Rodbot 
 
 Rodbot aims to keep its core small and add features via plugins, either built-in or provided by gems.
 
-### Built-In Plugins
+### Built-in plugins
 
 Name | Dependencies | Description
 -----|--------------|------------
@@ -499,7 +499,7 @@ bundle config set --local with otp
 bundle install
 ```
 
-### How Plugins Work
+### How plugins work
 
 Given the following `config/rodbot.rb`:
 
@@ -519,7 +519,7 @@ Whenever a service boots, the corresponding file is required.
 
 In order to keep these plugin files slim, you should extract functionality into service classes. Just put them into `rodbot/plugins/my_plugin/lib/` and use `require_relative` where you need them.
 
-### Create Plugins
+### Create plugins
 
 You can create plugins in any of the following places:
 
@@ -529,7 +529,7 @@ You can create plugins in any of the following places:
 
 Please adhere to common naming conventions and use the dashed prefix `rodbot-` (and Module `Rodbot`), however, underscores in case the remaining gem name consists of several words.
 
-#### App Extension
+#### App extension
 
 An app extension `rodbot/plugins/my_plugin/app.rb` defines the module `App` and looks something like this:
 
@@ -569,7 +569,7 @@ The `App` module can be used to [extend all aspects of Roda](https://github.com/
 
 For an example, take a look at the [:hal plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/hal).
 
-#### Relay Extension
+#### Relay extension
 
 A relay extension `rodbot/plugins/my_plugin/relay.rb` defines the class `Relay` and looks something like this:
 
@@ -610,7 +610,7 @@ Proactive messages require other parts of Rodbot to forward a message directly. 
 
 For an example, take a look at the [:matrix plugin](https://github.com/svoop/rodbot/tree/main/lib/rodbot/plugins/matrix).
 
-#### Schedule Extension
+#### Schedule extension
 
 A schedule extension `rodbot/plugins/my_plugin/schedule.rb` defines the class `Schedule` and looks something like this:
 
@@ -647,7 +647,7 @@ Before you write a plugin, familiarise yourself with the following bundled helpe
 * [Rodbot::Refinements](https://www.rubydoc.info/gems/rodbot/Rodbot/Refinements.html) – just a few handy extensions to Ruby core classes
 * [Rodbot::Memoize](https://www.rubydoc.info/gems/rodbot/Rodbot/Memoize.html) – environment-aware memoization for method return values
 
-## Environment Variables
+## Environment variables
 
 Environment variables are used for the configuration bits which cannot or should not be part of `config/rodbot.rb` mainly because they have to be set on the infrastructure level.
 
@@ -677,4 +677,3 @@ export RODBOT_SPEC_REDIS_URL=redis://localhost:6379/10
 ```
 
 You're welcome to join the [discussion forum](https://github.com/svoop/rodbot/discussions) to ask questions or drop feature ideas, [submit issues](https://github.com/svoop/rodbot/issues) you may encounter or contribute code by [forking this project and submitting pull requests](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
-

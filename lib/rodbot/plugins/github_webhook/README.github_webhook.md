@@ -1,4 +1,4 @@
-# Rodbot Plugin – GitHub Webhook
+# Rodbot plugin – GitHub webhook
 
 Pipeline event announcements from GitHub
 

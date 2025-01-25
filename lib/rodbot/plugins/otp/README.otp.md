@@ -1,4 +1,4 @@
-# Rodbot Plugin – OTP
+# Rodbot plugin – OTP
 
 Guard commands with one-time passwords
 

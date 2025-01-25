@@ -1,4 +1,4 @@
-# Rodbot Plugin – GitLab Webhook
+# Rodbot plugin – GitLab webhook
 
 Pipeline event announcements from GitLab
 
