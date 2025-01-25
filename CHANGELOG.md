@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.5.0
+
 #### Changes
 * Make GitLab and GitHub plugins customizable
 
