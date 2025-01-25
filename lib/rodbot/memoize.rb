@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
 module Rodbot
 
@@ -95,4 +95,3 @@ module Rodbot
   end
 
 end
-

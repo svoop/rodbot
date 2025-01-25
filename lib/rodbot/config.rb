@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
 module Rodbot
 
@@ -115,6 +115,8 @@ module Rodbot
       # @param strings [String, nil] one or more strings to evaluate
       # @return [self]
       def eval_strings(*strings)
+        # TODO: filter magic comment until they are no longer requred to prevent warning
+        strings = strings.map { _1&.sub(/# frozen_string_literal: true/, '') }
         instance_eval(strings.compact.join("\n"))
         self
       end

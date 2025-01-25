@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 name 'Rodbot'
 time_zone 'Etc/UTC'
 

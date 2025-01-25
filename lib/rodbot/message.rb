@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
 module Rodbot
 
@@ -58,7 +58,7 @@ module Rodbot
           fail(ArgumentError, "not a dumped message") unless hash['class'] == self.class.to_s
           initialize(hash['text'], room: room || hash['room'])
         else
-          initialize(string.force_encoding('UTF-8'), room: room)
+          initialize(string.encode('UTF-8'), room: room)
         end
         self
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../spec_helper'
 
 describe Rodbot::Generator do
@@ -51,11 +53,11 @@ describe Rodbot::Generator do
 
   describe :each_template_path do
     it "returns a globbed array of GERB and non-GERB templates" do
-      yielded_args = ''
+      yielded_args = []
       subject.send(:each_template_path) do |*args|
-        yielded_args << args.join("\n") << "\n---\n"
+        yielded_args << args.join("\n") + "\n---\n"
       end
-      yielded_args = yielded_args.gsub(spec_dir.to_s, '')
+      yielded_args = yielded_args.join.gsub(spec_dir.to_s, '')
       _(yielded_args).must_equal <<~END
         /fixtures/generator/test/test.md
         test/test.md

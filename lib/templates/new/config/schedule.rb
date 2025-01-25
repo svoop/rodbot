@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Regular jobs performed asynchronously at a given time
 module Clockwork
   # every 1.hour, -> { Rodbot.say 'Ping!' }
