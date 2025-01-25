@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+#### Changes
+* Update Docker compose templates
 
 ## 0.5.0
 

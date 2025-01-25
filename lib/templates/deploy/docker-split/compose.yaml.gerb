@@ -1,11 +1,9 @@
-version: "3.9"
-
 x-defaults: &defaults
   build:
     context: .
     dockerfile_inline: |
       FROM ruby:[%= RUBY_VERSION.sub(/\.\d+$/, '') %]-alpine
-      RUN apk update && apk --no-cache add build-base
+      RUN apk update && apk --no-cache add build-base tzdata libffi
       ENV RODBOT_ENV="production"
       ENV RACK_ENV="production"
       ENV RACK_ROOT="/var/www"
@@ -15,7 +13,7 @@ x-defaults: &defaults
       COPY . .
       COPY .bundle /usr/local/bundle
       RUN bundle config set without "development test" && \
-        bundle install --jobs 20 --retry 5
+        bundle install
   environment:
     - RODBOT_APP_HOST=0.0.0.0
     - RODBOT_APP_URL=http://app
