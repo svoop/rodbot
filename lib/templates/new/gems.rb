@@ -10,7 +10,7 @@ end
 
 group :slack, optional: true do
   gem 'slack-ruby-client', '~> 2'
-  gem 'async-websocket', '~> 0.8.0'
+  gem 'async-websocket', '~> 0.8.0'  # see https://github.com/slack-ruby/slack-ruby-client/blob/720b75fe7eda964e3da61bf442532baa66c2927c/lib/slack/real_time/concurrency/async.rb#L137
 end
 
 group :redis, optional: true do

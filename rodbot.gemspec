@@ -64,7 +64,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rotp', '~> 6'
   spec.add_development_dependency 'matrix_sdk', '~> 2'
   spec.add_development_dependency 'slack-ruby-client', '~> 2'
-  spec.add_development_dependency 'async-websocket', '~> 0.8.0'
+  spec.add_development_dependency 'async-websocket', '~> 0.8.0'  # see https://github.com/slack-ruby/slack-ruby-client/blob/720b75fe7eda964e3da61bf442532baa66c2927c/lib/slack/real_time/concurrency/async.rb#L137
 
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'minitest'
