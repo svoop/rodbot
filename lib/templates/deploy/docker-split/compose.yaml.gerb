@@ -3,7 +3,7 @@ x-defaults: &defaults
     context: .
     dockerfile_inline: |
       FROM ruby:[%= RUBY_VERSION.sub(/\.\d+$/, '') %]-alpine
-      RUN apk update && apk --no-cache add build-base tzdata libffi
+      RUN apk update && apk --no-cache add build-base tzdata libffi-dev yaml-dev
       ENV RODBOT_ENV="production"
       ENV RACK_ENV="production"
       ENV RACK_ROOT="/var/www"
