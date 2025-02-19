@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.5.2
+
 #### Fixes
 * Update Docker template for Ruby 3.4.2
 
