@@ -22,7 +22,7 @@ x-defaults: &defaults
     - RODBOT_RELAY_URL_[%= name.upcase %]=tcp://relay-[%= name %]
 [% end -%]
     - PRODUCTION_CREDENTIALS_KEY
-  restart: "unless-stopped"
+  restart: "always"
 
 services:
   app:

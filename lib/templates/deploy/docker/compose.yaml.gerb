@@ -17,7 +17,7 @@ x-defaults: &defaults
   environment:
     - RODBOT_APP_HOST=0.0.0.0
     - PRODUCTION_CREDENTIALS_KEY
-  restart: "unless-stopped"
+  restart: "always"
 
 services:
   rodbot:
