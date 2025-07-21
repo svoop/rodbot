@@ -1,5 +1,9 @@
 ## Main
 
+Nothing so far
+
+## 0.6.0
+
 ### Changes
 * Drop certs note in README
 * Add action for trusted release
