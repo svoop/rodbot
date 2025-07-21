@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+### Changes
+* Drop certs note in README
 
 ## 0.5.2
 

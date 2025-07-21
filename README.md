@@ -37,20 +37,10 @@ Thank you for supporting free and open-source software by sponsoring on [GitHub]
 
 ## Install
 
-### Security
-
-This gem is [cryptographically signed](https://guides.rubygems.org/security/#using-gems) in order to assure it hasn't been tampered with. Unless already done, please add the author's public key as a trusted certificate now:
-
-```
-gem cert --add <(curl -Ls https://raw.github.com/svoop/rodbot/main/certs/svoop.pem)
-```
-
-### Generate new bot
-
 Similar to other frameworks, generate the files for your new bot as follows:
 
 ```
-gem install rodbot --trust-policy MediumSecurity
+gem install rodbot
 rodbot new my_bot
 cd my_bot
 ```
