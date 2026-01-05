@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'readline'
+require 'reline'
 require 'httpx'
 require 'pastel'
 require 'tty-markdown'
