@@ -17,8 +17,10 @@ require 'minitest/autorun'
 require spec_dir.join('..', 'lib', 'rodbot')
 
 require 'minitest/flash'
-require 'minitest/focus'
+require 'minitest/mock'
 require 'minitest/substitute'
+
+Minitest.load_plugins
 
 class Minitest::Spec
   class << self
