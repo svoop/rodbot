@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'ostruct'
   spec.add_runtime_dependency 'fiddle'
   spec.add_runtime_dependency 'logger'
-  spec.add_runtime_dependency 'dry-cli', '~> 1'
+  spec.add_runtime_dependency 'dry-cli', '~> 1', '<1.4.0'   # TODO: broken on 1.4 - see https://github.com/dry-rb/dry-cli/issues/126
   spec.add_runtime_dependency 'dry-credentials', '~> 0'
   spec.add_runtime_dependency 'tty-markdown', '~> 0'
   spec.add_runtime_dependency 'pastel', '~> 0'
