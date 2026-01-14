@@ -1,5 +1,7 @@
 # Rodbot plugin – GitLab webhook
 
+Pipeline event announcements from self-hosted [GitLab](https://gitlab.com/gitlab-org/gitlab) or managed services like [gitlab.com](https://gitlab.com)
+
 Pipeline event announcements from GitLab
 
 ## Preparation

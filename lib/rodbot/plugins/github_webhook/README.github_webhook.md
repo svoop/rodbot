@@ -1,6 +1,6 @@
 # Rodbot plugin – GitHub webhook
 
-Pipeline event announcements from GitHub
+Pipeline event announcements from [GitHub](https://github.com)
 
 ## Preparation
 

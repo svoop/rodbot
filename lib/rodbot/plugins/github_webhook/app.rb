@@ -43,7 +43,7 @@ module Rodbot
 
           def authorized?
             Rodbot.config(:plugin, :github_webhook, :secret_tokens).to_s.split(':').any? do |secret|
-              signature = 'sha256=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), secret, request.body.read)
+              signature = 'sha256=' + OpenSSL::HMAC.hexdigest('sha256', secret, request.body.read)
               request.body.rewind
               ::Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE_256'])
             end

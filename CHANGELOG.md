@@ -1,6 +1,7 @@
 ## Main
 
-Nothing so far
+### Additions
+* Add built-in plugins for Forgejo (Codeberg)
 
 ## 0.6.1
 
