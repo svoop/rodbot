@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# mise
+.mise.local.toml
+
 # Ruby
 gems.locked
 pkg/*
