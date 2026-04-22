@@ -2,5 +2,12 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in rodbot.gemspec
 gemspec
+
+group :toolbox, optional: true do
+  gem 'minitest-difftastic'
+  gem 'minitest-flash'
+  gem 'guard'
+  gem 'guard-minitest'
+  gem 'yard'
+end

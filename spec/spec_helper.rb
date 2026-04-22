@@ -16,9 +16,7 @@ end
 require 'minitest/autorun'
 require spec_dir.join('..', 'lib', 'rodbot')
 
-require 'minitest/flash'
 require 'minitest/mock'
-require 'minitest/substitute'
 
 Minitest.load_plugins
 

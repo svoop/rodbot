@@ -658,6 +658,14 @@ To install the development dependencies and then run the test suite:
 ```
 bundle install
 bundle exec rake    # run tests once
+```
+
+Some development tools such as `guard` are optional and can be added as follows:
+
+```
+bundle config set --local with toolbox
+bundle install
+
 bundle exec guard   # run tests whenever files are modified
 ```
 

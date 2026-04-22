@@ -42,23 +42,28 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.0.0'
 
-  spec.add_runtime_dependency 'zeitwerk', '~> 2'
-  spec.add_runtime_dependency 'ostruct'
-  spec.add_runtime_dependency 'fiddle'
-  spec.add_runtime_dependency 'logger'
-  spec.add_runtime_dependency 'dry-cli', '~> 1', '<1.4.0'   # TODO: broken on 1.4 - see https://github.com/dry-rb/dry-cli/issues/126
-  spec.add_runtime_dependency 'dry-credentials', '~> 0'
-  spec.add_runtime_dependency 'tty-markdown', '~> 0'
-  spec.add_runtime_dependency 'pastel', '~> 0'
-  spec.add_runtime_dependency 'httpx', '~> 1'
-  spec.add_runtime_dependency 'puma', '~> 6', '>= 6.2'
-  spec.add_runtime_dependency 'roda', '~> 3'
-  spec.add_runtime_dependency 'tilt', '~> 2'
-  spec.add_runtime_dependency 'kramdown', '~> 2'
-  spec.add_runtime_dependency 'kramdown-parser-gfm', '~> 1'
-  spec.add_runtime_dependency 'clockwork', '~> 3'
-  spec.add_runtime_dependency 'sucker_punch', '~> 3'
-  spec.add_runtime_dependency 'debug'
+  spec.add_dependency 'zeitwerk', '~> 2'
+  spec.add_dependency 'ostruct'
+  spec.add_dependency 'fiddle'
+  spec.add_dependency 'logger'
+  spec.add_dependency 'dry-cli', '~> 1', '<1.4.0'   # TODO: broken on 1.4 - see https://github.com/dry-rb/dry-cli/issues/126
+  spec.add_dependency 'dry-credentials', '~> 0'
+  spec.add_dependency 'tty-markdown', '~> 0'
+  spec.add_dependency 'pastel', '~> 0'
+  spec.add_dependency 'httpx', '~> 1'
+  spec.add_dependency 'puma', '~> 6', '>= 6.2'
+  spec.add_dependency 'roda', '~> 3'
+  spec.add_dependency 'tilt', '~> 2'
+  spec.add_dependency 'kramdown', '~> 2'
+  spec.add_dependency 'kramdown-parser-gfm', '~> 1'
+  spec.add_dependency 'clockwork', '~> 3'
+  spec.add_dependency 'sucker_punch', '~> 3'
+  spec.add_dependency 'debug'
+
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'minitest'
+  spec.add_development_dependency 'minitest-mock'
+  spec.add_development_dependency 'minitest-substitute', '>= 1.2.0'
 
   # Sync versions with lib/templates/new/gems.rb
   spec.add_development_dependency 'redis', '~> 5'
@@ -66,13 +71,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'matrix_sdk', '~> 2'
   spec.add_development_dependency 'slack-ruby-client', '~> 2'
   spec.add_development_dependency 'async-websocket', '~> 0.8.0'  # see https://github.com/slack-ruby/slack-ruby-client/blob/720b75fe7eda964e3da61bf442532baa66c2927c/lib/slack/real_time/concurrency/async.rb#L137
-
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'minitest'
-  spec.add_development_dependency 'minitest-mock'
-  spec.add_development_dependency 'minitest-flash'
-  spec.add_development_dependency 'minitest-substitute'
-  spec.add_development_dependency 'guard'
-  spec.add_development_dependency 'guard-minitest'
-  spec.add_development_dependency 'yard'
 end
