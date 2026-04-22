@@ -20,7 +20,8 @@ Gem::Specification.new do |spec|
     'changelog_uri'     => 'https://github.com/svoop/rodbot/blob/main/CHANGELOG.md',
     'source_code_uri'   => 'https://github.com/svoop/rodbot',
     'documentation_uri' => 'https://www.rubydoc.info/gems/rodbot',
-    'bug_tracker_uri'   => 'https://github.com/svoop/rodbot/issues'
+    'bug_tracker_uri'   => 'https://github.com/svoop/rodbot/issues',
+    'rubygems_mfa_required' => 'true'
   }
 
   spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do

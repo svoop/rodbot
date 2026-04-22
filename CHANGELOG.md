@@ -1,5 +1,8 @@
 ## Main
 
+### Improvements
+* Enforce MFA for future gem releases
+
 ### Additions
 * Add built-in plugins for Forgejo (Codeberg)
 
